@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "202680939835",
+	"firebase_url": "https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app/",
+    "project_id": "szakdolgozat-9d551",
+    "storage_bucket": "szakdolgozat-9d551.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202680939835:android:41f5315a86e3df6926f31e",
+        "android_client_info": {
+          "package_name": "com.example.szakdolgozat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202680939835-72qa9616re0tm3d619golu3acvpafc8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8wE-4j3geVgO7Gwzi8k2tDo4qkXLl0DM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202680939835-72qa9616re0tm3d619golu3acvpafc8f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
