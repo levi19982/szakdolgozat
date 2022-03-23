@@ -83,9 +83,9 @@ public class fenykephozaadasa extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         Felhasznalokepekkel felhasznalokepekkel = new Felhasznalokepekkel(kapottnev, kapottneptunkod, uri.toString());
                         adatbazis = FirebaseDatabase.getInstance();
-                        String felhasznalokeppel = databaseReference.push().getKey();
+                        //String felhasznalokeppel = databaseReference.push().getKey();
                         databaseReference = adatbazis.getReference("Felhasznalokepekkel");
-                        databaseReference.child(felhasznalokeppel).setValue(felhasznalokepekkel);
+                        databaseReference.child(kapottnev).setValue(felhasznalokepekkel);
 
                         Toast.makeText(fenykephozaadasa.this, "Fénykép hozzáadása sikerült!", Toast.LENGTH_SHORT).show();
                     }

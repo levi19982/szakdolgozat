@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                     databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            Intent intent = new Intent(MainActivity.this, fenykephozaadasa.class);
+                            intent.putExtra("nev", nev);
+                            intent.putExtra("neptunkod", neptunkod);
+                            startActivity(intent);
 
                             binding.nevmezo.setText("");
                             binding.neptunkodmezo.setText("");
@@ -58,12 +62,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+                } else {
+                    Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                 }
-
-                Intent intent = new Intent(MainActivity.this, fenykephozaadasa.class);
-                intent.putExtra("nev", nev);
-                intent.putExtra("neptunkod", neptunkod);
-                startActivity(intent);
             }
         });
 
@@ -71,12 +72,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String nev2 = nevszoveg.getText().toString();
+                if (nev2.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
+                } else {
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalok").child(nev2);
+                databaseReference.child(nev2);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getValue() != null){
                         String neptunkodszoveg2 = snapshot.child("neptunkod").getValue().toString();
-                        neptunkodszoveg.setText(neptunkodszoveg2);
+                        neptunkodszoveg.setText(neptunkodszoveg2);}
+                        else {
+                            Toast.makeText(MainActivity.this, "Nincs ilyen név!", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-            }
+            }}
         });
 
     }
