@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Szakdolgozat">
         <activity
+            android:name=".marvanfenykep"
+            android:exported="false" />
+        <activity
             android:name=".fenykephozaadasa"
             android:exported="false" />
         <activity

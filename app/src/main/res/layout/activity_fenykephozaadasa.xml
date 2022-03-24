@@ -23,7 +23,7 @@
     <ImageView
         android:id="@+id/feltoltenikivantkep"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="222dp"
         android:translationY="200dp"
         android:visibility="visible"
         tools:srcCompat="@android:drawable/ic_notification_overlay"

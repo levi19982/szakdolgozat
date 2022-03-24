@@ -42,33 +42,48 @@ public class MainActivity extends AppCompatActivity {
 
                 nev = binding.nevmezo.getText().toString();
                 neptunkod = binding.neptunkodmezo.getText().toString();
+                String vanefenykepnev = nev;
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(vanefenykepnev);
+                databaseReference.child(vanefenykepnev);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() == null){
+                            Felhasznalok felhasznalok = new Felhasznalok(nev, neptunkod);
+                            databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
+                            adatbazis = FirebaseDatabase.getInstance();
+                            databaseReference = adatbazis.getReference("Felhasznalok");
+                            databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    //Toast.makeText(MainActivity.this, vanefenykepnev, Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this, fenykephozaadasa.class);
+                                    intent.putExtra("nev", nev);
+                                    intent.putExtra("neptunkod", neptunkod);
+                                    startActivity(intent);
+                                    binding.nevmezo.setText("");
+                                    binding.neptunkodmezo.setText("");
+                                }
+                            });
 
-                if (!nev.isEmpty() && !neptunkod.isEmpty()){
-
-                    Felhasznalok felhasznalok = new Felhasznalok(nev, neptunkod);
-                    adatbazis = FirebaseDatabase.getInstance();
-                    databaseReference = adatbazis.getReference("Felhasznalok");
-                    databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Intent intent = new Intent(MainActivity.this, fenykephozaadasa.class);
-                            intent.putExtra("nev", nev);
-                            intent.putExtra("neptunkod", neptunkod);
+                        } else if  (!nev.isEmpty() && neptunkod.isEmpty()){
+                            Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
+                        } else if  (nev.isEmpty() && !neptunkod.isEmpty()){
+                            Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
+                        } else if  (nev.isEmpty() && neptunkod.isEmpty()){
+                            Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
+                        } else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
+                            Intent intent = new Intent(MainActivity.this, marvanfenykep.class);
                             startActivity(intent);
-
-                            binding.nevmezo.setText("");
-                            binding.neptunkodmezo.setText("");
-
                         }
-                    });
+                    }
 
-                } else if  (!nev.isEmpty() && neptunkod.isEmpty()){
-                    Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
-                } else if  (nev.isEmpty() && !neptunkod.isEmpty()){
-                    Toast.makeText(MainActivity.this, "Kérjük írja be Nevét!", Toast.LENGTH_SHORT).show();
-                } else if  (nev.isEmpty() && neptunkod.isEmpty()){
-                    Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 
