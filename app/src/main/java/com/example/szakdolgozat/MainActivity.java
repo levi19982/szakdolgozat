@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                             databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    //Toast.makeText(MainActivity.this, vanefenykepnev, Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, fenykephozaadasa.class);
                                     intent.putExtra("nev", nev);
                                     intent.putExtra("neptunkod", neptunkod);
