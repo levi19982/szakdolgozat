@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
                         } else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
                             Intent intent = new Intent(MainActivity.this, marvanfenykep.class);
+                            intent.putExtra("nev", nev);
+                            intent.putExtra("neptunkod", neptunkod);
                             startActivity(intent);
                         }
                     }
