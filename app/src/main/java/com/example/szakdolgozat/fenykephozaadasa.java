@@ -13,6 +13,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,7 +29,6 @@ public class fenykephozaadasa extends AppCompatActivity {
 
     Button feltoltes;
     ImageView feltoltottkep;
-    ProgressBar toltes;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
@@ -42,8 +42,6 @@ public class fenykephozaadasa extends AppCompatActivity {
 
         feltoltes = findViewById(R.id.feltoltes);
         feltoltottkep = findViewById(R.id.feltoltenikivantkep);
-        toltes = findViewById(R.id.tolteskep);
-        toltes.setVisibility(View.INVISIBLE);
 
 
         feltoltottkep.setOnClickListener(new View.OnClickListener() {
