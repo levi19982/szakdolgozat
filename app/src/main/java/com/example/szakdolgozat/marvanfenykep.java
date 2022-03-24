@@ -1,10 +1,13 @@
 package com.example.szakdolgozat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +25,7 @@ public class marvanfenykep extends AppCompatActivity {
 
     TextView nev, neptunkod;
     StorageReference storageReference;
-    ImageView imageView;
+    ImageView imageView, mostanikep;
 
 
     @Override
@@ -41,6 +44,7 @@ public class marvanfenykep extends AppCompatActivity {
         neptunkod = findViewById(R.id.neptunmkodszoveg);
         storageReference = FirebaseStorage.getInstance().getReference().child(kapottnev);
         imageView = findViewById(R.id.fenykep);
+        mostanikep = findViewById(R.id.mostkeszitett);
 
         nev.setText(kapottnev);
         neptunkod.setText(kapottneptunkod);
@@ -58,5 +62,25 @@ public class marvanfenykep extends AppCompatActivity {
             }
         });
 
+        mostanikep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent kepintent = new Intent();
+                kepintent.setAction(Intent.ACTION_GET_CONTENT);
+                kepintent.setType("image/*");
+                startActivityForResult(kepintent, 2);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null){
+            Uri kep = data.getData();
+            mostanikep.setImageURI(kep);
+        }
     }
 }

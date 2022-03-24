@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:translationY="250dp"
+
     tools:context=".marvanfenykep">
 
     <TextView
@@ -22,5 +22,11 @@
         android:id="@+id/fenykep"
         android:layout_width="match_parent"
         android:layout_height="285dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/mostkeszitett"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         tools:srcCompat="@tools:sample/avatars" />
 </LinearLayout>
