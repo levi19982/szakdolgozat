@@ -62,8 +62,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                } else {
-                    Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
+                } else if  (!nev.isEmpty() && neptunkod.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
+                } else if  (nev.isEmpty() && !neptunkod.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Kérjük írja be Nevét!", Toast.LENGTH_SHORT).show();
+                } else if  (nev.isEmpty() && neptunkod.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String nev2 = nevszoveg.getText().toString();
                 if (nev2.isEmpty()){
-                    Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                 } else {
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalok").child(nev2);
                 databaseReference.child(nev2);
