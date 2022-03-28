@@ -8,6 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
+        android:hardwareAccelerated="false"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Szakdolgozat">
         <activity
             android:name=".marvanfenykep"
@@ -24,6 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.mlkit.vision:DEPENDENCIES"
+            android:value="face" />
     </application>
 
 </manifest>

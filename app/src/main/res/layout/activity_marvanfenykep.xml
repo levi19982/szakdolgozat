@@ -9,6 +9,12 @@
     tools:context=".marvanfenykep">
 
     <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/nevszoveg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -29,4 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/osszehasonlitgomb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Összehasonlítás" />
+
 </LinearLayout>
