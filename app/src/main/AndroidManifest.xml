@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Szakdolgozat"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".esemenyletrehozasa"
+            android:exported="false" />
+        <activity
             android:name=".adminmenu"
             android:exported="false" />
         <activity
