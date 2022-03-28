@@ -1,11 +1,14 @@
 package com.example.szakdolgozat;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
@@ -27,12 +32,22 @@ public class MainActivity extends AppCompatActivity {
     TextView neptunkodszoveg, nevszoveg;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        drawerLayout = findViewById(R.id.my_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         neptunkodszoveg = findViewById(R.id.neptunkodmezo);
         nevszoveg = findViewById(R.id.nevmezo);
@@ -117,6 +132,14 @@ public class MainActivity extends AppCompatActivity {
                 });
             }}
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            Intent intent = new Intent(MainActivity.this, adminmenu.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

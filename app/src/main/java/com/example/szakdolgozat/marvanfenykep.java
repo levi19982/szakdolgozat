@@ -16,6 +16,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -103,8 +104,6 @@ public class marvanfenykep extends AppCompatActivity {
                 mGetContent.launch("image/*");
             }
         });
-
-
     }
 
     public void processImage(InputImage image){
