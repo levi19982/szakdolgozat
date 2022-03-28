@@ -20,12 +20,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,14 +50,21 @@ import com.squareup.picasso.Picasso;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class marvanfenykep extends AppCompatActivity {
 
-    TextView nev, neptunkod;
+    TextView nev, neptunkod, sport;
     StorageReference storageReference;
     ImageView imageView, mostanikep;
-    Button osszehasonlit;
+    Button osszehasonlit, jelentkezes;
+    private Spinner spinner;
+    FirebaseDatabase adatbazis;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
 
     FaceDetectorOptions detectorOptions;
     Bitmap bitmap;
@@ -66,16 +78,44 @@ public class marvanfenykep extends AppCompatActivity {
         String kapottnev = intent.getStringExtra("nev");
         String kapottneptunkod = intent.getStringExtra("neptunkod");
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev);
-        DatabaseReference kepbetoltes = databaseReference.child("keplink");
+        final DatabaseReference[] databaseReference = {firebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev)};
+        DatabaseReference kepbetoltes = databaseReference[0].child("keplink");
+
 
         nev = findViewById(R.id.nevszoveg);
+        jelentkezes = findViewById(R.id.jelentkezesgomb);
+        sport = findViewById(R.id.valasztottsportagszoveg);
         neptunkod = findViewById(R.id.neptunmkodszoveg);
         storageReference = FirebaseStorage.getInstance().getReference().child(kapottnev);
         imageView = findViewById(R.id.fenykep);
         mostanikep = findViewById(R.id.mostkeszitett);
         osszehasonlit = findViewById(R.id.osszehasonlitgomb);
         osszehasonlit.setEnabled(false);
+        spinner = findViewById(R.id.sportagvalaszto);
+        String[] sportok = getResources().getStringArray(R.array.sportok);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, sportok);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        sport.setText(spinner.getSelectedItem().toString());
+                        break;
+                    case 1:
+                        sport.setText(spinner.getSelectedItem().toString());
+                        break;
+                    case 2:
+                        sport.setText(spinner.getSelectedItem().toString());
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         nev.setText(kapottnev);
         neptunkod.setText(kapottneptunkod);
@@ -104,6 +144,28 @@ public class marvanfenykep extends AppCompatActivity {
                 mGetContent.launch("image/*");
             }
         });
+
+        jelentkezes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String minta = "yyyy-M-dd";
+                DateFormat dateFormat = new SimpleDateFormat(minta);
+                Date mainap = Calendar.getInstance().getTime();
+                String maidatum = dateFormat.format(mainap);
+                String sportagstring = sport.getText().toString();
+                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod);
+                DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagstring).child(maidatum);
+                adatbazis = FirebaseDatabase.getInstance();
+                databaseReference2 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
+                databaseReference2.child(kapottnev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(marvanfenykep.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
     }
 
     public void processImage(InputImage image){

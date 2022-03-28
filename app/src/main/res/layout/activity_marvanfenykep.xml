@@ -36,5 +36,21 @@
         android:layout_height="wrap_content"
         android:text="Összehasonlítás" />
 
+    <Spinner
+        android:id="@+id/sportagvalaszto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/valasztottsportagszoveg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/jelentkezesgomb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Jelentkezés" />
+
 </LinearLayout>
 
