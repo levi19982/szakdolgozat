@@ -48,7 +48,7 @@ import java.util.List;
 
 public class marvanfenykep extends AppCompatActivity {
 
-    TextView nev, neptunkod, textView;
+    TextView nev, neptunkod;
     StorageReference storageReference;
     ImageView imageView, mostanikep;
     Button osszehasonlit;
@@ -75,7 +75,6 @@ public class marvanfenykep extends AppCompatActivity {
         mostanikep = findViewById(R.id.mostkeszitett);
         osszehasonlit = findViewById(R.id.osszehasonlitgomb);
         osszehasonlit.setEnabled(false);
-        textView = findViewById(R.id.textView3);
 
         nev.setText(kapottnev);
         neptunkod.setText(kapottneptunkod);
@@ -109,7 +108,7 @@ public class marvanfenykep extends AppCompatActivity {
     }
 
     public void processImage(InputImage image){
-        FaceDetector detector = FaceDetection.getClient(detectorOptions);
+        FaceDetector detector = FaceDetection.getClient();
 
         Task<List<Face>> result =
                 detector.process(image)
