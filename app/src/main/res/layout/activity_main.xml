@@ -11,8 +11,6 @@ tools:context=".MainActivity"
 tools:ignore="HardcodedText">
 
 <LinearLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -45,10 +43,11 @@ tools:ignore="HardcodedText">
         android:translationY="700px" />
 </LinearLayout>
 
-<com.google.android.material.navigation.NavigationView
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    app:menu="@menu/felugromenu" />
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/felugromenu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

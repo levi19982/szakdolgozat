@@ -3,11 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/layout/activity_adminmenu.xml" value="0.3109375" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/layout/activity_bejelentkezs_regisztracio.xml" value="0.5172101449275363" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/layout/activity_fenykephozaadasa.xml" value="0.3921875" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/layout/activity_main.xml" value="0.5172101449275363" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/layout/activity_marvanfenykep.xml" value="0.4078125" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/layout/toolbar.xml" value="0.5172101449275363" />
+        <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/menu/adminmenu.xml" value="0.38125" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/menu/felugromenu.xml" value="0.55" />
       </map>
     </option>
