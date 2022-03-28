@@ -11,11 +11,11 @@ public class sportok   {
         this.datum = datum;
     }
 
-    public String getNev() {
+    public String getDatum() {
         return datum;
     }
 
-    public void setNev(String nev) {
+    public void setDatum(String datum) {
         this.datum = datum;
     }
 }

@@ -17,4 +17,21 @@
         android:id="@+id/datummutatasa"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/sportvalaszto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/esemenyhozzaadasagomb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Esemény hozzáadása" />
+
+    <TextView
+        android:id="@+id/valasztottsportag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
