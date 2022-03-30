@@ -7,4 +7,8 @@
         android:id="@+id/esemenyletrehozasa"
         android:title="Esemény létrehozása" />
 
+    <item
+        android:id="@+id/statisztika"
+        android:title="Statisztika" />
+
 </menu>

@@ -44,6 +44,13 @@ public class adminmenu extends AppCompatActivity implements NavigationView.OnNav
                 startActivity(intent);
                 break;
             }
+
+            case R.id.statisztika: {
+                Intent intent = new Intent(adminmenu.this, statisztika.class);
+                startActivity(intent);
+                break;
+            }
+
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

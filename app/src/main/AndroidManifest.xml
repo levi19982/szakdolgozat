@@ -15,6 +15,12 @@
         android:theme="@style/Theme.Szakdolgozat"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".sportagstatisztika"
+            android:exported="false" />
+        <activity
+            android:name=".statisztika"
+            android:exported="false" />
+        <activity
             android:name=".esemenyletrehozasa"
             android:exported="false" />
         <activity
