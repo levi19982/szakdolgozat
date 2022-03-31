@@ -1,13 +1,16 @@
 package com.example.szakdolgozat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class sportagstatisztika extends AppCompatActivity {
 
     ListView listView;
     FirebaseDatabase adatbazis;
+    Button atfogo;
 
 
     @Override
@@ -31,6 +36,7 @@ public class sportagstatisztika extends AppCompatActivity {
         setContentView(R.layout.activity_sportagstatisztika);
 
         listView = findViewById(R.id.sportagidopontlista);
+        atfogo = findViewById(R.id.atfogostatisztika);
         Intent intent = getIntent();
         String kapottsportag = intent.getStringExtra("sportag");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(kapottsportag);
@@ -71,5 +77,15 @@ public class sportagstatisztika extends AppCompatActivity {
 
             }
         });
+
+        atfogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(sportagstatisztika.this, atfogostatisztika.class);
+                intent.putExtra("kapottsportag", kapottsportag);
+                startActivity(intent);
+            }
+        });
+
     }
 }
