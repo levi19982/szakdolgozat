@@ -10,20 +10,27 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.database.core.Tag;
 import com.google.firebase.database.snapshot.Index;
 
@@ -49,7 +56,7 @@ public class atfogostatisztika extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atfogostatisztika);
 
-        barChart = findViewById(R.id.idBarChart);
+        PieChart pieChart = findViewById(R.id.idpieChart);
 
 
         Intent intent = getIntent();
@@ -62,19 +69,23 @@ public class atfogostatisztika extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 valami(snapshot);
                 valami2(snapshot);
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Log.v(TAG, ertekek.get(0));
-                Log.v(TAG, ertekek2.get(0).toString());
-                ArrayList<BarEntry> barEntries = new ArrayList<>();
-                for (int i = 0; i < ertekek.size(); i++){
-                    for (int a = 0; a < ertekek2.size(); a++){
-                        String datum = ertekek.get(i);
-                        int datumszam = Integer.parseInt(datum);
-                        int jelentkezok = ertekek2.get(a);
-                        //String jelentkezokszama = String.valueOf(jelentkezok);
-                        barEntries.add(new BarEntry(datumszam, jelentkezok));
-                    }
+                ArrayList<PieEntry> barEntries = new ArrayList<>();
+                        for (int i = 0; i < ertekek.size(); i++){
+                                String datum = ertekek.get(i);
+                                int jelentkezok = ertekek2.get(i);
+                            barEntries.add(new PieEntry(jelentkezok, datum));
                 }
+                PieDataSet pieDataSet = new PieDataSet(barEntries, "Résztvevők");
+                    pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                    pieDataSet.setValueTextColor(Color.BLACK);
+                    pieDataSet.setValueTextSize(16f);
+
+                    PieData pieData = new PieData(pieDataSet);
+
+                    pieChart.setData(pieData);
+                    pieChart.getDescription().setEnabled(false);
+                    pieChart.setCenterText("Résztvevők");
+                    pieChart.animate();
             }
 
             @Override

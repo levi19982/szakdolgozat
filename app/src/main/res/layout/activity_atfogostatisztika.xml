@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/idBarChart"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/idpieChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
