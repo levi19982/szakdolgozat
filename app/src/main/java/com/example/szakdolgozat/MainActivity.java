@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Intent intent = new Intent(MainActivity.this, fenykephozaadasa.class);
+                                    Intent intent = new Intent(MainActivity.this, telefonszamhozzaadasa.class);
                                     intent.putExtra("nev", nev);
                                     intent.putExtra("neptunkod", neptunkod);
                                     startActivity(intent);

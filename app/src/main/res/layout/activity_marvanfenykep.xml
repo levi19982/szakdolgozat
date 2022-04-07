@@ -18,23 +18,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/fenykep"
-        android:layout_width="match_parent"
-        android:layout_height="285dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/mostkeszitett"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <Button
-        android:id="@+id/osszehasonlitgomb"
+    <!--Button for getting OTP-->
+    <TextView
+        android:id="@+id/idEdtPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Összehasonlítás" />
+        android:text="TextView" />
+
+    <!--Edittext for getting otp from user-->
+    <EditText
+        android:id="@+id/idEdtOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Kód megadása"
+        android:importantForAutofill="no"
+        android:inputType="phone" />
+
+    <!--button for verifying user OTP-->
+    <Button
+        android:id="@+id/idBtnVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idEdtOtp"
+        android:layout_margin="10dp"
+        android:text="OTP elfogadása"
+        android:textAllCaps="false" />
 
     <Spinner
         android:id="@+id/sportagvalaszto"

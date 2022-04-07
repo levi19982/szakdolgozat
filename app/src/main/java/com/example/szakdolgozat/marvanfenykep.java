@@ -21,10 +21,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +36,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,16 +63,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class marvanfenykep extends AppCompatActivity {
 
     TextView nev, neptunkod, sport;
     StorageReference storageReference;
     ImageView imageView, mostanikep;
-    Button osszehasonlit, jelentkezes;
+    Button osszehasonlit, jelentkezes, verify, generate;
     private Spinner spinner;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
+    FirebaseAuth firebaseAuth;
+    EditText editText2;
+    TextView editText;
+    String verificationId;
+
 
     FaceDetectorOptions detectorOptions;
     Bitmap bitmap;
@@ -73,10 +87,42 @@ public class marvanfenykep extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marvanfenykep);
-
         Intent intent = getIntent();
         String kapottnev = intent.getStringExtra("nev");
         String kapottneptunkod = intent.getStringExtra("neptunkod");
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        editText = findViewById(R.id.idEdtPhoneNumber);
+        editText2 = findViewById(R.id.idEdtOtp);
+        verify = findViewById(R.id.idBtnVerify);
+
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev);
+                databaseReference.child(kapottnev);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String phone = "+36" + snapshot.child("telefonszam").getValue().toString();
+                        editText.setText(phone);
+                        sendVerificationCode(phone);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(editText2.getText().toString())) {
+                    Toast.makeText(marvanfenykep.this, "Kód:", Toast.LENGTH_SHORT).show();
+                } else {
+                    verifyCode(editText2.getText().toString());
+                }
+            }
+        });
+
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference[] databaseReference = {firebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev)};
         DatabaseReference kepbetoltes = databaseReference[0].child("keplink");
@@ -87,10 +133,6 @@ public class marvanfenykep extends AppCompatActivity {
         sport = findViewById(R.id.valasztottsportagszoveg);
         neptunkod = findViewById(R.id.neptunmkodszoveg);
         storageReference = FirebaseStorage.getInstance().getReference().child(kapottnev);
-        imageView = findViewById(R.id.fenykep);
-        mostanikep = findViewById(R.id.mostkeszitett);
-        osszehasonlit = findViewById(R.id.osszehasonlitgomb);
-        osszehasonlit.setEnabled(false);
         spinner = findViewById(R.id.sportagvalaszto);
         String[] sportok = getResources().getStringArray(R.array.sportok);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, sportok);
@@ -111,6 +153,7 @@ public class marvanfenykep extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -119,32 +162,6 @@ public class marvanfenykep extends AppCompatActivity {
 
         nev.setText(kapottnev);
         neptunkod.setText(kapottneptunkod);
-
-        detectorOptions = new FaceDetectorOptions.Builder().setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
-                .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
-                .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-                .build();
-
-        kepbetoltes.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String link = snapshot.getValue(String.class);
-                Picasso.get().load(link).into(imageView);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(marvanfenykep.this, "Nem sikerült betölteni a képet!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mostanikep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGetContent.launch("image/*");
-            }
-        });
-
         jelentkezes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,89 +185,64 @@ public class marvanfenykep extends AppCompatActivity {
 
     }
 
-    public void processImage(InputImage image){
-        FaceDetector detector = FaceDetection.getClient();
-
-        Task<List<Face>> result =
-                detector.process(image)
-                        .addOnSuccessListener(
-                                new OnSuccessListener<List<Face>>() {
-                                    @Override
-                                    public void onSuccess(List<Face> faces) {
-                                        displayFaces(faces);
-                                    }
-                                })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-
-                            }
-                        });
-    }
-
-    public void displayFaces(List<Face> faces){
-        Bitmap bitmap2 = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap2);
-        canvas.drawBitmap(bitmap, 0, 0, null);
-
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3.0f);
-
-        for (Face face : faces) {
-            Rect bounds = face.getBoundingBox();
-            canvas.drawRect(bounds, paint);
-        }
-        mostanikep.setImageBitmap(bitmap2);
-        if (faces.size() == 1) {
-            Toast.makeText(marvanfenykep.this, "Sikeresen felismertem az arcát a képen!", Toast.LENGTH_SHORT).show();
-            osszehasonlit.setEnabled(true);
-        }
-        else if (faces.size() < 1)
-        {
-            Toast.makeText(marvanfenykep.this, "Kérem próbálkozzon egy másik fényképpel!", Toast.LENGTH_SHORT).show();
-        }
-        else if (faces.size() > 1)
-        {
-            Toast.makeText(marvanfenykep.this, "Túl sok arcot találtam a képen!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
-            new ActivityResultCallback<Uri>() {
-                @Override
-                public void onActivityResult(Uri uri) {
-                    try {
-                        bitmap = getBitmapFromUri(uri);
-                        InputImage inputImage = InputImage.fromFilePath(getApplicationContext(), uri);
-
-                        processImage(inputImage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+    private void signInWithCredential(PhoneAuthCredential credential) {
+        firebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(marvanfenykep.this, "Sikeres", Toast.LENGTH_SHORT).show();
+                            /*Intent i = new Intent(marvanfenykep.this, HomeActivity.class);
+                            startActivity(i);
+                            finish();*/
+                        } else {
+                            Toast.makeText(marvanfenykep.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
+                });
+    }
+    private void sendVerificationCode(String number) {
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(firebaseAuth)
+                        .setPhoneNumber(number)
+                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setActivity(this)
+                        .setCallbacks(mCallBack)
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
+
+            mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+        @Override
+        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);
+            verificationId = s;
+        }
+
+        @Override
+        public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+            final String code = phoneAuthCredential.getSmsCode();
+
+            if (code != null) {
+                editText.setText(code);
+
+                verifyCode(code);
             }
+        }
 
-    );
+        @Override
+        public void onVerificationFailed(FirebaseException e) {
+            Toast.makeText(marvanfenykep.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    };
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        private void verifyCode(String code) {
 
-        if (requestCode == 2 && resultCode == RESULT_OK && data != null){
-            Uri kep = data.getData();
-            mostanikep.setImageURI(kep);
+            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+
+            signInWithCredential(credential);
         }
     }
-
-    private Bitmap getBitmapFromUri(Uri uri) throws IOException {
-        ParcelFileDescriptor parcelFileDescriptor =
-                getContentResolver().openFileDescriptor(uri, "r");
-        FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-        Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-        parcelFileDescriptor.close();
-        return image;
-    }
-}

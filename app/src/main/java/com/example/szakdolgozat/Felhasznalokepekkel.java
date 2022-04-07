@@ -2,15 +2,15 @@ package com.example.szakdolgozat;
 
 public class Felhasznalokepekkel {
 
-    String nev, neptunkod,  keplink;
+    String nev, neptunkod,  telefonszam;
 
     public Felhasznalokepekkel() {
     }
 
-    public Felhasznalokepekkel(String nev, String neptunkod, String keplink) {
+    public Felhasznalokepekkel(String nev, String neptunkod, String telefonszam) {
         this.nev = nev;
         this.neptunkod = neptunkod;
-        this.keplink = keplink;
+        this.telefonszam = telefonszam;
     }
 
     public String getNev() {
@@ -29,11 +29,11 @@ public class Felhasznalokepekkel {
         this.neptunkod = neptunkod;
     }
 
-    public String getKeplink() {
-        return keplink;
+    public String getTelefonszam() {
+        return telefonszam;
     }
 
-    public void setKeplink(String keplink) {
-        this.keplink = keplink;
+    public void setTelefonszam(String telefonszam) {
+        this.telefonszam = telefonszam;
     }
 }

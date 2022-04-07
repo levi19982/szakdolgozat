@@ -5,27 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fenykephozaadasa">
+    tools:context=".telefonszamhozzaadasa">
 
-    <TextView
-        android:id="@+id/textView"
+
+    <EditText
+        android:id="@+id/telefonszamtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:ems="10"
+        android:inputType="phone" />
 
     <Button
-        android:id="@+id/feltoltes"
+        android:id="@+id/telefonszamhozzaadsagomb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Feltöltés" />
-
-    <ImageView
-        android:id="@+id/feltoltenikivantkep"
-        android:layout_width="match_parent"
-        android:layout_height="222dp"
-        android:translationY="200dp"
-        android:visibility="visible"
-        tools:srcCompat="@android:drawable/ic_notification_overlay"
-        tools:visibility="visible" />
-
 </LinearLayout>

@@ -3,6 +3,7 @@
     package="com.example.szakdolgozat">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -33,7 +34,7 @@
             android:name=".marvanfenykep"
             android:exported="false" />
         <activity
-            android:name=".fenykephozaadasa"
+            android:name=".telefonszamhozzaadasa"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
