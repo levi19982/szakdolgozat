@@ -8,4 +8,9 @@
         android:title="Belépés adminisztrátorként"
         android:enabled="true"/>
 
+    <item
+        android:id="@+id/sajatalairsaok"
+        android:title="Belépés adminisztrátorként"
+        android:enabled="true"/>
+
 </menu>

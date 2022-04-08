@@ -205,7 +205,7 @@ public class marvanfenykep extends AppCompatActivity {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(firebaseAuth)
                         .setPhoneNumber(number)
-                        .setTimeout(60L, TimeUnit.SECONDS)
+                        .setTimeout(5L, TimeUnit.SECONDS)
                         .setActivity(this)
                         .setCallbacks(mCallBack)
                         .build();
