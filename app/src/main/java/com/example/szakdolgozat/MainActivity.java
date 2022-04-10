@@ -150,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.sajatalairsaok: {
                 Intent intent = new Intent(MainActivity.this, sajatalairasok.class);
                 startActivity(intent);
+                intent.putExtra("nev", nev);
+                intent.putExtra("neptunkod", neptunkod);
                 break;
             }
         }
