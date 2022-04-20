@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +22,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 import java.util.Objects;
 
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         } else if (nev.isEmpty() && neptunkod.isEmpty()) {
                             Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
                         } else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
-                            Intent intent = new Intent(MainActivity.this, marvanfenykep.class);
+                            Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
                             intent.putExtra("nev", nev);
                             intent.putExtra("neptunkod", neptunkod);
                             startActivity(intent);

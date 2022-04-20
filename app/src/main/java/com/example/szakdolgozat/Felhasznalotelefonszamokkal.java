@@ -1,13 +1,13 @@
 package com.example.szakdolgozat;
 
-public class Felhasznalokepekkel {
+public class Felhasznalotelefonszamokkal {
 
     String nev, neptunkod,  telefonszam;
 
-    public Felhasznalokepekkel() {
+    public Felhasznalotelefonszamokkal() {
     }
 
-    public Felhasznalokepekkel(String nev, String neptunkod, String telefonszam) {
+    public Felhasznalotelefonszamokkal(String nev, String neptunkod, String telefonszam) {
         this.nev = nev;
         this.neptunkod = neptunkod;
         this.telefonszam = telefonszam;

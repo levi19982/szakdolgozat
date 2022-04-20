@@ -1,26 +1,11 @@
 package com.example.szakdolgozat;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -49,28 +32,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.face.Face;
-import com.google.mlkit.vision.face.FaceDetection;
-import com.google.mlkit.vision.face.FaceDetector;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
-import com.squareup.picasso.Picasso;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class marvanfenykep extends AppCompatActivity {
+public class marvantelefonszam extends AppCompatActivity {
 
     TextView nev, neptunkod, sport;
     StorageReference storageReference;
-    ImageView imageView, mostanikep;
-    Button osszehasonlit, jelentkezes, verify, generate;
+    Button  jelentkezes, verify;
     private Spinner spinner;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
@@ -79,14 +53,10 @@ public class marvanfenykep extends AppCompatActivity {
     TextView editText;
     String verificationId;
 
-
-    FaceDetectorOptions detectorOptions;
-    Bitmap bitmap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_marvanfenykep);
+        setContentView(R.layout.activity_marvantelefonszam);
         Intent intent = getIntent();
         String kapottnev = intent.getStringExtra("nev");
         String kapottneptunkod = intent.getStringExtra("neptunkod");
@@ -115,7 +85,7 @@ public class marvanfenykep extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(editText2.getText().toString())) {
-                    Toast.makeText(marvanfenykep.this, "Kód:", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(marvantelefonszam.this, "Kód:", Toast.LENGTH_SHORT).show();
                 } else {
                     verifyCode(editText2.getText().toString());
                 }
@@ -130,6 +100,7 @@ public class marvanfenykep extends AppCompatActivity {
 
         nev = findViewById(R.id.nevszoveg);
         jelentkezes = findViewById(R.id.jelentkezesgomb);
+        jelentkezes.setEnabled(false);
         sport = findViewById(R.id.valasztottsportagszoveg);
         neptunkod = findViewById(R.id.neptunmkodszoveg);
         storageReference = FirebaseStorage.getInstance().getReference().child(kapottnev);
@@ -177,7 +148,7 @@ public class marvanfenykep extends AppCompatActivity {
                 databaseReference2.child(kapottnev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(marvanfenykep.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(marvantelefonszam.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -191,12 +162,10 @@ public class marvanfenykep extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(marvanfenykep.this, "Sikeres", Toast.LENGTH_SHORT).show();
-                            /*Intent i = new Intent(marvanfenykep.this, HomeActivity.class);
-                            startActivity(i);
-                            finish();*/
+                            Toast.makeText(marvantelefonszam.this, "Sikeres", Toast.LENGTH_SHORT).show();
+                            jelentkezes.setEnabled(true);
                         } else {
-                            Toast.makeText(marvanfenykep.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(marvantelefonszam.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -235,7 +204,7 @@ public class marvanfenykep extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Toast.makeText(marvanfenykep.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(marvantelefonszam.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
 

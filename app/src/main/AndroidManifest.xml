@@ -35,7 +35,7 @@
             android:name=".adminmenu"
             android:exported="false" />
         <activity
-            android:name=".marvanfenykep"
+            android:name=".marvantelefonszam"
             android:exported="false" />
         <activity
             android:name=".telefonszamhozzaadasa"

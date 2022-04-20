@@ -46,7 +46,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:17.0.1'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
-    implementation "com.google.android.material:material:1.6.0-beta01"
+    implementation "com.google.android.material:material:1.7.0-alpha01"
     implementation 'com.google.firebase:protolite-well-known-types:18.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.firebase:firebase-auth:21.0.3'
