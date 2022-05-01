@@ -8,7 +8,8 @@ android:id="@+id/my_drawer_layout"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity"
-tools:ignore="HardcodedText">
+tools:ignore="HardcodedText"
+    android:background="@drawable/hatter">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -17,30 +18,37 @@ tools:ignore="HardcodedText">
     tools:context=".MainActivity">
 
 
-<EditText
-        android:id="@+id/nevmezo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Név"
-        android:inputType="textPersonName"
-        android:translationY="600px" />
-
     <EditText
-        android:id="@+id/neptunkodmezo"
-        android:layout_width="match_parent"
+        android:id="@+id/nevmezo"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_action_nev"
         android:ems="10"
-        android:hint="Neptun kód"
+        android:gravity="center_vertical"
+        android:hint="Név"
         android:inputType="textPersonName"
         android:translationY="650px" />
 
+    <EditText
+        android:id="@+id/neptunkodmezo"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_action_neptunkod"
+        android:ems="10"
+        android:hint="Neptun kód"
+        android:inputType="textPersonName"
+        android:translationY="700px" />
+
     <Button
         android:id="@+id/fenykephozzaadasa"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Fénykép hozzáadása"
-        android:translationY="700px" />
+        android:layout_gravity="center"
+        android:text="Jelentkezés"
+        android:translationY="750px"
+        app:cornerRadius="10dp" />
 </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

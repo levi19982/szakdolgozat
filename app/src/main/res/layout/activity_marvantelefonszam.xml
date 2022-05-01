@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context=".marvantelefonszam">
+    tools:context=".marvantelefonszam"
+    android:background="@drawable/hatter">
 
     <TextView
         android:id="@+id/nevszoveg"
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/idEdtOtp"
         android:layout_margin="10dp"
-        android:text="OTP elfogadása"
+        android:text="Kód elfogadása"
         android:textAllCaps="false" />
 
     <Spinner

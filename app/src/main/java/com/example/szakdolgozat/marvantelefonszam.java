@@ -71,7 +71,7 @@ public class marvantelefonszam extends AppCompatActivity {
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String phone = "+36" + snapshot.child("telefonszam").getValue().toString();
+                        String phone = snapshot.child("telefonszam").getValue().toString();
                         editText.setText(phone);
                         sendVerificationCode(phone);
                     }

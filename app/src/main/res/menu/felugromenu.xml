@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/sajatalairsaok"
-        android:title="Belépés adminisztrátorként"
+        android:title="Saját aláírásaim"
         android:enabled="true"/>
 
 </menu>

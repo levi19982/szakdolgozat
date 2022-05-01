@@ -4,20 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/hatter"
     android:orientation="vertical"
     tools:context=".telefonszamhozzaadasa">
 
 
-    <EditText
-        android:id="@+id/telefonszamtext"
+    <TextView
+        android:id="@+id/figyelmezteto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Úgy tűnik még nincs telefonszám hozzárendelve profiljához. Kérjük írja be telefonszámát!"
+        android:textColor="#FF0000"
+        android:translationY="150dp" />
+
+    <com.santalu.maskedittext.MaskEditText
+        android:id="@+id/telefonszamtext"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:ems="10"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:translationY="220dp"
+        app:met_mask="+36(##) ### ####"/>
+
+
 
     <Button
         android:id="@+id/telefonszamhozzaadsagomb"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Feltöltés" />
+        android:layout_gravity="center"
+        android:text="Feltöltés"
+        android:translationY="240dp"
+        app:cornerRadius="10dp" />
 </LinearLayout>
