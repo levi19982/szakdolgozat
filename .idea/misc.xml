@@ -18,12 +18,14 @@
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/menu/felugromenu.xml" value="0.55" />
         <entry key="..\:/Egyetem/6. felev/Tervezes I/Program/app/src/main/res/menu/statisztikamenu.xml" value="0.55" />
         <entry key="..\:/szakdolgozatv2.0/app/src/main/res/drawable-anydpi/ic_action_nev.xml" value="0.492" />
+        <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_alairas.xml" value="0.55" />
         <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_main.xml" value="0.5172101449275363" />
         <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_marvanfenykep.xml" value="0.37969924812030076" />
         <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_marvantelefonszam.xml" value="0.5172101449275363" />
         <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_sajatalairasok.xml" value="0.5172101449275363" />
-        <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_telefonszamhozzaadasa.xml" value="0.5172101449275363" />
+        <entry key="..\:/szakdolgozatv2.0/app/src/main/res/layout/activity_telefonszamhozzaadasa.xml" value="0.25" />
         <entry key="..\:/szakdolgozatv2.0/app/src/main/res/menu/felugromenu.xml" value="0.55" />
+        <entry key="..\:/szakdolgozatv2.0/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.474" />
       </map>
     </option>
   </component>

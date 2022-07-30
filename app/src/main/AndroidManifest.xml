@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Szakdolgozat"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".alairas"
+            android:exported="false" />
+        <activity
             android:name=".sajatalairasok"
             android:exported="false" />
         <activity

@@ -1,5 +1,7 @@
 package com.example.szakdolgozat;
 
+import android.net.Uri;
+
 public class Felhasznalotelefonszamokkal {
 
     String nev, neptunkod,  telefonszam;
@@ -36,4 +38,5 @@ public class Felhasznalotelefonszamokkal {
     public void setTelefonszam(String telefonszam) {
         this.telefonszam = telefonszam;
     }
+
 }

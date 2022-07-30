@@ -1,17 +1,17 @@
 package com.example.szakdolgozat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.szakdolgozat.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -81,19 +81,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     binding.neptunkodmezo.setText("");
                                 }
                             });
-
+                            
                         } else if (!nev.isEmpty() && neptunkod.isEmpty()) {
                             Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
                         } else if (nev.isEmpty() && !neptunkod.isEmpty()) {
                             Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                         } else if (nev.isEmpty() && neptunkod.isEmpty()) {
                             Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
-                        } else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
+                        } /*else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
                             Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
                             intent.putExtra("nev", nev);
                             intent.putExtra("neptunkod", neptunkod);
                             startActivity(intent);
-                        }
+                        }*/
                     }
 
 
