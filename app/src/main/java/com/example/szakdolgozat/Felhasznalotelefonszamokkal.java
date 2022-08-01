@@ -4,15 +4,16 @@ import android.net.Uri;
 
 public class Felhasznalotelefonszamokkal {
 
-    String nev, neptunkod,  telefonszam;
+    String nev, neptunkod,  telefonszam, keplink;
 
     public Felhasznalotelefonszamokkal() {
     }
 
-    public Felhasznalotelefonszamokkal(String nev, String neptunkod, String telefonszam) {
+    public Felhasznalotelefonszamokkal(String nev, String neptunkod, String telefonszam, String keplink) {
         this.nev = nev;
         this.neptunkod = neptunkod;
         this.telefonszam = telefonszam;
+        this.keplink = keplink;
     }
 
     public String getNev() {
@@ -39,4 +40,7 @@ public class Felhasznalotelefonszamokkal {
         this.telefonszam = telefonszam;
     }
 
+    public String getKeplink() {return keplink;}
+
+    public void setKeplink(String keplink) {this.keplink = keplink;}
 }
