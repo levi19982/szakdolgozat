@@ -52,7 +52,7 @@ public class telefonszamhozzaadasa extends AppCompatActivity {
         feltoltes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String keplink = "valami";
+                String keplink = null;
                 Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, telefonszam.getText().toString(), keplink);
                 adatbazis = FirebaseDatabase.getInstance();
                 databaseReference = adatbazis.getReference("Felhasznalokepekkel");
