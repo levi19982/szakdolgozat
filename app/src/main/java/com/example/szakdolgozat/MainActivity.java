@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Intent intent = new Intent(MainActivity.this, telefonszamhozzaadasa.class);
-                                    intent.putExtra("nev", nev);
-                                    intent.putExtra("neptunkod", neptunkod);
-                                    startActivity(intent);
+                                    Intent intent1 = new Intent(MainActivity.this, telefonszamhozzaadasa.class);
+                                    intent1.putExtra("nev", nev);
+                                    intent1.putExtra("neptunkod", neptunkod);
+                                    startActivity(intent1);
                                     binding.nevmezo.setText("");
                                     binding.neptunkodmezo.setText("");
                                 }
@@ -88,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                         } else if (nev.isEmpty() && neptunkod.isEmpty()) {
                             Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
-                        } /*else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
+                        } else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
                             Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
                             intent.putExtra("nev", nev);
                             intent.putExtra("neptunkod", neptunkod);
                             startActivity(intent);
-                        }*/
+                        }
                     }
 
 

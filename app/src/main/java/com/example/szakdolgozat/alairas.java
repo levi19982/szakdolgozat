@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 public class alairas extends AppCompatActivity {
 
@@ -57,14 +61,13 @@ public class alairas extends AppCompatActivity {
             public void onClick(View view) {
                 Bitmap bitmap = signaturePad.getSignatureBitmap();
                 signaturePad.clear();
-                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
+                String mappa = Environment.getExternalStorageDirectory() + "/" + (kapottnev + " " + kapottneptunkod);
+                File mappaletrehozasa = new File(mappa);
+                mappaletrehozasa.mkdirs();
+                String fajlnev = kapottnev + " " + kapottneptunkod;
+                File file = new File(mappa, fajlnev);
+                //MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
                 SelectImage();
-                /*String keplink = "példaaaaaaaa";
-                adatbazis = FirebaseDatabase.getInstance();
-                databaseReference = adatbazis.getReference("Felhasznalokepekkel");
-                StorageReference storageReference2 = storageReference.child("Felhasznalokepekkel").child(kapottnev);
-                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, kapottelefonszam, keplink);
-                storageReference2.putFile()*/
         }
         });
         feltolto.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +86,7 @@ public class alairas extends AppCompatActivity {
     {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
+        intent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 

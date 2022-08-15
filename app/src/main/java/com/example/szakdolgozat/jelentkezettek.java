@@ -1,14 +1,15 @@
 package com.example.szakdolgozat;
 
 public class jelentkezettek {
-    String nev, neptunkod;
+    String nev, neptunkod, bejelentkezesidopontja;
 
     public jelentkezettek() {
     }
 
-    public jelentkezettek(String nev, String neptunkod) {
+    public jelentkezettek(String nev, String neptunkod, String idopont) {
         this.nev = nev;
         this.neptunkod = neptunkod;
+        this.bejelentkezesidopontja = idopont;
     }
 
     public String getNev() {
@@ -26,4 +27,8 @@ public class jelentkezettek {
     public void setNeptunkod(String neptunkod) {
         this.neptunkod = neptunkod;
     }
+
+    public String getBejelentkezesidopontja() {return bejelentkezesidopontja;}
+
+    public void setBejelentkezesidopontja(String bejelentkezesidopontja) {this.bejelentkezesidopontja = bejelentkezesidopontja;}
 }
