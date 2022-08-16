@@ -60,42 +60,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 nev = binding.nevmezo.getText().toString();
                 neptunkod = binding.neptunkodmezo.getText().toString();
                 String vanefenykepnev = nev;
-                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(vanefenykepnev);
-                databaseReference.child(vanefenykepnev);
-                databaseReference.addValueEventListener(new ValueEventListener() {
+                String atmenetitelefonszam = null;
+                String atmenetikeplink = null;
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel");
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() == null) {
-                            Felhasznalok felhasznalok = new Felhasznalok(nev, neptunkod);
+                        if (!snapshot.hasChild(vanefenykepnev)){
+                            Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, atmenetitelefonszam, atmenetikeplink);
                             databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
                             adatbazis = FirebaseDatabase.getInstance();
-                            databaseReference = adatbazis.getReference("Felhasznalok");
-                            databaseReference.child(nev).setValue(felhasznalok).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            databaseReference = adatbazis.getReference("Felhasznalokepekkel");
+                            databaseReference.child(vanefenykepnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     Intent intent1 = new Intent(MainActivity.this, telefonszamhozzaadasa.class);
                                     intent1.putExtra("nev", nev);
                                     intent1.putExtra("neptunkod", neptunkod);
                                     startActivity(intent1);
-                                    binding.nevmezo.setText("");
-                                    binding.neptunkodmezo.setText("");
                                 }
                             });
-                            
-                        } else if (!nev.isEmpty() && neptunkod.isEmpty()) {
-                            Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
-                        } else if (nev.isEmpty() && !neptunkod.isEmpty()) {
-                            Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
-                        } else if (nev.isEmpty() && neptunkod.isEmpty()) {
-                            Toast.makeText(MainActivity.this, "Kérjük töltse ki a mezőket!", Toast.LENGTH_SHORT).show();
-                        } else if (!nev.isEmpty() && !neptunkod.isEmpty() && snapshot.getValue() != null) {
+                        }
+                        if (snapshot.hasChild(vanefenykepnev)){
                             Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
                             intent.putExtra("nev", nev);
                             intent.putExtra("neptunkod", neptunkod);
                             startActivity(intent);
                         }
                     }
-
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
