@@ -104,13 +104,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (nev2.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                 } else {
-                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalok").child(nev2);
-                    databaseReference.child(nev2);
+                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel");
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.getValue() != null) {
-                                String neptunkodszoveg2 = snapshot.child("neptunkod").getValue().toString();
+                            if (snapshot.hasChild(nev2)) {
+                                String neptunkodszoveg2 = snapshot.child(nev2).child("neptunkod").getValue().toString();
                                 neptunkodszoveg.setText(neptunkodszoveg2);
                             } else {
                                 Toast.makeText(MainActivity.this, "Nincs ilyen név!", Toast.LENGTH_SHORT).show();
