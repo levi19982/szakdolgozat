@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (!snapshot.hasChild(vanefenykepnev)){
+                        if (!snapshot.hasChild(vanefenykepnev)) {
                             Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, atmenetitelefonszam, atmenetikeplink);
                             databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
                             adatbazis = FirebaseDatabase.getInstance();
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 }
                             });
                         }
-                        if (snapshot.hasChild(vanefenykepnev)){
+                        if (snapshot.hasChild(vanefenykepnev)) {
                             Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
                             intent.putExtra("nev", nev);
                             intent.putExtra("neptunkod", neptunkod);
@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-    }
+
+}
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

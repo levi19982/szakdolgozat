@@ -11,12 +11,12 @@ tools:context=".MainActivity"
 tools:ignore="HardcodedText"
     android:background="@drawable/hatter">
 
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
 
     <EditText
         android:id="@+id/nevmezo"
@@ -49,6 +49,8 @@ tools:ignore="HardcodedText"
         android:text="Jelentkezés"
         android:translationY="750px"
         app:cornerRadius="10dp" />
+
+
 </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
