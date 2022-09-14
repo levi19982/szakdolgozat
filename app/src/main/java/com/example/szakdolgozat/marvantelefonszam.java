@@ -140,12 +140,13 @@ public class marvantelefonszam extends AppCompatActivity {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String felhasznaloidopont = simpleDateFormat.format(calendar.getTime());
                 String minta = "yyyy-M-dd";
+                String eltottiido = null;
                 String kijelentkezesiidopont = null;
                 DateFormat dateFormat = new SimpleDateFormat(minta);
                 Date mainap = Calendar.getInstance().getTime();
                 String maidatum = dateFormat.format(mainap);
                 String sportagstring = sport.getText().toString();
-                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont);
+                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido);
                 DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagstring).child(maidatum);
                 adatbazis = FirebaseDatabase.getInstance();
                 databaseReference2 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
