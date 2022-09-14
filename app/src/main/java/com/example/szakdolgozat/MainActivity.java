@@ -96,16 +96,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 long percek = masikdate.getTime() - date.getTime();
                                                 long masodperc = percek / 1000;
                                                 long perckulonbseg = masodperc / 60;
-                                                String eltottiido = Long.toString(perckulonbseg);
-                                                jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido);
-                                                DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                                databaseReference2 = adatbazis.getReference("Sportok").child("Íjászat").child(felhasznaloidopont);
-                                                databaseReference2.child(nev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                                if (perckulonbseg >= 30) {
+                                                    String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
+                                                    jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido);
+                                                    DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
+                                                    databaseReference2 = adatbazis.getReference("Sportok").child("Íjászat").child(felhasznaloidopont);
+                                                    databaseReference2.child(nev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                }
+                                                else {
+                                                    Toast.makeText(MainActivity.this, "Nincs meg!", Toast.LENGTH_SHORT).show();
+                                                }
                                             } catch (ParseException e) {
                                                 e.printStackTrace();
                                             }
