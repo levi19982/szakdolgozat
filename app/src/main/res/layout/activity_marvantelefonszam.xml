@@ -56,11 +56,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.github.gcacace.signaturepad.views.SignaturePad
+        android:id="@+id/alairashelyee"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:penColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/alairasfeltoltes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Feltöltés" />
+
     <Button
         android:id="@+id/jelentkezesgomb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Jelentkezés" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alairasfeltoltes"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </LinearLayout>
 

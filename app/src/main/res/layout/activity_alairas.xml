@@ -10,11 +10,11 @@
         android:id="@+id/alairashelye"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        app:penColor="@color/black"
+        app:penColor="@color/white"
         />
 
     <Button
-        android:id="@+id/alairasfeltoltes"
+        android:id="@+id/alairasfeltoltess"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -24,8 +24,9 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/alairasfeltoltes"
+        android:layout_below="@id/alairasfeltoltess"
         android:layout_centerInParent="true"
+        android:visibility="gone"
         tools:srcCompat="@tools:sample/avatars" />
 
 </RelativeLayout>

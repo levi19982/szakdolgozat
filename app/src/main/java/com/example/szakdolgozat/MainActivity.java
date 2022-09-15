@@ -96,9 +96,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 long percek = masikdate.getTime() - date.getTime();
                                                 long masodperc = percek / 1000;
                                                 long perckulonbseg = masodperc / 60;
+                                                long hatravan = 30 - perckulonbseg;
+                                                String hatravanido = Long.toString(hatravan);
                                                 if (perckulonbseg >= 30) {
                                                     String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
-                                                    jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido);
+                                                    String keplink = null;
+                                                    jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
                                                     DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
                                                     databaseReference2 = adatbazis.getReference("Sportok").child("Íjászat").child(felhasznaloidopont);
                                                     databaseReference2.child(nev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                     });
                                                 }
                                                 else {
-                                                    Toast.makeText(MainActivity.this, "Nem teljesítette még a 30 percet!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
                                                 }
                                             } catch (ParseException e) {
                                                 e.printStackTrace();

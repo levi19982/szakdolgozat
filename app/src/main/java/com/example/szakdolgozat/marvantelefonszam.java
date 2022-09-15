@@ -1,11 +1,15 @@
 package com.example.szakdolgozat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -32,8 +38,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.mlkit.vision.face.FaceDetectorOptions;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,7 +52,7 @@ public class marvantelefonszam extends AppCompatActivity {
 
     TextView nev, neptunkod, sport;
     StorageReference storageReference;
-    Button  jelentkezes, verify;
+    Button  jelentkezes, verify, kepfeltoltes;
     private Spinner spinner;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
@@ -52,6 +60,12 @@ public class marvantelefonszam extends AppCompatActivity {
     EditText editText2;
     TextView editText;
     String verificationId;
+    SignaturePad signaturePad;
+    private final int PICK_IMAGE_REQUEST = 22;
+    ImageView alairas;
+    Uri imageUri;
+    StorageReference reference = FirebaseStorage.getInstance().getReference();
+    DatabaseReference databaseReference1 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +79,9 @@ public class marvantelefonszam extends AppCompatActivity {
         editText = findViewById(R.id.idEdtPhoneNumber);
         editText2 = findViewById(R.id.idEdtOtp);
         verify = findViewById(R.id.idBtnVerify);
+        kepfeltoltes = findViewById(R.id.alairasfeltoltes);
+        signaturePad = findViewById(R.id.alairashelyee);
+        alairas = findViewById(R.id.imageView);
 
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev);
                 databaseReference.child(kapottnev);
@@ -131,6 +148,16 @@ public class marvantelefonszam extends AppCompatActivity {
             }
         });
 
+        kepfeltoltes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap bitmap = signaturePad.getSignatureBitmap();
+                signaturePad.clear();
+                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
+                SelectImage();
+            }
+        });
+
         nev.setText(kapottnev);
         neptunkod.setText(kapottneptunkod);
         jelentkezes.setOnClickListener(new View.OnClickListener() {
@@ -142,23 +169,68 @@ public class marvantelefonszam extends AppCompatActivity {
                 String minta = "yyyy-M-dd";
                 String eltottiido = null;
                 String kijelentkezesiidopont = null;
+                String keplink = null;
                 DateFormat dateFormat = new SimpleDateFormat(minta);
                 Date mainap = Calendar.getInstance().getTime();
                 String maidatum = dateFormat.format(mainap);
                 String sportagstring = sport.getText().toString();
-                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido);
+                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido, keplink);
                 DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagstring).child(maidatum);
                 adatbazis = FirebaseDatabase.getInstance();
                 databaseReference2 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
                 databaseReference2.child(kapottnev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(marvantelefonszam.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                StorageReference storageReference = reference.child("Sportok").child(sportagstring).child(maidatum).child(kapottnev + " " + kapottneptunkod);
+                storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String keplink = uri.toString();
+                                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido, keplink);
+                                adatbazis = firebaseDatabase.getInstance();
+                                databaseReference1 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
+                                databaseReference1.child(kapottnev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(marvantelefonszam.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
         });
 
+    }
+
+    private void SelectImage()
+    {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        intent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle oldInstanceState) {
+        super.onSaveInstanceState(oldInstanceState);
+        oldInstanceState.clear();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data){
+            imageUri = data.getData();
+            alairas.setImageURI(imageUri);
+            jelentkezes.setEnabled(true);
+        }
     }
 
     private void signInWithCredential(PhoneAuthCredential credential) {
@@ -167,8 +239,7 @@ public class marvantelefonszam extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(marvantelefonszam.this, "Sikeres", Toast.LENGTH_SHORT).show();
-                            jelentkezes.setEnabled(true);
+                            Toast.makeText(marvantelefonszam.this, "Sikeres, már csak az aláírás hiányzik!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(marvantelefonszam.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }

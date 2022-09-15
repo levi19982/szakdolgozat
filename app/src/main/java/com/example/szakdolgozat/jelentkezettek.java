@@ -1,17 +1,18 @@
 package com.example.szakdolgozat;
 
 public class jelentkezettek {
-    String nev, neptunkod, bejelentkezesidopontja, kijelentkezesidopontja, eltottido;
+    String nev, neptunkod, bejelentkezesidopontja, kijelentkezesidopontja, eltottido, keplink;
 
     public jelentkezettek() {
     }
 
-    public jelentkezettek(String nev, String neptunkod, String idopont, String kijelentkezesidopontja, String eltoltottido) {
+    public jelentkezettek(String nev, String neptunkod, String idopont, String kijelentkezesidopontja, String eltoltottido, String keplink) {
         this.nev = nev;
         this.neptunkod = neptunkod;
         this.bejelentkezesidopontja = idopont;
         this.kijelentkezesidopontja = kijelentkezesidopontja;
         this.eltottido = eltoltottido;
+        this.keplink = keplink;
     }
 
     public String getNev() {
@@ -41,4 +42,8 @@ public class jelentkezettek {
     public String getEltottido() {return eltottido;}
 
     public void setEltottido(String eltottido) {this.eltottido = eltottido;}
+
+    public String getKeplink() {return keplink;}
+
+    public void setKeplink(String keplink) {this.keplink = keplink;}
 }

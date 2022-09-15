@@ -2,17 +2,11 @@ package com.example.szakdolgozat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -31,7 +25,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class alairas extends AppCompatActivity {
@@ -53,7 +46,7 @@ public class alairas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_alairas);
-        Button button = findViewById(R.id.alairasfeltoltes);
+        Button button = findViewById(R.id.alairasfeltoltess);
         signaturePad = findViewById(R.id.alairashelye);
         imageView1 = findViewById(R.id.imageView);
         Intent intent = getIntent();
