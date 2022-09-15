@@ -20,14 +20,6 @@
         android:layout_centerInParent="true"
         android:text="Feltöltés" />
 
-    <Button
-        android:id="@+id/feltoltesgomb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
-        android:layout_centerInParent="true"
-        android:text="Button" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"

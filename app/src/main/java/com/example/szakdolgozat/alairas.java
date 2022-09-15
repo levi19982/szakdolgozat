@@ -43,7 +43,6 @@ public class alairas extends AppCompatActivity {
     StorageReference reference = FirebaseStorage.getInstance().getReference();
     Uri imageUri;
     private final int PICK_IMAGE_REQUEST = 22;
-    Button feltolto;
     DatabaseReference databaseReference1 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
 
 
@@ -57,7 +56,6 @@ public class alairas extends AppCompatActivity {
         Button button = findViewById(R.id.alairasfeltoltes);
         signaturePad = findViewById(R.id.alairashelye);
         imageView1 = findViewById(R.id.imageView);
-        feltolto = findViewById(R.id.feltoltesgomb);
         Intent intent = getIntent();
         String kapottnev = intent.getStringExtra("kapottnev1");
         String kapottneptunkod = intent.getStringExtra("kapottneptunkod1");
@@ -71,12 +69,6 @@ public class alairas extends AppCompatActivity {
                 MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
                 SelectImage();
         }
-        });
-        feltolto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                kepfeltoltes();
-            }
         });
     }
     @Override
@@ -127,6 +119,7 @@ public class alairas extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data){
                 imageUri = data.getData();
                 imageView1.setImageURI(imageUri);
+                kepfeltoltes();
         }
     }
 }

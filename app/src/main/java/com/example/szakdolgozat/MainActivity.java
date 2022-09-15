@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                     });
                                                 }
                                                 else {
-                                                    Toast.makeText(MainActivity.this, "Nincs meg!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(MainActivity.this, "Nem teljesítette még a 30 percet!", Toast.LENGTH_SHORT).show();
                                                 }
                                             } catch (ParseException e) {
                                                 e.printStackTrace();
