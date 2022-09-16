@@ -99,7 +99,7 @@ public class esemenyletrehozasa extends AppCompatActivity{
             public void onClick(View view) {
                 String datum = textView2.getText().toString();
                 String sportagszoveg = sportag.getText().toString();
-                sportok sportok1 = new sportok(datum);
+                sportok sportok1 = new sportok();
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagszoveg);
                 adatbazis = FirebaseDatabase.getInstance();
                 databaseReference = adatbazis.getReference("Sportok").child(sportagszoveg);
