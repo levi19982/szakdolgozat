@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -25,8 +27,9 @@ public class jelentkezetteklista extends AppCompatActivity {
 
     TextView textView;
     ListView listView;
-    AlertDialog.Builder builder;
-    AlertDialog alertDialog;
+    AlertDialog.Builder builder, builder2;
+    AlertDialog alertDialog, alertDialog2;
+    ImageView eredetialairaskep, egyszerialairaskep;
     TextView bejelentkezes, kijelentkezes, eltoltott, nev, neptunkod, alairasok;
     TextView idopontment, sportagment, nevment;
 
@@ -129,5 +132,53 @@ public class jelentkezetteklista extends AppCompatActivity {
             }
         });
 
+        alairasok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                felugroablak2();
+            }
+        });
+
     }
+
+    public void felugroablak2(){
+        builder2 = new AlertDialog.Builder(this);
+        View view2 = getLayoutInflater().inflate(R.layout.alairasok, null);
+        eredetialairaskep = view2.findViewById(R.id.eredetialairas);
+        egyszerialairaskep = view2.findViewById(R.id.egyszerialairas);
+
+        builder2.setView(view2);
+        alertDialog2 = builder2.create();
+        alertDialog2.show();
+
+        DatabaseReference databaseReference3 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagment.getText().toString()).child(idopontment.getText().toString()).child(nevment.getText().toString());
+        DatabaseReference databaseReference4 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(nevment.getText().toString());
+        databaseReference3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String link1 = snapshot.child("keplink").getValue().toString();
+                Picasso.get().load(link1).into(eredetialairaskep);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        databaseReference4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String link2 = snapshot.child("keplink").getValue().toString();
+                Picasso.get().load(link2).into(egyszerialairaskep);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 }
