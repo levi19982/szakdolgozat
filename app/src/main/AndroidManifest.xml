@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Szakdolgozat"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".jelentkezetteklista"
+            android:exported="false" />
+        <activity
             android:name=".alairas"
             android:exported="false" />
         <activity

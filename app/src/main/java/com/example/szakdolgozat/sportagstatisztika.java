@@ -60,7 +60,12 @@ public class sportagstatisztika extends AppCompatActivity {
                         databaseReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                Toast.makeText(sportagstatisztika.this, "Jelentkezők száma: " + (snapshot.getChildrenCount()-1), Toast.LENGTH_SHORT).show();
+                                String idopont = idopontok.get(i).toString();
+                                Intent intent2 = new Intent(sportagstatisztika.this, jelentkezetteklista.class);
+                                intent2.putExtra("idopont", idopont);
+                                intent2.putExtra("kapottsportag", kapottsportag);
+                                startActivity(intent2);
+                                //Toast.makeText(sportagstatisztika.this, "Jelentkezők száma: " + (snapshot.getChildrenCount()-1), Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
