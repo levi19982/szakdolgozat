@@ -42,7 +42,9 @@ public class jelentkezetteklista extends AppCompatActivity {
         textView = findViewById(R.id.kapottidopont);
         listView = findViewById(R.id.jelentkezetteknevszerint);
         idopontment = findViewById(R.id.idopontmentes);
+        idopontment.setText(kapottidopont1);
         sportagment = findViewById(R.id.sportagmentes);
+        sportagment.setText(kapottsportag1);
         nevment = findViewById(R.id.nevmentes);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(kapottsportag1).child(kapottidopont1);
@@ -103,11 +105,22 @@ public class jelentkezetteklista extends AppCompatActivity {
         databaseReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    bejelentkezes.setText(snapshot.child("bejelentkezesidopontja").getValue().toString());
-                    nev.setText(snapshot.child("nev").getValue().toString());
-                    neptunkod.setText(snapshot.child("neptunkod").getValue().toString());
+                    bejelentkezes.setText("Bejelentkezés időpontja: " + snapshot.child("bejelentkezesidopontja").getValue().toString());
+                    nev.setText("Hallgató neve: " + snapshot.child("nev").getValue().toString());
+                    neptunkod.setText("Hallgató Neptun kódja: " + snapshot.child("neptunkod").getValue().toString());
                     alairasok.setText("Kattints ide, hogy megnézd az aláírásokat!");
-                    //if (snapshot.hasChild())
+                    if (snapshot.hasChild("eltottido")){
+                        eltoltott.setText("Eltöltött idő: " + snapshot.child("eltottido").getValue().toString());
+                    }
+                    else {
+                        eltoltott.setText("Eltöltött idő: " + "Még nem fejezte be!");
+                    }
+                    if (snapshot.hasChild("kijelentkezesidopontja")){
+                        kijelentkezes.setText("Kijelentkezés időpontja: " + snapshot.child("kijelentkezesidopontja").getValue().toString());
+                    }
+                    else {
+                        kijelentkezes.setText("Kijelentkezés időpontja: " + "Még nem fejezte be!");
+                    }
             }
 
             @Override

@@ -60,7 +60,7 @@
         android:id="@+id/alairashelyee"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        app:penColor="@color/white"
+        app:penColor="@color/black"
         />
 
     <Button

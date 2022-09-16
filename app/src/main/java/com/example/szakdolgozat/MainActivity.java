@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 long perckulonbseg = masodperc / 60;
                                                 long hatravan = 30 - perckulonbseg;
                                                 String hatravanido = Long.toString(hatravan);
-                                                if (perckulonbseg >= 30) {
+                                                if (masodperc > 0 ){
+                                                //if (perckulonbseg >= 30) {
                                                     String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
                                                     jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
                                                     DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");

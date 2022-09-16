@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".alairas">
+    tools:context=".alairas"
+    android:background="@drawable/hatter">
+    >
 
     <com.github.gcacace.signaturepad.views.SignaturePad
         android:id="@+id/alairashelye"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        app:penColor="@color/white"
+        app:penColor="@color/black"
         />
 
     <Button
