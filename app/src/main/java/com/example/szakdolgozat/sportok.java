@@ -2,7 +2,7 @@ package com.example.szakdolgozat;
 
 public class sportok   {
 
-    /*String datum;
+    String datum;
 
     public sportok() {
     }
@@ -17,5 +17,5 @@ public class sportok   {
 
     public void setDatum(String datum) {
         this.datum = datum;
-    }*/
+    }
 }

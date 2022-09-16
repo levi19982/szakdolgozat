@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
+                                            String keplink = snapshot.child("keplink").getValue().toString();
                                             String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
                                             try {
                                                 Date date = simpleDateFormat.parse(idopont);
@@ -101,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                                 String hatravanido = Long.toString(hatravan);
                                                 if (perckulonbseg >= 30) {
                                                     String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
-                                                    String keplink = null;
                                                     jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
                                                     DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
                                                     databaseReference2 = adatbazis.getReference("Sportok").child("Íjászat").child(felhasznaloidopont);
