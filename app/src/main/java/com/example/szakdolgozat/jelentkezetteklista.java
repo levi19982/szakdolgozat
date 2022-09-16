@@ -3,12 +3,16 @@ package com.example.szakdolgozat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class jelentkezetteklista extends AppCompatActivity {
@@ -32,6 +38,7 @@ public class jelentkezetteklista extends AppCompatActivity {
     ImageView eredetialairaskep, egyszerialairaskep;
     TextView bejelentkezes, kijelentkezes, eltoltott, nev, neptunkod, alairasok;
     TextView idopontment, sportagment, nevment;
+    Button exportalas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,13 @@ public class jelentkezetteklista extends AppCompatActivity {
         sportagment = findViewById(R.id.sportagmentes);
         sportagment.setText(kapottsportag1);
         nevment = findViewById(R.id.nevmentes);
+        exportalas = findViewById(R.id.mentesgomb);
+
+        exportalas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(kapottsportag1).child(kapottidopont1);
         databaseReference.addValueEventListener(new ValueEventListener() {
