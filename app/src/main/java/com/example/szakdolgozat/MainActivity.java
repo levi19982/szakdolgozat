@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.my_drawer_layout);
         kijelentkezes = findViewById(R.id.kijelentkezesgomb);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -220,7 +221,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
 }
 
     @Override

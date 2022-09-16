@@ -39,14 +39,14 @@ public class adminmenu extends AppCompatActivity implements NavigationView.OnNav
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
 
-            case R.id.esemenyletrehozasa: {
-                Intent intent = new Intent(adminmenu.this, esemenyletrehozasa.class);
-                startActivity(intent);
+            case R.id.statisztika: {
+                Intent intent1 = new Intent(adminmenu.this, statisztika.class);
+                startActivity(intent1);
                 break;
             }
 
-            case R.id.statisztika: {
-                Intent intent = new Intent(adminmenu.this, statisztika.class);
+            case R.id.esemenyletrehozasa: {
+                Intent intent = new Intent(adminmenu.this, esemenyletrehozasa.class);
                 startActivity(intent);
                 break;
             }

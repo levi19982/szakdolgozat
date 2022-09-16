@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ public class statisztika extends AppCompatActivity {
 
     private Spinner spinner;
     private TextView textView, textView2, sportag;
+    Button statisztika;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class statisztika extends AppCompatActivity {
 
         spinner = findViewById(R.id.sportvalaszto2);
         textView = findViewById(R.id.valasztottsportag2);
+        statisztika = findViewById(R.id.statisztikalekerese);
         String[] sportok = getResources().getStringArray(R.array.sportok);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, sportok);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -33,10 +36,6 @@ public class statisztika extends AppCompatActivity {
                 switch (i) {
                     case 0:
                         textView.setText(spinner.getSelectedItem().toString());
-                        String sportagatvitel = textView.getText().toString();
-                        Intent intent = new Intent(statisztika.this, sportagstatisztika.class);
-                        intent.putExtra("sportag", sportagatvitel);
-                        startActivity(intent);
                         break;
                     case 1:
                         Toast.makeText(statisztika.this, "Valami", Toast.LENGTH_SHORT).show();
@@ -50,6 +49,16 @@ public class statisztika extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        statisztika.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String sportagatvitel = textView.getText().toString();
+                Intent intent = new Intent(statisztika.this, sportagstatisztika.class);
+                intent.putExtra("sportag", sportagatvitel);
+                startActivity(intent);
             }
         });
 
