@@ -71,21 +71,20 @@ public class jelentkezetteklista extends AppCompatActivity {
         exportalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Próba.csv");
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "proba.csv");
                 Toast.makeText(jelentkezetteklista.this, file.toString(), Toast.LENGTH_SHORT).show();
                 try{
                     FileWriter fileWriter = new FileWriter(file);
                     CSVWriter csvWriter = new CSVWriter(fileWriter, '|', CSVWriter.NO_QUOTE_CHARACTER,
                                                                                  CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                                                                                  CSVWriter.DEFAULT_LINE_END);
-                    List<String[]> data = new ArrayList<String[]>();
-                    data.add(new String[] { "Name", "Class", "Marks" });
-                    data.add(new String[] { "Aman", "10", "620" });
-                    data.add(new String[] { "Suraj", "10", "630" });
+                    ArrayList<String[]> data = new ArrayList<String[]>();
+                    data.add(new String[] { "Hallgató neve", "Hallgató Neptun kódja", "Bejelentkezés időpontja", "Kijelentkezés időpontja", "Eltöltött idő" });
+                    data.add(new String[] { "Hallgató neve", "Hallgató Neptun kódja", "Bejelentkezés időpontja", "Kijelentkezés időpontja", "Eltöltött idő" });
                     csvWriter.writeAll(data);
                     csvWriter.close();
                 }
-                catch(Exception e){}
+                catch(Exception e){e.printStackTrace();}
             }
         });
 
