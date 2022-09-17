@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +37,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,17 +74,43 @@ public class jelentkezetteklista extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "proba.csv");
-                Toast.makeText(jelentkezetteklista.this, file.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(jelentkezetteklista.this, file.toString(), Toast.LENGTH_SHORT).show();
+                DatabaseReference databaseReference7 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(kapottsportag1).child(kapottidopont1);
                 try{
                     FileWriter fileWriter = new FileWriter(file);
                     CSVWriter csvWriter = new CSVWriter(fileWriter, '|', CSVWriter.NO_QUOTE_CHARACTER,
                                                                                  CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                                                                                  CSVWriter.DEFAULT_LINE_END);
-                    ArrayList<String[]> data = new ArrayList<String[]>();
-                    data.add(new String[] { "Hallgató neve", "Hallgató Neptun kódja", "Bejelentkezés időpontja", "Kijelentkezés időpontja", "Eltöltött idő" });
-                    data.add(new String[] { "Hallgató neve", "Hallgató Neptun kódja", "Bejelentkezés időpontja", "Kijelentkezés időpontja", "Eltöltött idő" });
-                    csvWriter.writeAll(data);
-                    csvWriter.close();
+                    databaseReference7.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ArrayList<String[]> data = new ArrayList<String[]>();
+                            data.add(new String[] { "Bejelentkezes idopontja"});
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                String hallgatonev = dataSnapshot.getValue().toString();
+                                hallgatonev = hallgatonev.replace("{bejelentkezesidopontja=","");
+                                hallgatonev = hallgatonev.replace("keplink=","");
+                                hallgatonev = hallgatonev.replace("neptunkod=","");
+                                hallgatonev = hallgatonev.replace("nev=","");
+                                hallgatonev = hallgatonev.replace("}","");
+                                //hallgatonev = hallgatonev.replace("bejelentkezesidopontja:","");
+                                //hallgatonev = hallgatonev.replace("bejelentkezesidopontja:","");
+                                if (!hallgatonev.equals(kapottidopont1)){
+                                data.add(new String[]{hallgatonev});}
+                            }
+                            csvWriter.writeAll(data);
+                            try {
+                                csvWriter.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
                 catch(Exception e){e.printStackTrace();}
             }
