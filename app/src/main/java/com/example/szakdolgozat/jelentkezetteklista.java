@@ -74,18 +74,17 @@ public class jelentkezetteklista extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "proba.csv");
-                //Toast.makeText(jelentkezetteklista.this, file.toString(), Toast.LENGTH_SHORT).show();
                 DatabaseReference databaseReference7 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(kapottsportag1).child(kapottidopont1);
                 try{
                     FileWriter fileWriter = new FileWriter(file);
-                    CSVWriter csvWriter = new CSVWriter(fileWriter, '|', CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter csvWriter = new CSVWriter(fileWriter, ',', CSVWriter.NO_QUOTE_CHARACTER,
                                                                                  CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                                                                                  CSVWriter.DEFAULT_LINE_END);
                     databaseReference7.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             ArrayList<String[]> data = new ArrayList<String[]>();
-                            data.add(new String[] { "Bejelentkezes idopontja"});
+                            data.add(new String[] { "Bejelentkezés időpontja", "Aláírás linkje"});
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 String hallgatonev = dataSnapshot.getValue().toString();
                                 hallgatonev = hallgatonev.replace("{bejelentkezesidopontja=","");
@@ -93,6 +92,7 @@ public class jelentkezetteklista extends AppCompatActivity {
                                 hallgatonev = hallgatonev.replace("neptunkod=","");
                                 hallgatonev = hallgatonev.replace("nev=","");
                                 hallgatonev = hallgatonev.replace("}","");
+                                hallgatonev = hallgatonev.replace("\"", "");
                                 //hallgatonev = hallgatonev.replace("bejelentkezesidopontja:","");
                                 //hallgatonev = hallgatonev.replace("bejelentkezesidopontja:","");
                                 if (!hallgatonev.equals(kapottidopont1)){
