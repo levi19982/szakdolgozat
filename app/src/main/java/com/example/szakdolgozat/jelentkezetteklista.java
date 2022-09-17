@@ -3,12 +3,17 @@ package com.example.szakdolgozat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,11 +28,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.opencsv.CSVWriter;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class jelentkezetteklista extends AppCompatActivity {
 
@@ -61,6 +71,21 @@ public class jelentkezetteklista extends AppCompatActivity {
         exportalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Próba.csv");
+                Toast.makeText(jelentkezetteklista.this, file.toString(), Toast.LENGTH_SHORT).show();
+                try{
+                    FileWriter fileWriter = new FileWriter(file);
+                    CSVWriter csvWriter = new CSVWriter(fileWriter, '|', CSVWriter.NO_QUOTE_CHARACTER,
+                                                                                 CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                                                                                 CSVWriter.DEFAULT_LINE_END);
+                    List<String[]> data = new ArrayList<String[]>();
+                    data.add(new String[] { "Name", "Class", "Marks" });
+                    data.add(new String[] { "Aman", "10", "620" });
+                    data.add(new String[] { "Suraj", "10", "630" });
+                    csvWriter.writeAll(data);
+                    csvWriter.close();
+                }
+                catch(Exception e){}
             }
         });
 
