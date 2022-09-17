@@ -54,11 +54,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.my_drawer_layout);
         kijelentkezes = findViewById(R.id.kijelentkezesgomb);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        //actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         neptunkodszoveg = findViewById(R.id.neptunkodmezo);
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 });
                                 alertDialog.show();
-                                //Toast.makeText(MainActivity.this, "Van ilyen név!", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(MainActivity.this, "Nincs ilyen név!", Toast.LENGTH_SHORT).show();
                             }
