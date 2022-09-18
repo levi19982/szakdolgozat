@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -174,6 +178,7 @@ public class sajatalairasok extends AppCompatActivity {
     }
     public void emailkuldesemasik(){
         File file = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        StringBuilder stringBuilder = new StringBuilder();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -184,36 +189,31 @@ public class sajatalairasok extends AppCompatActivity {
                 } else if (nev.getText().toString().isEmpty()) {
                     Toast.makeText(sajatalairasok.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                 } else if (seged >= 1){
-                    int konditeremelofordulasok = 0;
-                    int tancelofordulasok = 0;
-                    int ijaszatelofordulasok = 0;
+                    stringBuilder.append("Ijaszat idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Íjászat").getChildren()){
                         if (dataSnapshot.child(nev.getText().toString()).exists()){
                             String ijaszatidopont = dataSnapshot.getKey();
-                            Toast.makeText(sajatalairasok.this, ijaszatidopont, Toast.LENGTH_SHORT).show();
+                            stringBuilder.append(ijaszatidopont + ", ");
                         }
                     }
+                    stringBuilder.append("\n" + "Konditerem idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Konditerem").getChildren()){
                         if (dataSnapshot.child(nev.getText().toString()).exists()){
                             String kondiidopont = dataSnapshot.getKey();
-                            Toast.makeText(sajatalairasok.this, kondiidopont, Toast.LENGTH_SHORT).show();
+                            stringBuilder.append(kondiidopont + ", ");
                         }
                     }
+                    stringBuilder.append("\n" + "Tanc idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Tánc").getChildren()){
                         if (dataSnapshot.child(nev.getText().toString()).exists()){
                             String tancidopont = dataSnapshot.getKey();
-                            Toast.makeText(sajatalairasok.this, tancidopont, Toast.LENGTH_SHORT).show();
+                            stringBuilder.append(tancidopont + ", ");
                         }
-                    }
-                    /*StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.append("Time,Distance");
-                    for (int i = 0; i<5; i++){
-                        stringBuilder.append("\n"+String.valueOf(i)+","+String.valueOf(i*i));
                     }
                     String fajlnev = "proba.csv";
                     File textfajl = new File(file, fajlnev);
                     try{
-                        FileWriter fileWriter = new FileWriter(textfajl);
+                        OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(textfajl), StandardCharsets.UTF_8);
                         fileWriter.append(stringBuilder);
                         fileWriter.flush();
                         fileWriter.close();
@@ -225,7 +225,7 @@ public class sajatalairasok extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
                     intent.putExtra(Intent.EXTRA_STREAM, uri);
                     intent.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
-                    startActivity(Intent.createChooser(intent , "Send email..."));*/
+                    startActivity(Intent.createChooser(intent , "Send email..."));
                 }
             }
 
