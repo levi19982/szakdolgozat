@@ -5,56 +5,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".sajatalairasok">
-
-    <TextView
-        android:id="@+id/osszesalairas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    tools:context=".sajatalairasok"
+    android:background="@drawable/hatter">
 
     <EditText
         android:id="@+id/kapottnev"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:ems="10"
+        android:hint="Kérjük írja ide a nevét!"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/alairasokszama"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Aláírások száma" />
+        android:layout_gravity="center"
+        android:backgroundTint="#F44336"
+        android:text="Aláírások száma"
+        app:cornerRadius="20dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Íjászat" />
+        android:text="Íjászat"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/ijaszatalairas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Konditerem" />
+        android:text="Konditerem"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tánc" />
+        android:text="Tánc"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/osszesalairas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#F44336"
+        android:text="Statisztikám letöltése"
+        android:translationY="100dp"
+        app:cornerRadius="20dp" />
 </LinearLayout>

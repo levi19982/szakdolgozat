@@ -132,7 +132,7 @@ public class sajatalairasok extends AppCompatActivity {
                         if (!tanc.getText().toString().equals("")) {
                             osszesalairas += Integer.parseInt(tanc.getText().toString());
                         }
-                    alairasok.setText(String.valueOf(osszesalairas));
+                    alairasok.setText("Összes aláírásainak száma: " + String.valueOf(osszesalairas));
                 }
             }
         });
