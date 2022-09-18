@@ -3,8 +3,10 @@ package com.example.szakdolgozat;
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,11 +36,13 @@ public class sajatalairasok extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     DatabaseReference databaseReference1, databaseReference2, databaseReference3;
     TextView alairasok,ijaszat, konditerem, tanc;
-    EditText nev;
-    Button alairasokszam;
+    EditText nev, emailmegadasa;
+    Button alairasokszam, alairasokletoltese, kuldesgomb;
     ArrayList<String> nevek = new ArrayList<>();
     ArrayList<String> nevek2 = new ArrayList<>();
     ArrayList<String> nevek3 = new ArrayList<>();
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +55,17 @@ public class sajatalairasok extends AppCompatActivity {
         nev = findViewById(R.id.kapottnev);
         alairasokszam = findViewById(R.id.alairasokszama);
         ijaszat = findViewById(R.id.ijaszatalairas);
+        alairasokletoltese = findViewById(R.id.sajatalairasokletoltsegomb);
         databaseReference1 = databaseReference.child("Sportok").child("Íjászat");
         databaseReference2 = databaseReference.child("Sportok").child("Konditerem");
         databaseReference3 = databaseReference.child("Sportok").child("Tánc");
+
+        alairasokletoltese.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emailkuldese();
+            }
+        });
 
 
         alairasokszam.setOnClickListener(new View.OnClickListener() {
@@ -136,5 +148,32 @@ public class sajatalairasok extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void emailkuldese(){
+        builder = new AlertDialog.Builder(this);
+        View view2 = getLayoutInflater().inflate(R.layout.emailmegadasa, null);
+        emailmegadasa = view2.findViewById(R.id.emailkuldeseidegomb);
+        kuldesgomb = view2.findViewById(R.id.button);
+        builder.setView(view2);
+        alertDialog = builder.create();
+        alertDialog.show();
+        kuldesgomb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emailkuldesemasik();
+            }
+        });
+    }
+    public void emailkuldesemasik(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Aláírások");
+        intent.putExtra(Intent.EXTRA_TEXT, "Ez az e-mail szövege");
+        try{
+            startActivity(Intent.createChooser(intent, "Küldés"));
+        }catch(ActivityNotFoundException e){
+            Toast.makeText(sajatalairasok.this, "Hiba", Toast.LENGTH_SHORT).show();
+        }
     }
 }
