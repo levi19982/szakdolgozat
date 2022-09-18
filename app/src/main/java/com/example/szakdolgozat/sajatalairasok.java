@@ -5,10 +5,13 @@ import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.N
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -165,15 +171,38 @@ public class sajatalairasok extends AppCompatActivity {
         });
     }
     public void emailkuldesemasik(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Time,Distance");
+        for (int i = 0; i<5; i++){
+            stringBuilder.append("\n"+String.valueOf(i)+","+String.valueOf(i*i));
+        }
+        String fajlnev = "proba.csv";
+        File file = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        File textfajl = new File(file, fajlnev);
+        String szoveg = "proba szoveg";
+        try{
+            FileWriter fileWriter = new FileWriter(textfajl);
+            fileWriter.append(stringBuilder);
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (Exception e){}
+        Uri uri = FileProvider.getUriForFile(this, getPackageName()+ ".provider", textfajl);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("vnd.android.cursor.dir/email");
+        intent.putExtra(Intent.EXTRA_EMAIL, emailmegadasa.getText().toString());
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+        startActivity(Intent.createChooser(intent , "Send email..."));
+        /*try{
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Aláírások");
+        intent.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
         intent.putExtra(Intent.EXTRA_TEXT, "Ez az e-mail szövege");
-        try{
             startActivity(Intent.createChooser(intent, "Küldés"));
         }catch(ActivityNotFoundException e){
             Toast.makeText(sajatalairasok.this, "Hiba", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }
