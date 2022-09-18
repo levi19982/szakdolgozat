@@ -41,7 +41,7 @@ public class sajatalairasok extends AppCompatActivity {
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     DatabaseReference databaseReference1, databaseReference2, databaseReference3;
-    TextView alairasok,ijaszat, konditerem, tanc;
+    TextView alairasok,ijaszat, konditerem, tanc, osszesalairasseged;
     EditText nev, emailmegadasa;
     Button alairasokszam, alairasokletoltese, kuldesgomb;
     ArrayList<String> nevek = new ArrayList<>();
@@ -56,6 +56,7 @@ public class sajatalairasok extends AppCompatActivity {
         setContentView(R.layout.activity_sajatalairasok);
 
         alairasok = findViewById(R.id.osszesalairas);
+        osszesalairasseged = findViewById(R.id.textView8);
         konditerem = findViewById(R.id.textView4);
         tanc = findViewById(R.id.textView6);
         nev = findViewById(R.id.kapottnev);
@@ -151,6 +152,7 @@ public class sajatalairasok extends AppCompatActivity {
                             osszesalairas += Integer.parseInt(tanc.getText().toString());
                         }
                     alairasok.setText("Összes aláírásainak száma: " + String.valueOf(osszesalairas));
+                    osszesalairasseged.setText(String.valueOf(osszesalairas));
                 }
             }
         });
@@ -171,38 +173,67 @@ public class sajatalairasok extends AppCompatActivity {
         });
     }
     public void emailkuldesemasik(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Time,Distance");
-        for (int i = 0; i<5; i++){
-            stringBuilder.append("\n"+String.valueOf(i)+","+String.valueOf(i*i));
-        }
-        String fajlnev = "proba.csv";
         File file = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        File textfajl = new File(file, fajlnev);
-        String szoveg = "proba szoveg";
-        try{
-            FileWriter fileWriter = new FileWriter(textfajl);
-            fileWriter.append(stringBuilder);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (Exception e){}
-        Uri uri = FileProvider.getUriForFile(this, getPackageName()+ ".provider", textfajl);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setType("vnd.android.cursor.dir/email");
-        intent.putExtra(Intent.EXTRA_EMAIL, emailmegadasa.getText().toString());
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-        startActivity(Intent.createChooser(intent , "Send email..."));
-        /*try{
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
-        intent.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
-        intent.putExtra(Intent.EXTRA_TEXT, "Ez az e-mail szövege");
-            startActivity(Intent.createChooser(intent, "Küldés"));
-        }catch(ActivityNotFoundException e){
-            Toast.makeText(sajatalairasok.this, "Hiba", Toast.LENGTH_SHORT).show();
-        }*/
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int seged = Integer.parseInt(osszesalairasseged.getText().toString());
+                if (seged < 1){
+                    Toast.makeText(sajatalairasok.this, "Nincs egy aláírása sem!", Toast.LENGTH_SHORT).show();
+                } else if (nev.getText().toString().isEmpty()) {
+                    Toast.makeText(sajatalairasok.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
+                } else if (seged >= 1){
+                    int konditeremelofordulasok = 0;
+                    int tancelofordulasok = 0;
+                    int ijaszatelofordulasok = 0;
+                    for (DataSnapshot dataSnapshot : snapshot.child("Íjászat").getChildren()){
+                        if (dataSnapshot.child(nev.getText().toString()).exists()){
+                            String ijaszatidopont = dataSnapshot.getKey();
+                            Toast.makeText(sajatalairasok.this, ijaszatidopont, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    for (DataSnapshot dataSnapshot : snapshot.child("Konditerem").getChildren()){
+                        if (dataSnapshot.child(nev.getText().toString()).exists()){
+                            String kondiidopont = dataSnapshot.getKey();
+                            Toast.makeText(sajatalairasok.this, kondiidopont, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    for (DataSnapshot dataSnapshot : snapshot.child("Tánc").getChildren()){
+                        if (dataSnapshot.child(nev.getText().toString()).exists()){
+                            String tancidopont = dataSnapshot.getKey();
+                            Toast.makeText(sajatalairasok.this, tancidopont, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    /*StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.append("Time,Distance");
+                    for (int i = 0; i<5; i++){
+                        stringBuilder.append("\n"+String.valueOf(i)+","+String.valueOf(i*i));
+                    }
+                    String fajlnev = "proba.csv";
+                    File textfajl = new File(file, fajlnev);
+                    try{
+                        FileWriter fileWriter = new FileWriter(textfajl);
+                        fileWriter.append(stringBuilder);
+                        fileWriter.flush();
+                        fileWriter.close();
+                    } catch (Exception e){}
+                    Uri uri = FileProvider.getUriForFile(sajatalairasok.this, getPackageName()+ ".provider", textfajl);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.setType("vnd.android.cursor.dir/email");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
+                    startActivity(Intent.createChooser(intent , "Send email..."));*/
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }
