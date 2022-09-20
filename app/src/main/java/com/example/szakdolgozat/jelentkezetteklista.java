@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -228,6 +229,7 @@ public class jelentkezetteklista extends AppCompatActivity {
         View view2 = getLayoutInflater().inflate(R.layout.alairasok, null);
         eredetialairaskep = view2.findViewById(R.id.eredetialairas);
         egyszerialairaskep = view2.findViewById(R.id.egyszerialairas);
+        Button ossze = view2.findViewById(R.id.button2);
 
         builder2.setView(view2);
         alertDialog2 = builder2.create();
@@ -268,9 +270,6 @@ public class jelentkezetteklista extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
 }
