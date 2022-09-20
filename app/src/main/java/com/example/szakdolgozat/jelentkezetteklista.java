@@ -53,7 +53,7 @@ public class jelentkezetteklista extends AppCompatActivity {
     ImageView eredetialairaskep, egyszerialairaskep;
     TextView bejelentkezes, kijelentkezes, eltoltott, nev, neptunkod, alairasok;
     TextView idopontment, sportagment, nevment;
-    Button exportalas,hasonlosagszoveg;
+    Button exportalas,hasonlosagszoveg, alairasokmegtekintese;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,19 @@ public class jelentkezetteklista extends AppCompatActivity {
         sportagment.setText(kapottsportag1);
         nevment = findViewById(R.id.nevmentes);
         exportalas = findViewById(R.id.mentesgomb);
+        alairasokmegtekintese = findViewById(R.id.alairasokmegtekintsegomb);
+
+        alairasokmegtekintese.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(jelentkezetteklista.this, com.example.szakdolgozat.alairasokmegtekintese.class);
+                intent3.putExtra("kapottidopont2", kapottidopont1);
+                intent3.putExtra("kapottsportag2", kapottsportag1);
+                startActivity(intent3);
+            }
+        });
+
+
 
         exportalas.setOnClickListener(new View.OnClickListener() {
             @Override
