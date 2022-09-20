@@ -11,9 +11,12 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,7 +53,7 @@ public class jelentkezetteklista extends AppCompatActivity {
     ImageView eredetialairaskep, egyszerialairaskep;
     TextView bejelentkezes, kijelentkezes, eltoltott, nev, neptunkod, alairasok;
     TextView idopontment, sportagment, nevment;
-    Button exportalas;
+    Button exportalas,hasonlosagszoveg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,8 +225,12 @@ public class jelentkezetteklista extends AppCompatActivity {
         databaseReference3.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("keplink").exists()){
                 String link1 = snapshot.child("keplink").getValue().toString();
-                Picasso.get().load(link1).into(eredetialairaskep);
+                Picasso.get().load(link1).into(eredetialairaskep);}
+                else {
+                    Toast.makeText(jelentkezetteklista.this, "Nincs eredeti kép!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -235,8 +242,12 @@ public class jelentkezetteklista extends AppCompatActivity {
         databaseReference4.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child("keplink").exists()){
                 String link2 = snapshot.child("keplink").getValue().toString();
-                Picasso.get().load(link2).into(egyszerialairaskep);
+                    Picasso.get().load(link2).into(egyszerialairaskep);}
+                else {
+                    Toast.makeText(jelentkezetteklista.this, "Nincs egyszeri kép!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -244,6 +255,8 @@ public class jelentkezetteklista extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 

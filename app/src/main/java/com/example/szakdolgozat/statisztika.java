@@ -38,10 +38,10 @@ public class statisztika extends AppCompatActivity {
                         textView.setText(spinner.getSelectedItem().toString());
                         break;
                     case 1:
-                        Toast.makeText(statisztika.this, "Valami", Toast.LENGTH_SHORT).show();
+                        textView.setText(spinner.getSelectedItem().toString());
                         break;
                     case 2:
-
+                        textView.setText(spinner.getSelectedItem().toString());
                         break;
                 }
             }
