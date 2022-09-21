@@ -23,7 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class sportagstatisztika extends AppCompatActivity {
+public class
+sportagstatisztika extends AppCompatActivity {
 
     ListView listView;
     FirebaseDatabase adatbazis;
