@@ -6,6 +6,7 @@
         <item>Tánc</item>
     </string-array>
     <string-array name="chartok">
+        <item>Válassz!</item>
         <item>Linechart</item>
         <item>Barchart</item>
     </string-array>

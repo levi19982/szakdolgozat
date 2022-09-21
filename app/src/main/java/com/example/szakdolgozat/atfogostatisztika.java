@@ -120,7 +120,7 @@ public class atfogostatisztika extends AppCompatActivity {
                 XAxis xAxis = lineChart.getXAxis();
                 xAxis.setValueFormatter(new IndexAxisValueFormatter(datumok));
 
-                //xAxis.setGranularity(2f);
+                xAxis.setGranularity(2f);
                 YAxis yAxisleft = lineChart.getAxisLeft();
                 yAxisleft.setGranularity(1f);
                 YAxis yAxisright = lineChart.getAxisRight();
@@ -162,9 +162,11 @@ public class atfogostatisztika extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        linechart();
                         break;
                     case 1:
+                        linechart();
+                        break;
+                    case 2:
                         barchart();
                         break;
                 }
