@@ -5,4 +5,8 @@
         <item>Konditerem</item>
         <item>Tánc</item>
     </string-array>
+    <string-array name="chartok">
+        <item>Linechart</item>
+        <item>Barchart</item>
+    </string-array>
 </resources>
