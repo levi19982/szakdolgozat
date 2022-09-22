@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -47,6 +50,47 @@ public class atfogostatisztika extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atfogostatisztika);
+        felugro2();
+
+    }
+
+    public void felugro2(){
+        builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.valasztas, null);
+        spinner = view.findViewById(R.id.melyikchart);
+
+        builder.setView(view);
+        alertDialog = builder.create();
+        alertDialog.show();
+
+        String[] chartok1 = getResources().getStringArray(R.array.chartok);
+        ArrayAdapter adapter1 = new ArrayAdapter(atfogostatisztika.this, android.R.layout.simple_spinner_item, chartok1);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        break;
+                    case 1:
+                        linechart();
+                        alertDialog.dismiss();
+                        break;
+                    case 2:
+                        Toast.makeText(atfogostatisztika.this, "Erre kattintottál!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    public void linechart(){
         AnyChartView anyChartView = findViewById(R.id.any_chart_view);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
 
@@ -116,8 +160,6 @@ public class atfogostatisztika extends AppCompatActivity {
                 anyChartView.setChart(cartesian);
             }
         }, 5000);
-
-
     }
 
     private class CustomDataEntry extends ValueDataEntry {
