@@ -13,6 +13,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -66,6 +67,8 @@ public class atfogostatisztika extends AppCompatActivity {
         builder.setView(view);
         alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
 
         String[] chartok1 = getResources().getStringArray(R.array.chartok);
         ArrayAdapter adapter1 = new ArrayAdapter(atfogostatisztika.this, android.R.layout.simple_spinner_item, chartok1);
