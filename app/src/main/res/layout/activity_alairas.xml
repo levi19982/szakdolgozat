@@ -20,7 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Feltöltés" />
+        android:backgroundTint="#FF5722"
+        android:text="Feltöltés"
+        app:cornerRadius="20dp" />
 
     <ImageView
         android:id="@+id/imageView"
