@@ -56,17 +56,22 @@ public class telefonszamhozzaadasa extends AppCompatActivity {
                 Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, telefonszam.getText().toString(), keplink);
                 adatbazis = FirebaseDatabase.getInstance();
                 databaseReference = adatbazis.getReference("Felhasznalokepekkel");
-                databaseReference.child(kapottnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(telefonszamhozzaadasa.this, "Telefonszám sikeresen hozzáadva!", Toast.LENGTH_SHORT).show();
-                        Intent intent1 = new Intent(telefonszamhozzaadasa.this, alairas.class);
-                        intent1.putExtra("kapottnev1", kapottnev);
-                        intent1.putExtra("kapottneptunkod1", kapottneptunkod);
-                        intent1.putExtra("kapotttelefonszam", telefonszam.getText().toString());
-                        startActivity(intent1);
-                    }
-                });
+                int hossz = telefonszam.length();
+                if (hossz == 16) {
+                    databaseReference.child(kapottnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(telefonszamhozzaadasa.this, "Telefonszám sikeresen hozzáadva!", Toast.LENGTH_SHORT).show();
+                            Intent intent1 = new Intent(telefonszamhozzaadasa.this, alairas.class);
+                            intent1.putExtra("kapottnev1", kapottnev);
+                            intent1.putExtra("kapottneptunkod1", kapottneptunkod);
+                            intent1.putExtra("kapotttelefonszam", telefonszam.getText().toString());
+                            startActivity(intent1);
+                        }
+                    });
+                } else {
+                    Toast.makeText(telefonszamhozzaadasa.this, "Kérjük helyesen adja meg telefonszámát!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

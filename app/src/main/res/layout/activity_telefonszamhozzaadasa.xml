@@ -15,7 +15,9 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Úgy tűnik még nincs telefonszám hozzárendelve profiljához. Kérjük írja be telefonszámát!"
-        android:textColor="#FF0000" />
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <com.santalu.maskedittext.MaskEditText
         android:id="@+id/telefonszamtext"
@@ -23,25 +25,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/figyelmezteto"
         android:layout_centerInParent="true"
+        android:background="@drawable/edittextalak"
         android:ems="10"
+        android:hint="Telefonszám"
         android:inputType="phone"
+        android:translationY="100dp"
         app:met_mask="+36(##) ### ####" />
-
-    <TextView
-        android:id="@+id/alairasfigyelmezteto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/telefonszamtext"
-        android:layout_centerInParent="true"
-        android:text="Kérjük adja meg aláírását!"
-        android:textColor="#FF0000" />
 
     <Button
         android:id="@+id/telefonszamhozzaadsagomb"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/alairasfigyelmezteto"
         android:layout_centerInParent="true"
-        android:text="Feltöltés" />
+        android:backgroundTint="#FF5722"
+        android:text="Feltöltés"
+        app:cornerRadius="20dp" />
 
 </RelativeLayout>
