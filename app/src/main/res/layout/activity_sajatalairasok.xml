@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
+        android:background="@drawable/edittextalak"
         android:hint="Kérjük írja ide a nevét!"
         android:inputType="textPersonName" />
 

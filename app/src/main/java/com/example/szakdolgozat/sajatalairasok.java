@@ -162,19 +162,28 @@ public class sajatalairasok extends AppCompatActivity {
         });
     }
     public void emailkuldese(){
-        builder = new AlertDialog.Builder(this);
-        View view2 = getLayoutInflater().inflate(R.layout.emailmegadasa, null);
-        emailmegadasa = view2.findViewById(R.id.emailkuldeseidegomb);
-        kuldesgomb = view2.findViewById(R.id.button);
-        builder.setView(view2);
-        alertDialog = builder.create();
-        alertDialog.show();
-        kuldesgomb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emailkuldesemasik();
+        if (!nev.getText().toString().isEmpty()) {
+            if (!alairasok.getText().toString().isEmpty()) {
+                builder = new AlertDialog.Builder(this);
+                View view2 = getLayoutInflater().inflate(R.layout.emailmegadasa, null);
+                emailmegadasa = view2.findViewById(R.id.emailkuldeseidegomb);
+                kuldesgomb = view2.findViewById(R.id.button);
+                builder.setView(view2);
+                alertDialog = builder.create();
+                alertDialog.show();
+                kuldesgomb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        emailkuldesemasik();
+                    }
+                });
             }
-        });
+            else {
+                Toast.makeText(sajatalairasok.this, "Kérjük először futtassa le az Aláírások számát!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(sajatalairasok.this, "Kérjük írja be a nevét!", Toast.LENGTH_SHORT).show();
+        }
     }
     public void emailkuldesemasik(){
         File file = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
@@ -186,9 +195,7 @@ public class sajatalairasok extends AppCompatActivity {
                 int seged = Integer.parseInt(osszesalairasseged.getText().toString());
                 if (seged < 1){
                     Toast.makeText(sajatalairasok.this, "Nincs egy aláírása sem!", Toast.LENGTH_SHORT).show();
-                } else if (nev.getText().toString().isEmpty()) {
-                    Toast.makeText(sajatalairasok.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
-                } else if (seged >= 1){
+                } else {
                     stringBuilder.append("Ijaszat idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Íjászat").getChildren()){
                         if (dataSnapshot.child(nev.getText().toString()).exists()){
