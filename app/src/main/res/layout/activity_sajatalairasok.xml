@@ -33,13 +33,15 @@
         android:layout_height="wrap_content"
         android:text="Íjászat"
         android:textSize="34sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#FF5722"/>
 
     <TextView
         android:id="@+id/ijaszatalairas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textColor="#FF5722"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -47,13 +49,15 @@
         android:layout_height="wrap_content"
         android:text="Konditerem"
         android:textSize="34sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#FF5722"/>
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textColor="#FF5722"/>
 
     <TextView
         android:id="@+id/textView5"
@@ -61,19 +65,22 @@
         android:layout_height="wrap_content"
         android:text="Tánc"
         android:textSize="34sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="#FF5722"/>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textColor="#FF5722"/>
 
     <TextView
         android:id="@+id/osszesalairas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textColor="#FF5722"/>
 
     <Button
         android:id="@+id/sajatalairasokletoltsegomb"

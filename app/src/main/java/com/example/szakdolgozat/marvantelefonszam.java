@@ -217,6 +217,8 @@ public class marvantelefonszam extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(marvantelefonszam.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
+                                        Intent intent1 = new Intent(marvantelefonszam.this, MainActivity.class);
+                                        startActivity(intent1);
                                     }
                                 });
                             }
