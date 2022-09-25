@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".jelentkezetteklista">
+    tools:context=".jelentkezetteklista"
+    android:background="@drawable/hatter">
 
     <TextView
         android:id="@+id/kapottidopont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_centerHorizontal="true"
+        android:text="TextView"
+        android:textColor="#FF5722"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/exportalaslayout"
@@ -25,17 +30,25 @@
 
             <Button
                 android:id="@+id/mentesgomb"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Adatok exportálása" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:backgroundTint="#FF5722"
+                android:text="Adatok exportálása"
+                app:cornerRadius="20dp" />
 
             <Button
                 android:id="@+id/alairasokmegtekintsegomb"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Aláírások megtekintése" />
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="#FF5722"
+                android:text="Aláírások megtekintése"
+                app:cornerRadius="20dp" />
         </TableRow>
 
     </LinearLayout>
@@ -67,7 +80,8 @@
         <ListView
             android:id="@+id/jelentkezetteknevszerint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="350dp"
+            android:background="#FFFFFF" />
     </LinearLayout>
 
 </RelativeLayout>
