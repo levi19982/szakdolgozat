@@ -101,17 +101,17 @@ public class jelentkezetteklista extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             ArrayList<String[]> data = new ArrayList<String[]>();
-                            data.add(new String[] { "Bejelentkezés időpontja", "Aláírás linkje", "Hallgató Neptun kódja", "Eltöltött idő", "Hallgató neve", "Eltöltött idő"});
+                            data.add(new String[] { "Bejelentkezés időpontja", "Aláírás linkje", "Hallgató Neptun kódja", "Eltöltött idő", "Hallgató neve", "Kijelentkezés időpontja"});
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 String hallgatonev = dataSnapshot.getValue().toString();
                                 hallgatonev = hallgatonev.replace("{bejelentkezesidopontja=","");
-                                hallgatonev = hallgatonev.replace("keplink=","");
+                                hallgatonev = hallgatonev.replace(" keplink=","");
                                 hallgatonev = hallgatonev.replace("neptunkod=","");
-                                hallgatonev = hallgatonev.replace("nev=","");
+                                hallgatonev = hallgatonev.replace(" nev=","");
                                 hallgatonev = hallgatonev.replace("}","");
                                 hallgatonev = hallgatonev.replace("\"", "");
-                                //hallgatonev = hallgatonev.replace("bejelentkezesidopontja:","");
-                                //hallgatonev = hallgatonev.replace("bejelentkezesidopontja:","");
+                                hallgatonev = hallgatonev.replace(" eltottido=","");
+                                hallgatonev = hallgatonev.replace(" kijelentkezesidopontja=","");
                                 if (!hallgatonev.equals(kapottidopont1)){
                                 data.add(new String[]{hallgatonev});}
                             }
