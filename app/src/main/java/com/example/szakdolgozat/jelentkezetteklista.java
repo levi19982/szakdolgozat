@@ -162,7 +162,6 @@ public class jelentkezetteklista extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         nevment.setText(jelentkezettek.get(i).toString());
                         felugroablak();
-                        Toast.makeText(jelentkezetteklista.this, jelentkezettek.get(i).toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -229,7 +228,7 @@ public class jelentkezetteklista extends AppCompatActivity {
         View view2 = getLayoutInflater().inflate(R.layout.alairasok, null);
         eredetialairaskep = view2.findViewById(R.id.eredetialairas);
         egyszerialairaskep = view2.findViewById(R.id.egyszerialairas);
-        Button ossze = view2.findViewById(R.id.button2);
+        Button bezaras = view2.findViewById(R.id.button2);
 
         builder2.setView(view2);
         alertDialog2 = builder2.create();
@@ -268,6 +267,13 @@ public class jelentkezetteklista extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        bezaras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog2.dismiss();
+                alertDialog.dismiss();
             }
         });
     }
