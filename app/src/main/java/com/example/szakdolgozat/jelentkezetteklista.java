@@ -90,7 +90,7 @@ public class jelentkezetteklista extends AppCompatActivity {
         exportalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "proba.csv");
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), kapottsportag1 + " " + kapottidopont1 + ".csv");
                 DatabaseReference databaseReference7 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(kapottsportag1).child(kapottidopont1);
                 try{
                     FileWriter fileWriter = new FileWriter(file);
@@ -101,7 +101,7 @@ public class jelentkezetteklista extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             ArrayList<String[]> data = new ArrayList<String[]>();
-                            data.add(new String[] { "Bejelentkezés időpontja", "Aláírás linkje"});
+                            data.add(new String[] { "Bejelentkezés időpontja", "Aláírás linkje", "Hallgató Neptun kódja", "Eltöltött idő", "Hallgató neve", "Eltöltött idő"});
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 String hallgatonev = dataSnapshot.getValue().toString();
                                 hallgatonev = hallgatonev.replace("{bejelentkezesidopontja=","");
@@ -117,10 +117,12 @@ public class jelentkezetteklista extends AppCompatActivity {
                             }
                             csvWriter.writeAll(data);
                             try {
+                                csvWriter.flush();
                                 csvWriter.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+
                         }
 
                         @Override
@@ -130,6 +132,15 @@ public class jelentkezetteklista extends AppCompatActivity {
                     });
                 }
                 catch(Exception e){e.printStackTrace();}
+                Uri uri = FileProvider.getUriForFile(jelentkezetteklista.this, getPackageName()+".provider",file);
+                Intent intent8 = new Intent(Intent.ACTION_SEND);
+                intent8.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent8.setType("vnd.android.cursor.dir/email");
+                String[] to = {"leventevass19982@gmail.com"};
+                intent8.putExtra(Intent.EXTRA_EMAIL, to);
+                intent8.putExtra(Intent.EXTRA_STREAM, uri);
+                intent8.putExtra(Intent.EXTRA_SUBJECT, kapottsportag1 + " " + kapottidopont1);
+                startActivity(Intent.createChooser(intent8 , "Send email..."));
             }
         });
 
