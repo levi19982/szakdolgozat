@@ -22,7 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class esemenyletrehozasa extends AppCompatActivity{
 
@@ -97,18 +101,24 @@ public class esemenyletrehozasa extends AppCompatActivity{
         esemenyhozzaadasa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String datum = textView2.getText().toString();
-                String sportagszoveg = sportag.getText().toString();
-                sportok sportok1 = new sportok(datum);
-                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagszoveg);
-                adatbazis = FirebaseDatabase.getInstance();
-                databaseReference = adatbazis.getReference("Sportok").child(sportagszoveg);
-                databaseReference.child(datum).setValue(sportok1).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(esemenyletrehozasa.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagszoveg, Toast.LENGTH_SHORT).show();
+                try {
+                    String datum = textView2.getText().toString();
+                    String sportagszoveg = sportag.getText().toString();
+                    sportok sportok1 = new sportok(datum);
+                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagszoveg);
+                    adatbazis = FirebaseDatabase.getInstance();
+                    databaseReference = adatbazis.getReference("Sportok").child(sportagszoveg);
+                    if (!textView2.getText().toString().isEmpty()) {
+                        databaseReference.child(datum).setValue(sportok1).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(esemenyletrehozasa.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagszoveg, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(esemenyletrehozasa.this, "Kérjük válasszon dátumot!", Toast.LENGTH_SHORT).show();
                     }
-                });
+                } catch (Exception e){}
             }
         });
     }

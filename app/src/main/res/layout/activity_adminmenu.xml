@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--the root view must be the DrawerLayout-->
-<androidx.drawerlayout.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/my_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:ignore="HardcodedText">
+    android:background="@drawable/hatter"
+    android:orientation="vertical"
+    tools:context=".adminmenu">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <Button
+        android:id="@+id/idopontletrehozasagomb"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Új időpont létrehozása"
+        android:translationY="350dp"
+        app:cornerRadius="20dp" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationview"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:menu="@menu/adminmenu" />
-
-</androidx.drawerlayout.widget.DrawerLayout>
+    <Button
+        android:id="@+id/statisztikamegtekintesegomb"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/idopontletrehozasagomb"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Statisztika megtekintése"
+        android:translationY="450dp"
+        app:cornerRadius="20dp" />
+</RelativeLayout>
