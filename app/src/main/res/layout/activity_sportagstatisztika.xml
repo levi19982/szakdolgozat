@@ -5,25 +5,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".sportagstatisztika">
+    tools:context=".sportagstatisztika"
+    android:background="@drawable/hatter">
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_centerHorizontal="true"
+        android:text="Kérjük válasszon időpontot!"
+        android:textColor="#FF5722"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/sportagidopontlista"
         android:layout_width="match_parent"
         android:layout_height="510dp"
-        android:layout_below="@id/textView9" />
+        android:layout_below="@id/textView9"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF" />
 
     <Button
         android:id="@+id/atfogostatisztika"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/sportagidopontlista"
-        android:text="Átfogó statisztika" />
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Átfogó statisztika"
+        app:cornerRadius="20dp" />
 
 </RelativeLayout>
