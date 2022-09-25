@@ -10,46 +10,56 @@
     android:background="@drawable/hatter">
 
     <TextView
-        android:id="@+id/nevszoveg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
         android:id="@+id/neptunmkodszoveg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FF5722"
+        android:textSize="20sp" />
 
-    <!--Button for getting OTP-->
+    <TextView
+        android:id="@+id/nevszoveg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FF5722"
+        android:textSize="20sp" />
+
     <TextView
         android:id="@+id/idEdtPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="TextView"
+        android:visibility="gone"/>
 
-    <!--Edittext for getting otp from user-->
     <EditText
         android:id="@+id/idEdtOtp"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
+        android:background="@drawable/edittextalak"
         android:hint="Kód megadása"
         android:importantForAutofill="no"
         android:inputType="phone" />
 
-    <!--button for verifying user OTP-->
     <Button
         android:id="@+id/idBtnVerify"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/idEdtOtp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
+        android:backgroundTint="#FF5722"
         android:text="Kód elfogadása"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        app:cornerRadius="20dp" />
 
     <Spinner
         android:id="@+id/sportagvalaszto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FF5722" />
 
     <TextView
         android:id="@+id/valasztottsportagszoveg"
@@ -68,13 +78,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Feltöltés" />
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#FF5722"
+        android:text="Aláírás feltöltése"
+        app:cornerRadius="20dp" />
 
     <Button
         android:id="@+id/jelentkezesgomb"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="Jelentkezés" />
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#FF5722"
+        android:text="Jelentkezés"
+        app:cornerRadius="20dp" />
 
     <ImageView
         android:id="@+id/imageView"

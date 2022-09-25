@@ -2,8 +2,10 @@ package com.example.szakdolgozat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -82,6 +84,7 @@ public class marvantelefonszam extends AppCompatActivity {
         kepfeltoltes = findViewById(R.id.alairasfeltoltes);
         signaturePad = findViewById(R.id.alairashelyee);
         alairas = findViewById(R.id.imageView);
+        kepfeltoltes.setEnabled(false);
 
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev);
                 databaseReference.child(kapottnev);
@@ -151,15 +154,31 @@ public class marvantelefonszam extends AppCompatActivity {
         kepfeltoltes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog alairasmegerosites = new AlertDialog.Builder(marvantelefonszam.this).create();
+                alairasmegerosites.setTitle("Megerősítés");
+                alairasmegerosites.setMessage("Biztos szeretnéd ezzel az aláírással folytatni? Később nem lesz lehetőség a módosításra!");
+                alairasmegerosites.setButton(AlertDialog.BUTTON_POSITIVE, "Igen!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
                 Bitmap bitmap = signaturePad.getSignatureBitmap();
                 signaturePad.clear();
                 MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
                 SelectImage();
+                    }
+                });
+                alairasmegerosites.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alairasmegerosites.dismiss();
+                        signaturePad.clear();
+                    }
+                });
+                alairasmegerosites.show();
             }
         });
 
-        nev.setText(kapottnev);
-        neptunkod.setText(kapottneptunkod);
+        nev.setText("Hallgató neve: " + kapottnev);
+        neptunkod.setText("Hallgató Neptun kódja: " + kapottneptunkod);
         jelentkezes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,6 +258,7 @@ public class marvantelefonszam extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            kepfeltoltes.setEnabled(true);
                             Toast.makeText(marvantelefonszam.this, "Sikeres, már csak az aláírás hiányzik!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(marvantelefonszam.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

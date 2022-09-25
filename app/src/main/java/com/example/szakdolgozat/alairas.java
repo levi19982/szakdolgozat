@@ -60,7 +60,6 @@ public class alairas extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog alairasmegerosites = new AlertDialog.Builder(alairas.this).create();
-                Toast.makeText(alairas.this, "Fut le!", Toast.LENGTH_SHORT).show();
                 alairasmegerosites.setTitle("Megerősítés");
                 alairasmegerosites.setMessage("Biztos szeretnéd ezzel az aláírással folytatni? Később nem lesz lehetőség a módosításra!");
                 alairasmegerosites.setButton(AlertDialog.BUTTON_POSITIVE, "Igen!", new DialogInterface.OnClickListener() {
@@ -117,6 +116,8 @@ public class alairas extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
+                                    Intent intent1 = new Intent(alairas.this, MainActivity.class);
+                                    startActivity(intent1);
                                 }
                             });
                         }
