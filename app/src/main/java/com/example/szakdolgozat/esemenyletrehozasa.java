@@ -93,8 +93,15 @@ public class esemenyletrehozasa extends AppCompatActivity{
             @Override
             public void onDateSet(DatePicker datePicker, int ev, int honap, int nap) {
                 honap = honap + 1;
-                String datum = ev + "-" + honap + "-" + nap;
-                textView2.setText(datum);
+                int length = (int)(Math.log10(honap)+1);
+                if (length == 2) {
+                    String datum = ev + "-" + honap + "-" + nap;
+                    textView2.setText(datum);
+                }
+                else if (length == 1){
+                    String datum2 = ev + "-" + "0" + honap + "-" + nap;
+                    textView2.setText(datum2);
+                }
             }
         };
 
