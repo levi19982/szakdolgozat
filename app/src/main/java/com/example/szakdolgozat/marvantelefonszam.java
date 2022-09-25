@@ -185,7 +185,7 @@ public class marvantelefonszam extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String felhasznaloidopont = simpleDateFormat.format(calendar.getTime());
-                String minta = "yyyy-M-dd";
+                String minta = "yyyy-MM-dd";
                 String eltottiido = null;
                 String kijelentkezesiidopont = null;
                 String keplink = null;

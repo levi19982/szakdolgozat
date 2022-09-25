@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-M-dd");
+                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
                 String felhasznaloidopont = simpleDateFormat1.format(calendar.getTime());
                 adatbazis = FirebaseDatabase.getInstance();
                 nev = binding.nevmezo.getText().toString();
@@ -96,8 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if ((snapshot.child("Íjászat").child(felhasznaloidopont).hasChild(nev))) {
-                                    if (!snapshot.child("Íjászat").child(felhasznaloidopont).child(nev).hasChild("kijelentkezesidopontja")){
+                                if ((snapshot.child("Íjászat").child(felhasznaloidopont).hasChild(nev)) && (!snapshot.child("Íjászat").child(felhasznaloidopont).child(nev).hasChild("kijelentkezesidopontja"))) {
                                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                                     alertDialog.setTitle("Kijelentkezés");
                                     alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
@@ -154,9 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         }
                                     });
                                     alertDialog.show();
-                                    } else Toast.makeText(MainActivity.this, "Már kijelentkezett!", Toast.LENGTH_SHORT).show();
-                                } else if ((snapshot.child("Konditerem").child(felhasznaloidopont).hasChild(nev))) {
-                                    if (!snapshot.child("Konditerem").child(felhasznaloidopont).child(nev).hasChild("kijelentkezesidopontja")){
+                                } else if ((snapshot.child("Konditerem").child(felhasznaloidopont).hasChild(nev)) && (!snapshot.child("Konditerem").child(felhasznaloidopont).child(nev).hasChild("kijelentkezesidopontja"))) {
                                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                                     alertDialog.setTitle("Kijelentkezés");
                                     alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
@@ -213,9 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         }
                                     });
                                     alertDialog.show();
-                                } else Toast.makeText(MainActivity.this, "Már kijelentkezett!", Toast.LENGTH_SHORT).show();
-                            } else if ((snapshot.child("Tánc").child(felhasznaloidopont).hasChild(nev))) {
-                                if (!snapshot.child("Tánc").child(felhasznaloidopont).child(nev).hasChild("kijelentkezesidopontja")){
+                            } else if ((snapshot.child("Tánc").child(felhasznaloidopont).hasChild(nev)) && (!snapshot.child("Tánc").child(felhasznaloidopont).child(nev).hasChild("kijelentkezesidopontja"))) {
                                     AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
                                     alertDialog.setTitle("Kijelentkezés");
                                     alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
@@ -272,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         }
                                     });
                                     alertDialog.show();
-                                } else Toast.makeText(MainActivity.this, "Már kijelentkezett!", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(MainActivity.this, "Nincs ilyen név!", Toast.LENGTH_SHORT).show();
                             }
