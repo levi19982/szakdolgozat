@@ -6,9 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.anychart.core.cartesian.series.Bar;
+import com.anychart.core.cartesian.series.JumpLine;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
+import com.anychart.enums.HoverMode;
+import com.anychart.enums.TooltipDisplayMode;
+import com.anychart.enums.TooltipPositionMode;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,10 +80,13 @@ public class alairasokmegtekintese extends ListActivity {
 
             }
         });
-        listaadapter adapter = new listaadapter(this, elsokep, masodikkep, jelentkezettekneptun);
-        listView.setAdapter(adapter);
-        Toast.makeText(alairasokmegtekintese.this, elsokep.toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(alairasokmegtekintese.this, masodikkep.toString(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(alairasokmegtekintese.this, jelentkezettekneptun.toString(), Toast.LENGTH_SHORT).show();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listaadapter adapter = new listaadapter(alairasokmegtekintese.this, elsokep, masodikkep, jelentkezettekneptun);
+                listView.setAdapter(adapter);
+            }
+        }, 5000);
     }
 }
