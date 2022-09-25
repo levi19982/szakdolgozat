@@ -3,22 +3,11 @@ package com.example.szakdolgozat;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,15 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.opencsv.CSVWriter;
 import com.squareup.picasso.Picasso;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class jelentkezetteklista extends AppCompatActivity {
 
@@ -106,7 +89,7 @@ public class jelentkezetteklista extends AppCompatActivity {
                                 String hallgatonev = dataSnapshot.getValue().toString();
                                 hallgatonev = hallgatonev.replace("{bejelentkezesidopontja=","");
                                 hallgatonev = hallgatonev.replace(" keplink=","");
-                                hallgatonev = hallgatonev.replace("neptunkod=","");
+                                hallgatonev = hallgatonev.replace(" neptunkod=","");
                                 hallgatonev = hallgatonev.replace(" nev=","");
                                 hallgatonev = hallgatonev.replace("}","");
                                 hallgatonev = hallgatonev.replace("\"", "");
