@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anychart.core.cartesian.series.Bar;
+import com.anychart.core.cartesian.series.JumpLine;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
+import com.anychart.enums.HoverMode;
+import com.anychart.enums.TooltipDisplayMode;
+import com.anychart.enums.TooltipPositionMode;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +46,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class sajatalairasok extends AppCompatActivity {
@@ -145,18 +153,24 @@ public class sajatalairasok extends AppCompatActivity {
 
                         }
                     });
-                    int osszesalairas = 0;
-                    if (!ijaszat.getText().toString().equals("")) {
-                            osszesalairas += Integer.parseInt(ijaszat.getText().toString());
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int osszesalairas = 0;
+                            if (!ijaszat.getText().toString().equals("")) {
+                                osszesalairas += Integer.parseInt(ijaszat.getText().toString());
+                            }
+                            if (!konditerem.getText().toString().equals("")) {
+                                osszesalairas += Integer.parseInt(konditerem.getText().toString());
+                            }
+                            if (!tanc.getText().toString().equals("")) {
+                                osszesalairas += Integer.parseInt(tanc.getText().toString());
+                            }
+                            alairasok.setText("Összes aláírásainak száma: " + String.valueOf(osszesalairas));
+                            osszesalairasseged.setText(String.valueOf(osszesalairas));
                         }
-                        if (!konditerem.getText().toString().equals("")) {
-                            osszesalairas += Integer.parseInt(konditerem.getText().toString());
-                        }
-                        if (!tanc.getText().toString().equals("")) {
-                            osszesalairas += Integer.parseInt(tanc.getText().toString());
-                        }
-                    alairasok.setText("Összes aláírásainak száma: " + String.valueOf(osszesalairas));
-                    osszesalairasseged.setText(String.valueOf(osszesalairas));
+                    }, 500);
                 }
             }
         });

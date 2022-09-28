@@ -3,7 +3,6 @@ package com.example.szakdolgozat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,13 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.szakdolgozat.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,16 +29,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     String nev, neptunkod;
-    Button kijelentkezes;
+    Button kijelentkezes, sajatalairasok;
     TextView neptunkodszoveg, nevszoveg, udvozles;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
-    public DrawerLayout drawerLayout;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
     float v=0;
 
     @Override
@@ -49,16 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setNavigationViewListener();
 
-        drawerLayout = findViewById(R.id.my_drawer_layout);
         kijelentkezes = findViewById(R.id.kijelentkezesgomb);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
+        sajatalairasok = findViewById(R.id.sajatalairasokgomb);
         neptunkodszoveg = findViewById(R.id.neptunkodmezo);
         nevszoveg = findViewById(R.id.nevmezo);
         udvozles = findViewById(R.id.udvozloszoveg);
@@ -68,18 +56,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nevszoveg.setTranslationY(300);
         kijelentkezes.setTranslationY(300);
         binding.fenykephozzaadasa.setTranslationY(300);
+        sajatalairasok.setTranslationY(300);
 
         udvozles.setAlpha(v);
         neptunkodszoveg.setAlpha(v);
         nevszoveg.setAlpha(v);
         kijelentkezes.setAlpha(v);
         binding.fenykephozzaadasa.setAlpha(v);
+        sajatalairasok.setAlpha(v);
 
         udvozles.animate().translationY(450).alpha(1).setDuration(1000).setStartDelay(400).start();
         neptunkodszoveg.animate().translationY(700).alpha(1).setDuration(1000).setStartDelay(400).start();
         nevszoveg.animate().translationY(600).alpha(1).setDuration(1000).setStartDelay(600).start();
-        kijelentkezes.animate().translationY(1000).alpha(1).setDuration(1000).setStartDelay(600).start();
+        kijelentkezes.animate().translationY(900).alpha(1).setDuration(1000).setStartDelay(600).start();
         binding.fenykephozzaadasa.animate().translationY(800).alpha(1).setDuration(1000).setStartDelay(600).start();
+        sajatalairasok.animate().translationY(1000).alpha(1).setDuration(1000).setStartDelay(600).start();
+
+        sajatalairasok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(MainActivity.this, sajatalairasok.class);
+                startActivity(intent2);
+            }
+        });
 
         kijelentkezes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,29 +365,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.adminisztrator: {
-                Intent intent = new Intent(MainActivity.this, adminmenu.class);
-                startActivity(intent);
-                break;
-            }
-            case R.id.sajatalairsaok: {
-                Intent intent = new Intent(MainActivity.this, sajatalairasok.class);
-                startActivity(intent);
-                intent.putExtra("nev", nev);
-                intent.putExtra("neptunkod", neptunkod);
-                break;
-            }
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    private void setNavigationViewListener() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationview);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 }
