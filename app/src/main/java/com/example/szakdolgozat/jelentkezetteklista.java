@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,7 +39,7 @@ public class jelentkezetteklista extends AppCompatActivity {
     ImageView eredetialairaskep, egyszerialairaskep;
     TextView bejelentkezes, kijelentkezes, eltoltott, nev, neptunkod, alairasok;
     TextView idopontment, sportagment, nevment;
-    Button exportalas,hasonlosagszoveg, alairasokmegtekintese;
+    Button exportalas,hasonlosagszoveg, alairasokmegtekintese, torles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +177,7 @@ public class jelentkezetteklista extends AppCompatActivity {
         nev = view.findViewById(R.id.name);
         neptunkod = view.findViewById(R.id.neptuncode);
         alairasok = view.findViewById(R.id.alairas);
+        torles = view.findViewById(R.id.torlesgomb);
 
         builder.setView(view);
         alertDialog = builder.create();
@@ -212,6 +215,38 @@ public class jelentkezetteklista extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 felugroablak2();
+            }
+        });
+
+        torles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog alertDialog = new AlertDialog.Builder(jelentkezetteklista.this).create();
+                alertDialog.setTitle("Felhasználó törlése");
+                alertDialog.setMessage("Biztos törölni szeretné a felhasználót erről az időpontról?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        databaseReference2.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().removeValue();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                alertDialog.show();
             }
         });
 
