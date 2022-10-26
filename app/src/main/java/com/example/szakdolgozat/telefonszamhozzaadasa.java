@@ -58,7 +58,7 @@ public class telefonszamhozzaadasa extends AppCompatActivity {
                 databaseReference = adatbazis.getReference("Felhasznalokepekkel");
                 int hossz = telefonszam.length();
                 if (hossz == 16) {
-                    databaseReference.child(kapottnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    databaseReference.child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(telefonszamhozzaadasa.this, "Telefonszám sikeresen hozzáadva!", Toast.LENGTH_SHORT).show();

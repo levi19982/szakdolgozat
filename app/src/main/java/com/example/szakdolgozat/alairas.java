@@ -100,7 +100,7 @@ public class alairas extends AppCompatActivity {
         String kapottnev = intent.getStringExtra("kapottnev1");
         String kapottneptunkod = intent.getStringExtra("kapottneptunkod1");
         String kapottelefonszam = intent.getStringExtra("kapotttelefonszam");
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference("Felhasznalokepekkel").child(kapottnev);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference("Felhasznalokepekkel").child(kapottneptunkod);
         StorageReference storageReference = reference.child("Aláírások").child(kapottnev + " " + kapottneptunkod);
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -112,7 +112,7 @@ public class alairas extends AppCompatActivity {
                         Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, kapottelefonszam, keplink);
                         adatbazis = FirebaseDatabase.getInstance();
                         databaseReference1 = adatbazis.getReference("Felhasznalokepekkel");
-                        databaseReference1.child(kapottnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        databaseReference1.child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();

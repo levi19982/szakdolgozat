@@ -87,7 +87,7 @@ public class marvantelefonszam extends AppCompatActivity {
         alairas = findViewById(R.id.imageView);
         kepfeltoltes.setEnabled(false);
 
-                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev2);
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,7 +114,7 @@ public class marvantelefonszam extends AppCompatActivity {
 
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        final DatabaseReference[] databaseReference = {firebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev)};
+        final DatabaseReference[] databaseReference = {firebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod)};
         DatabaseReference kepbetoltes = databaseReference[0].child("keplink");
 
 
@@ -123,7 +123,7 @@ public class marvantelefonszam extends AppCompatActivity {
         jelentkezes.setEnabled(false);
         sport = findViewById(R.id.valasztottsportagszoveg);
         neptunkod = findViewById(R.id.neptunmkodszoveg);
-        storageReference = FirebaseStorage.getInstance().getReference().child(kapottnev);
+        storageReference = FirebaseStorage.getInstance().getReference().child(kapottneptunkod);
         spinner = findViewById(R.id.sportagvalaszto);
         String[] sportok = getResources().getStringArray(R.array.sportok);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, sportok);
@@ -197,7 +197,7 @@ public class marvantelefonszam extends AppCompatActivity {
                 DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagstring).child(maidatum);
                 adatbazis = FirebaseDatabase.getInstance();
                 databaseReference2 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
-                databaseReference2.child(kapottnev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                databaseReference2.child(kapottneptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                     }
@@ -213,7 +213,7 @@ public class marvantelefonszam extends AppCompatActivity {
                                 jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido, keplink);
                                 adatbazis = firebaseDatabase.getInstance();
                                 databaseReference1 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
-                                databaseReference1.child(kapottnev).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                databaseReference1.child(kapottneptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(marvantelefonszam.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
