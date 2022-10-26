@@ -25,15 +25,15 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/edittextalak"
         android:drawableLeft="@drawable/ic_action_nev"
         android:ems="10"
         android:gravity="center_vertical"
-        android:background="@drawable/edittextalak"
         android:hint="Név"
         android:inputType="textPersonName"
-        android:translationY="650px" />
+        android:translationY="750px" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/neptunkodmezo"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:ems="10"
         android:hint="Neptun kód"
         android:inputType="textPersonName"
-        android:translationY="700px" />
+        android:translationY="550px" />
 
     <Button
         android:id="@+id/fenykephozzaadasa"

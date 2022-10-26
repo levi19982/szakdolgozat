@@ -76,6 +76,7 @@ public class marvantelefonszam extends AppCompatActivity {
         Intent intent = getIntent();
         String kapottnev = intent.getStringExtra("nev");
         String kapottneptunkod = intent.getStringExtra("neptunkod");
+        String kapottnev2 = kapottnev;
 
         firebaseAuth = FirebaseAuth.getInstance();
         editText = findViewById(R.id.idEdtPhoneNumber);
@@ -86,8 +87,7 @@ public class marvantelefonszam extends AppCompatActivity {
         alairas = findViewById(R.id.imageView);
         kepfeltoltes.setEnabled(false);
 
-                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev);
-                databaseReference.child(kapottnev);
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottnev2);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -272,7 +272,7 @@ public class marvantelefonszam extends AppCompatActivity {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(firebaseAuth)
                         .setPhoneNumber(number)
-                        .setTimeout(5L, TimeUnit.SECONDS)
+                        .setTimeout(2L, TimeUnit.SECONDS)
                         .setActivity(this)
                         .setCallbacks(mCallBack)
                         .build();

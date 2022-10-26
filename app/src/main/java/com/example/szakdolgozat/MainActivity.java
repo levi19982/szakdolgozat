@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     String nev, neptunkod;
     Button kijelentkezes, sajatalairasok;
-    TextView neptunkodszoveg, nevszoveg, udvozles;
+    TextView  nevszoveg, udvozles;
+    AutoCompleteTextView neptunkodszoveg;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     float v=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,23 @@ public class MainActivity extends AppCompatActivity {
         neptunkodszoveg = findViewById(R.id.neptunkodmezo);
         nevszoveg = findViewById(R.id.nevmezo);
         udvozles = findViewById(R.id.udvozloszoveg);
+        databaseReference.child("Felhasznalokepekkel").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> proba = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    String nevproba = dataSnapshot.child("neptunkod").getValue().toString();
+                    proba.add(nevproba);
+                }
+                neptunkodszoveg.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, proba));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         udvozles.setTranslationY(300);
         neptunkodszoveg.setTranslationY(300);
@@ -66,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
         sajatalairasok.setAlpha(v);
 
         udvozles.animate().translationY(450).alpha(1).setDuration(1000).setStartDelay(400).start();
-        neptunkodszoveg.animate().translationY(700).alpha(1).setDuration(1000).setStartDelay(400).start();
-        nevszoveg.animate().translationY(600).alpha(1).setDuration(1000).setStartDelay(600).start();
+        neptunkodszoveg.animate().translationY(500).alpha(1).setDuration(1000).setStartDelay(400).start();
+        nevszoveg.animate().translationY(750).alpha(1).setDuration(1000).setStartDelay(600).start();
         kijelentkezes.animate().translationY(900).alpha(1).setDuration(1000).setStartDelay(600).start();
         binding.fenykephozzaadasa.animate().translationY(800).alpha(1).setDuration(1000).setStartDelay(600).start();
         sajatalairasok.animate().translationY(1000).alpha(1).setDuration(1000).setStartDelay(600).start();
@@ -337,22 +360,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        neptunkodszoveg.setOnClickListener(new View.OnClickListener() {
+        nevszoveg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String nev2 = nevszoveg.getText().toString();
-                if (nev2.isEmpty()) {
+                String neptunkod2 = neptunkodszoveg.getText().toString();
+                if (neptunkod2.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel");
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(nev2)) {
-                                String neptunkodszoveg2 = snapshot.child(nev2).child("neptunkod").getValue().toString();
-                                neptunkodszoveg.setText(neptunkodszoveg2);
-                            } else {
-                                Toast.makeText(MainActivity.this, "Nincs ilyen név!", Toast.LENGTH_SHORT).show();
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                String neptunkodproba = dataSnapshot.child("neptunkod").getValue().toString();
+                                if (neptunkod2.equals(neptunkodproba)){
+                                    String beilleszto = dataSnapshot.getKey().toString();
+                                    nevszoveg.setText(beilleszto);
+                                }
+                                else {
+                                    Toast.makeText(MainActivity.this, "Nincs ilyen Neptun kód!", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 

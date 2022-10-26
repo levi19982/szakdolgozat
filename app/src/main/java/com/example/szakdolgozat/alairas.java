@@ -79,7 +79,7 @@ public class alairas extends AppCompatActivity {
                     }
                 });
                 alairasmegerosites.show();
-        }
+            }
         });
     }
     @Override
@@ -101,38 +101,38 @@ public class alairas extends AppCompatActivity {
         String kapottneptunkod = intent.getStringExtra("kapottneptunkod1");
         String kapottelefonszam = intent.getStringExtra("kapotttelefonszam");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference("Felhasznalokepekkel").child(kapottnev);
-            StorageReference storageReference = reference.child("Aláírások").child(kapottnev + " " + kapottneptunkod);
-            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String keplink = uri.toString();
-                            Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, kapottelefonszam, keplink);
-                            adatbazis = FirebaseDatabase.getInstance();
-                            databaseReference1 = adatbazis.getReference("Felhasznalokepekkel");
-                            databaseReference1.child(kapottnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
-                                    Intent intent1 = new Intent(alairas.this, MainActivity.class);
-                                    startActivity(intent1);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+        StorageReference storageReference = reference.child("Aláírások").child(kapottnev + " " + kapottneptunkod);
+        storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String keplink = uri.toString();
+                        Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, kapottelefonszam, keplink);
+                        adatbazis = FirebaseDatabase.getInstance();
+                        databaseReference1 = adatbazis.getReference("Felhasznalokepekkel");
+                        databaseReference1.child(kapottnev).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
+                                Intent intent1 = new Intent(alairas.this, MainActivity.class);
+                                startActivity(intent1);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data){
-                imageUri = data.getData();
-                imageView1.setImageURI(imageUri);
-                kepfeltoltes();
+            imageUri = data.getData();
+            imageView1.setImageURI(imageUri);
+            kepfeltoltes();
         }
     }
 }

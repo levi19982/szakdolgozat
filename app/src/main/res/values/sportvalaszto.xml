@@ -7,6 +7,7 @@
     </string-array>
     <string-array name="chartok">
         <item>Válassz!</item>
+        <item>Próba</item>
         <item>Linechart</item>
         <item>Barchart</item>
     </string-array>

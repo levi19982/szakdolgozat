@@ -8,7 +8,7 @@
     tools:context=".sajatalairasok"
     android:background="@drawable/hatter">
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/kapottnev"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
