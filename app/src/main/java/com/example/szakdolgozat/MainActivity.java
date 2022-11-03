@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                     if (neptunkodszoveg.getText().toString().equals(dataSnapshot.getKey().toString())){
                                         String beilleszto = dataSnapshot.child("nev").getValue().toString();
-                                        //Toast.makeText(MainActivity.this, proba.get(i).toString(), Toast.LENGTH_SHORT).show();
                                         nevszoveg.setText(beilleszto);
                                     }
                                 }
@@ -166,8 +165,7 @@ public class MainActivity extends AppCompatActivity {
                                                         long perckulonbseg = masodperc / 60;
                                                         long hatravan = 30 - perckulonbseg;
                                                         String hatravanido = Long.toString(hatravan);
-                                                        if (masodperc > 0) {
-                                                            //if (perckulonbseg >= 30) {
+                                                            if (perckulonbseg >= 30) {
                                                             String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
                                                             jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
                                                             DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
@@ -333,9 +331,8 @@ public class MainActivity extends AppCompatActivity {
         binding.fenykephozzaadasa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 nev = binding.nevmezo.getText().toString();
-                neptunkod = binding.neptunkodmezo.getText().toString();
+                neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
                 String atmenetitelefonszam = null;
                 String atmenetikeplink = null;
                 if ((!nevszoveg.getText().toString().isEmpty()) && (!neptunkodszoveg.getText().toString().isEmpty())) {
@@ -359,10 +356,18 @@ public class MainActivity extends AppCompatActivity {
                                 });
                             }
                             if (snapshot.hasChild(neptunkod)) {
-                                Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
-                                intent.putExtra("nev", nev);
-                                intent.putExtra("neptunkod", neptunkod);
-                                startActivity(intent);
+                                if (snapshot.child(neptunkod).child("keplink").getValue().toString().equals("Megváltoztatni")) {
+                                    Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
+                                    intent.putExtra("nev", nev);
+                                    intent.putExtra("neptunkod", neptunkod);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
+                                    intent.putExtra("nev", nev);
+                                    intent.putExtra("neptunkod", neptunkod);
+                                    startActivity(intent);
+                                }
                             }
                         }
 
