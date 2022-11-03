@@ -55,6 +55,17 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
         String kapottnev = intent.getStringExtra("nev");
         String kapottneptunkod = intent.getStringExtra("neptunkod");
 
+        AlertDialog alertDialog1 = new AlertDialog.Builder(alairasmegvaltoztatasa.this).create();
+        alertDialog1.setTitle("Aláírás megváltoztatása");
+        alertDialog1.setMessage("A folytatáshoz kérjük változtassa meg az aláírását!");
+        alertDialog1.setButton(AlertDialog.BUTTON_POSITIVE, "Rendben!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alertDialog1.dismiss();
+            }
+        });
+        alertDialog1.show();
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
