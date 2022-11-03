@@ -355,12 +355,12 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 });
                             }
-                            if (snapshot.hasChild(neptunkod)) {
+                            else {
                                 if (snapshot.child(neptunkod).child("keplink").getValue().toString().equals("Megváltoztatni")) {
-                                    Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
-                                    intent.putExtra("nev", nev);
-                                    intent.putExtra("neptunkod", neptunkod);
-                                    startActivity(intent);
+                                    Intent intent3 = new Intent(MainActivity.this, alairasmegvaltoztatasa.class);
+                                    intent3.putExtra("nev", nev);
+                                    intent3.putExtra("neptunkod", neptunkod);
+                                    startActivity(intent3);
                                 }
                                 else {
                                     Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
