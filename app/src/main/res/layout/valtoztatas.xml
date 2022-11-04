@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/alairasvaltoztatasagomb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Aláírás"
+        app:cornerRadius="20dp" />
+
+    <Button
+        android:id="@+id/neptunkodvaltoztatasagomb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/alairasvaltoztatasagomb"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Neptun kód"
+        app:cornerRadius="20dp" />
+
+    <Button
+        android:id="@+id/nevvaltoztatasagomb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/neptunkodvaltoztatasagomb"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Név"
+        app:cornerRadius="20dp" />
+
+    <Button
+        android:id="@+id/telefonszamvaltoztatasagomb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nevvaltoztatasagomb"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#FF5722"
+        android:text="Telefonszám"
+        app:cornerRadius="20dp" />
+</RelativeLayout>

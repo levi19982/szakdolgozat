@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.szakdolgozat.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     String nev, neptunkod;
-    Button kijelentkezes, sajatalairasok;
+    Button kijelentkezes, sajatalairasok, adatvaltoztatas, alairasvaltoztatas, neptunkodvaltoztatas, nevvaltoztatas, telefonszamvaltoztatas, megerositesgomb;
     TextView  nevszoveg, udvozles;
     AutoCompleteTextView neptunkodszoveg;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     float v=0;
+    AlertDialog.Builder builder, builder2;
+    AlertDialog alertDialog, alertDialog2;
+    EditText seged;
+    int segedvaltozo = 0;
 
 
     @Override
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         neptunkodszoveg = findViewById(R.id.neptunkodmezo);
         nevszoveg = findViewById(R.id.nevmezo);
         udvozles = findViewById(R.id.udvozloszoveg);
+        adatvaltoztatas = findViewById(R.id.adatokvaltoztatasagomb);
+
 
         databaseReference.child("Felhasznalokepekkel").addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         kijelentkezes.setTranslationY(300);
         binding.fenykephozzaadasa.setTranslationY(300);
         sajatalairasok.setTranslationY(300);
+        adatvaltoztatas.setTranslationY(300);
 
         udvozles.setAlpha(v);
         neptunkodszoveg.setAlpha(v);
@@ -111,13 +121,27 @@ public class MainActivity extends AppCompatActivity {
         kijelentkezes.setAlpha(v);
         binding.fenykephozzaadasa.setAlpha(v);
         sajatalairasok.setAlpha(v);
+        adatvaltoztatas.setAlpha(v);
 
-        udvozles.animate().translationY(450).alpha(1).setDuration(1000).setStartDelay(400).start();
-        neptunkodszoveg.animate().translationY(500).alpha(1).setDuration(1000).setStartDelay(400).start();
-        nevszoveg.animate().translationY(750).alpha(1).setDuration(1000).setStartDelay(600).start();
-        kijelentkezes.animate().translationY(900).alpha(1).setDuration(1000).setStartDelay(600).start();
-        binding.fenykephozzaadasa.animate().translationY(800).alpha(1).setDuration(1000).setStartDelay(600).start();
-        sajatalairasok.animate().translationY(1000).alpha(1).setDuration(1000).setStartDelay(600).start();
+        udvozles.animate().translationY(250).alpha(1).setDuration(1000).setStartDelay(400).start();
+        neptunkodszoveg.animate().translationY(300).alpha(1).setDuration(1000).setStartDelay(400).start();
+        nevszoveg.animate().translationY(550).alpha(1).setDuration(1000).setStartDelay(600).start();
+        binding.fenykephozzaadasa.animate().translationY(600).alpha(1).setDuration(1000).setStartDelay(600).start();
+        kijelentkezes.animate().translationY(700).alpha(1).setDuration(1000).setStartDelay(600).start();
+        sajatalairasok.animate().translationY(800).alpha(1).setDuration(1000).setStartDelay(600).start();
+        adatvaltoztatas.animate().translationY(900).alpha(1).setDuration(1000).setStartDelay(600).start();
+
+        adatvaltoztatas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ((nevszoveg.getText().toString().isEmpty()) || (neptunkodszoveg.getText().toString().isEmpty())){
+                    Toast.makeText(MainActivity.this, "Kérjük töltse ki mind a két mezőt!", Toast.LENGTH_SHORT).show();
+                }
+                else if (!(nevszoveg.getText().toString().isEmpty()) && !(neptunkodszoveg.getText().toString().isEmpty())){
+                    felugroablak2();
+                }
+            }
+        });
 
         sajatalairasok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,8 +245,7 @@ public class MainActivity extends AppCompatActivity {
                                                         long perckulonbseg = masodperc / 60;
                                                         long hatravan = 30 - perckulonbseg;
                                                         String hatravanido = Long.toString(hatravan);
-                                                        if (masodperc > 0) {
-                                                            //if (perckulonbseg >= 30) {
+                                                            if (perckulonbseg >= 30) {
                                                             String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
                                                             jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
                                                             DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
@@ -388,5 +411,129 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+}
+public void felugroablak2(){
+        builder = new AlertDialog.Builder(MainActivity.this);
+        View view5 = getLayoutInflater().inflate(R.layout.valtoztatas, null);
+        alairasvaltoztatas = view5.findViewById(R.id.alairasvaltoztatasagomb);
+        neptunkodvaltoztatas = view5.findViewById(R.id.neptunkodvaltoztatasagomb);
+        nevvaltoztatas = view5.findViewById(R.id.nevvaltoztatasagomb);
+        telefonszamvaltoztatas = view5.findViewById(R.id.telefonszamvaltoztatasagomb);
+
+        String minta = "yyyy-MM-dd";
+        DateFormat dateFormat = new SimpleDateFormat(minta);
+        Date mainap = Calendar.getInstance().getTime();
+        String maidatum = dateFormat.format(mainap);
+
+        builder.setView(view5);
+        alertDialog = builder.create();
+        alertDialog.show();
+
+        alairasvaltoztatas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nev = binding.nevmezo.getText().toString();
+                neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
+                String alairasvaltoztatsstring = neptunkod + " szeretné megváltoztatni az aláírását!";
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                valtoztatass valtoztatass = new valtoztatass(alairasvaltoztatsstring);
+                databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        neptunkodvaltoztatas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                segedvaltozo = 1;
+                felugroablak3();
+            }
+        });
+
+    nevvaltoztatas.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            segedvaltozo = 2;
+            felugroablak3();
+        }
+    });
+
+    telefonszamvaltoztatas.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            segedvaltozo = 3;
+            felugroablak3();
+        }
+    });
+}
+public void felugroablak3(){
+    builder2 = new AlertDialog.Builder(MainActivity.this);
+    View view6 = getLayoutInflater().inflate(R.layout.valtoztatasseged, null);
+    seged = view6.findViewById(R.id.valtoztatassegedgomb);
+    megerositesgomb = view6.findViewById(R.id.megerosites);
+
+    builder2.setView(view6);
+    alertDialog2 = builder2.create();
+    alertDialog2.show();
+
+    String minta = "yyyy-MM-dd";
+    DateFormat dateFormat = new SimpleDateFormat(minta);
+    Date mainap = Calendar.getInstance().getTime();
+    String maidatum = dateFormat.format(mainap);
+    nev = binding.nevmezo.getText().toString();
+    neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
+
+    megerositesgomb.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (seged.getText().toString().isEmpty()){
+                Toast.makeText(MainActivity.this, "Nem írt be semmit!", Toast.LENGTH_SHORT).show();
+                alertDialog2.dismiss();
+            }
+            else {
+                if (segedvaltozo == 1){
+                    String valtoztatas = neptunkod + " szeretné megváltoztatni a Neptun kódját a következőre: " + seged.getText().toString();
+                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                valtoztatass valtoztatass = new valtoztatass(valtoztatas);
+                databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                        alertDialog2.dismiss();
+                    }
+                });
+            }
+                if (segedvaltozo == 2){
+                    String valtoztatas = neptunkod + " szeretné megváltoztatni a nevét a következőre: " + seged.getText().toString();
+                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
+                    databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                            alertDialog2.dismiss();
+                        }
+                    });
+                }
+                if (segedvaltozo == 3){
+                    String valtoztatas = neptunkod + " szeretné megváltoztatni a telefonszámát a következőre: " + seged.getText().toString();
+                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
+                    databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                            alertDialog2.dismiss();
+                        }
+                    });
+                }
+            }
+        }
+    });
+
 }
 }
