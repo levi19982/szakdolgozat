@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,7 +42,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.mlkit.vision.face.FaceDetectorOptions;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -69,14 +69,14 @@ public class marvantelefonszam extends AppCompatActivity {
     StorageReference reference = FirebaseStorage.getInstance().getReference();
     DatabaseReference databaseReference1 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marvantelefonszam);
-        Intent intent = getIntent();
-        String kapottnev = intent.getStringExtra("nev");
-        String kapottneptunkod = intent.getStringExtra("neptunkod");
-        String kapottnev2 = kapottnev;
+        Intent marvantelefonszamhozseged = getIntent();
+        String kapottnev = marvantelefonszamhozseged.getStringExtra("nev");
+        String kapottneptunkod = marvantelefonszamhozseged.getStringExtra("neptunkod");
 
         firebaseAuth = FirebaseAuth.getInstance();
         editText = findViewById(R.id.idEdtPhoneNumber);
@@ -114,9 +114,6 @@ public class marvantelefonszam extends AppCompatActivity {
 
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        final DatabaseReference[] databaseReference = {firebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod)};
-        DatabaseReference kepbetoltes = databaseReference[0].child("keplink");
-
 
         nev = findViewById(R.id.nevszoveg);
         jelentkezes = findViewById(R.id.jelentkezesgomb);
@@ -188,20 +185,10 @@ public class marvantelefonszam extends AppCompatActivity {
                 String minta = "yyyy-MM-dd";
                 String eltottiido = null;
                 String kijelentkezesiidopont = null;
-                String keplink = null;
                 DateFormat dateFormat = new SimpleDateFormat(minta);
                 Date mainap = Calendar.getInstance().getTime();
                 String maidatum = dateFormat.format(mainap);
                 String sportagstring = sport.getText().toString();
-                jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido, keplink);
-                DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok").child(sportagstring).child(maidatum);
-                adatbazis = FirebaseDatabase.getInstance();
-                databaseReference2 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
-                databaseReference2.child(kapottneptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
                 StorageReference storageReference = reference.child("Sportok").child(sportagstring).child(maidatum).child(kapottnev + " " + kapottneptunkod);
                 storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -212,13 +199,12 @@ public class marvantelefonszam extends AppCompatActivity {
                                 String keplink = uri.toString();
                                 jelentkezettek jelentkezettek = new jelentkezettek(kapottnev, kapottneptunkod, felhasznaloidopont, kijelentkezesiidopont, eltottiido, keplink);
                                 adatbazis = firebaseDatabase.getInstance();
-                                databaseReference1 = adatbazis.getReference("Sportok").child(sportagstring).child(maidatum);
-                                databaseReference1.child(kapottneptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                databaseReference1.child("Sportok").child(sportagstring).child(maidatum).child(kapottneptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(marvantelefonszam.this, "Sikeresen hozzáadva az időpont a következő sportághoz: " + sportagstring, Toast.LENGTH_SHORT).show();
-                                        Intent intent1 = new Intent(marvantelefonszam.this, MainActivity.class);
-                                        startActivity(intent1);
+                                        Intent backtomainactivity = new Intent(marvantelefonszam.this, MainActivity.class);
+                                        startActivity(backtomainactivity);
                                     }
                                 });
                             }
@@ -232,14 +218,14 @@ public class marvantelefonszam extends AppCompatActivity {
 
     private void SelectImage()
     {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        intent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        Intent kepkivalasztasamarvantelefonszamban = new Intent(Intent.ACTION_PICK);
+        kepkivalasztasamarvantelefonszamban.setType("image/*");
+        kepkivalasztasamarvantelefonszamban.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
+        startActivityForResult(kepkivalasztasamarvantelefonszamban, PICK_IMAGE_REQUEST);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle oldInstanceState) {
+    protected void onSaveInstanceState(@NonNull Bundle oldInstanceState) {
         super.onSaveInstanceState(oldInstanceState);
         oldInstanceState.clear();
     }
@@ -284,7 +270,7 @@ public class marvantelefonszam extends AppCompatActivity {
             mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
         }

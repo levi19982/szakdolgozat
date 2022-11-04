@@ -1,21 +1,12 @@
 package com.example.szakdolgozat;
 
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
-import android.content.ActivityNotFoundException;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -24,31 +15,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anychart.core.cartesian.series.Bar;
-import com.anychart.core.cartesian.series.JumpLine;
-import com.anychart.data.Mapping;
-import com.anychart.data.Set;
-import com.anychart.enums.HoverMode;
-import com.anychart.enums.TooltipDisplayMode;
-import com.anychart.enums.TooltipPositionMode;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
 
 public class sajatalairasok extends AppCompatActivity {
 
@@ -89,7 +71,7 @@ public class sajatalairasok extends AppCompatActivity {
                     String nevproba = dataSnapshot.child("neptunkod").getValue().toString();
                     proba.add(nevproba);
                 }
-                nev.setAdapter(new ArrayAdapter<String>(sajatalairasok.this, android.R.layout.simple_list_item_1, proba));
+                nev.setAdapter(new ArrayAdapter<>(sajatalairasok.this, android.R.layout.simple_list_item_1, proba));
             }
 
             @Override
@@ -113,6 +95,7 @@ public class sajatalairasok extends AppCompatActivity {
                     Toast.makeText(sajatalairasok.this, "Kérjük írja be nevét!", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseReference1.addValueEventListener(new ValueEventListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int elofordulasok = 0;
@@ -120,7 +103,7 @@ public class sajatalairasok extends AppCompatActivity {
                             nevek.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                                        String valami = dataSnapshot1.getKey().toString();
+                                        String valami = dataSnapshot1.getKey();
                                         if (!valami.equals("datum")) {
                                             String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
                                             if (valami1.equals(nev.getText().toString())){
@@ -138,6 +121,7 @@ public class sajatalairasok extends AppCompatActivity {
                         }
                     });
                     databaseReference2.addValueEventListener(new ValueEventListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int elofordulasok2 = 0;
@@ -145,7 +129,7 @@ public class sajatalairasok extends AppCompatActivity {
                             nevek2.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                                    String valami = dataSnapshot1.getKey().toString();
+                                    String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
                                         String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
                                         if (valami1.equals(nev.getText().toString())){
@@ -163,6 +147,7 @@ public class sajatalairasok extends AppCompatActivity {
                         }
                     });
                     databaseReference3.addValueEventListener(new ValueEventListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int elofordulasok3 = 0;
@@ -170,7 +155,7 @@ public class sajatalairasok extends AppCompatActivity {
                             nevek3.clear();
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                                    String valami = dataSnapshot1.getKey().toString();
+                                    String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
                                             String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
                                         if (valami1.equals(nev.getText().toString())){
@@ -201,7 +186,7 @@ public class sajatalairasok extends AppCompatActivity {
                             if (!tanc.getText().toString().equals("")) {
                                 osszesalairas += Integer.parseInt(tanc.getText().toString());
                             }
-                            alairasok.setText("Összes aláírásainak száma: " + String.valueOf(osszesalairas));
+                            alairasok.setText("Összes aláírásainak száma: " + osszesalairas);
                             osszesalairasseged.setText(String.valueOf(osszesalairas));
                         }
                     }, 500);
@@ -244,21 +229,10 @@ public class sajatalairasok extends AppCompatActivity {
                 if (seged < 1){
                     Toast.makeText(sajatalairasok.this, "Nincs egy aláírása sem!", Toast.LENGTH_SHORT).show();
                 } else {
-                    /*for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                            String valami = dataSnapshot1.getKey().toString();
-                            if (!valami.equals("datum")) {
-                                String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())){
-                                    elofordulasok3++;
-                                }
-                            }
-                        }
-                    }*/
                     stringBuilder.append("Ijaszat idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Íjászat").getChildren()){
                         for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()){
-                            String valami = dataSnapshot5.getKey().toString();
+                            String valami = dataSnapshot5.getKey();
                             if (!valami.equals("datum")){
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
                                 if (valami1.equals(nev.getText().toString())){
@@ -271,7 +245,7 @@ public class sajatalairasok extends AppCompatActivity {
                     stringBuilder.append("\n" + "Konditerem idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Konditerem").getChildren()){
                         for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()){
-                            String valami = dataSnapshot5.getKey().toString();
+                            String valami = dataSnapshot5.getKey();
                             if (!valami.equals("datum")){
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
                                 if (valami1.equals(nev.getText().toString())){
@@ -284,7 +258,7 @@ public class sajatalairasok extends AppCompatActivity {
                     stringBuilder.append("\n" + "Tanc idopontjai" + "\n");
                     for (DataSnapshot dataSnapshot : snapshot.child("Tánc").getChildren()){
                         for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()){
-                            String valami = dataSnapshot5.getKey().toString();
+                            String valami = dataSnapshot5.getKey();
                             if (!valami.equals("datum")){
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
                                 if (valami1.equals(nev.getText().toString())){
@@ -303,13 +277,13 @@ public class sajatalairasok extends AppCompatActivity {
                         fileWriter.close();
                     } catch (Exception e){}
                     Uri uri = FileProvider.getUriForFile(sajatalairasok.this, getPackageName()+ ".provider", textfajl);
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    intent.setType("vnd.android.cursor.dir/email");
-                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);
-                    intent.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
-                    startActivity(Intent.createChooser(intent , "Send email..."));
+                    Intent emailkuldeshez = new Intent(Intent.ACTION_SEND);
+                    emailkuldeshez.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    emailkuldeshez.setType("vnd.android.cursor.dir/email");
+                    emailkuldeshez.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
+                    emailkuldeshez.putExtra(Intent.EXTRA_STREAM, uri);
+                    emailkuldeshez.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
+                    startActivity(Intent.createChooser(emailkuldeshez , "Send email..."));
                 }
             }
 

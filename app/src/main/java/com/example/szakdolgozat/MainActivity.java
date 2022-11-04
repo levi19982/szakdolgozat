@@ -13,10 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.szakdolgozat.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,8 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     String nevproba = dataSnapshot.child("neptunkod").getValue().toString();
                     proba.add(nevproba);
                 }
-                neptunkodszoveg.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, proba));
+                neptunkodszoveg.setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, proba));
                 neptunkodszoveg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -84,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    if (neptunkodszoveg.getText().toString().equals(dataSnapshot.getKey().toString())){
+                                    if (neptunkodszoveg.getText().toString().equals(dataSnapshot.getKey())){
                                         String beilleszto = dataSnapshot.child("nev").getValue().toString();
                                         nevszoveg.setText(beilleszto);
                                     }
@@ -146,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
         sajatalairasok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(MainActivity.this, sajatalairasok.class);
-                startActivity(intent2);
+                Intent sajatalairasokhoz = new Intent(MainActivity.this, sajatalairasok.class);
+                startActivity(sajatalairasokhoz);
             }
         });
 
@@ -173,9 +169,7 @@ public class MainActivity extends AppCompatActivity {
                                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                            databaseReference2 = adatbazis.getReference("Sportok").child("Íjászat").child(felhasznaloidopont);
-                                            databaseReference2.child(neptunkod).addValueEventListener(new ValueEventListener() {
+                                            databaseReference.child("Íjászat").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
@@ -190,11 +184,9 @@ public class MainActivity extends AppCompatActivity {
                                                         long hatravan = 30 - perckulonbseg;
                                                         String hatravanido = Long.toString(hatravan);
                                                             if (perckulonbseg >= 30) {
-                                                            String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
+                                                            String eltottiido = (perckulonbseg) + " " + "perc";
                                                             jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
-                                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                                            databaseReference2 = adatbazis.getReference("Sportok").child("Íjászat").child(felhasznaloidopont);
-                                                            databaseReference2.child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            databaseReference.child("Íjászat").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
@@ -229,9 +221,7 @@ public class MainActivity extends AppCompatActivity {
                                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                            databaseReference2 = adatbazis.getReference("Sportok").child("Konditerem").child(felhasznaloidopont);
-                                            databaseReference2.child(neptunkod).addValueEventListener(new ValueEventListener() {
+                                            databaseReference.child("Konditerem").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
@@ -246,11 +236,9 @@ public class MainActivity extends AppCompatActivity {
                                                         long hatravan = 30 - perckulonbseg;
                                                         String hatravanido = Long.toString(hatravan);
                                                             if (perckulonbseg >= 30) {
-                                                            String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
+                                                            String eltottiido = (perckulonbseg) + " " + "perc";
                                                             jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
-                                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                                            databaseReference2 = adatbazis.getReference("Sportok").child("Konditerem").child(felhasznaloidopont);
-                                                            databaseReference2.child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            databaseReference.child("Konditerem").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
@@ -285,9 +273,7 @@ public class MainActivity extends AppCompatActivity {
                                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                            databaseReference2 = adatbazis.getReference("Sportok").child("Tánc").child(felhasznaloidopont);
-                                            databaseReference2.child(neptunkod).addValueEventListener(new ValueEventListener() {
+                                            databaseReference.child("Tánc").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                     String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
@@ -303,11 +289,9 @@ public class MainActivity extends AppCompatActivity {
                                                         String hatravanido = Long.toString(hatravan);
                                                         if (masodperc > 0) {
                                                             //if (perckulonbseg >= 30) {
-                                                            String eltottiido = Long.toString(perckulonbseg) + " " + "perc";
+                                                            String eltottiido = (perckulonbseg) + " " + "perc";
                                                             jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
-                                                            DatabaseReference databaseReference2 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
-                                                            databaseReference2 = adatbazis.getReference("Sportok").child("Tánc").child(felhasznaloidopont);
-                                                            databaseReference2.child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            databaseReference.child("Sportok").child("Tánc").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
@@ -371,25 +355,25 @@ public class MainActivity extends AppCompatActivity {
                                 databaseReference.child(neptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Intent intent1 = new Intent(MainActivity.this, telefonszamhozzaadasa.class);
-                                        intent1.putExtra("nev", nev);
-                                        intent1.putExtra("neptunkod", neptunkod);
-                                        startActivity(intent1);
+                                        Intent telefonszamhozzaadasahoz = new Intent(MainActivity.this, telefonszamhozzaadasa.class);
+                                        telefonszamhozzaadasahoz.putExtra("nev", nev);
+                                        telefonszamhozzaadasahoz.putExtra("neptunkod", neptunkod);
+                                        startActivity(telefonszamhozzaadasahoz);
                                     }
                                 });
                             }
                             else {
                                 if (snapshot.child(neptunkod).child("keplink").getValue().toString().equals("Megváltoztatni")) {
-                                    Intent intent3 = new Intent(MainActivity.this, alairasmegvaltoztatasa.class);
-                                    intent3.putExtra("nev", nev);
-                                    intent3.putExtra("neptunkod", neptunkod);
-                                    startActivity(intent3);
+                                    Intent alairasmegvaltoztatasahoz = new Intent(MainActivity.this, alairasmegvaltoztatasa.class);
+                                    alairasmegvaltoztatasahoz.putExtra("nev", nev);
+                                    alairasmegvaltoztatasahoz.putExtra("neptunkod", neptunkod);
+                                    startActivity(alairasmegvaltoztatasahoz);
                                 }
                                 else {
-                                    Intent intent = new Intent(MainActivity.this, marvantelefonszam.class);
-                                    intent.putExtra("nev", nev);
-                                    intent.putExtra("neptunkod", neptunkod);
-                                    startActivity(intent);
+                                    Intent marvantelefonszamhoz = new Intent(MainActivity.this, marvantelefonszam.class);
+                                    marvantelefonszamhoz.putExtra("nev", nev);
+                                    marvantelefonszamhoz.putExtra("neptunkod", neptunkod);
+                                    startActivity(marvantelefonszamhoz);
                                 }
                             }
                         }

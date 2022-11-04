@@ -37,7 +37,6 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
     SignaturePad signaturePad;
     FirebaseDatabase adatbazis;
     ImageView imageView1;
-    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance("gs://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app/");
     StorageReference reference = FirebaseStorage.getInstance().getReference();
     Uri imageUri;
     private final int PICK_IMAGE_REQUEST = 23;
@@ -51,9 +50,9 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
         Button button = findViewById(R.id.alairasfeltoltess);
         signaturePad = findViewById(R.id.alairashelye);
         imageView1 = findViewById(R.id.imageView);
-        Intent intent = getIntent();
-        String kapottnev = intent.getStringExtra("nev");
-        String kapottneptunkod = intent.getStringExtra("neptunkod");
+        Intent mainactivitybol = getIntent();
+        String kapottnev = mainactivitybol.getStringExtra("nev");
+        String kapottneptunkod = mainactivitybol.getStringExtra("neptunkod");
 
         AlertDialog alertDialog1 = new AlertDialog.Builder(alairasmegvaltoztatasa.this).create();
         alertDialog1.setTitle("Aláírás megváltoztatása");
@@ -99,24 +98,23 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
     }
     private void SelectImage()
     {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        intent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        Intent kepkivalasztasa = new Intent(Intent.ACTION_PICK);
+        kepkivalasztasa.setType("image/*");
+        kepkivalasztasa.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
+        startActivityForResult(kepkivalasztasa, PICK_IMAGE_REQUEST);
     }
     private void kepfeltoltes(){
-        Intent intent = getIntent();
-        String kapottneptunkod = intent.getStringExtra("neptunkod");
+        Intent mainactivitybolseged = getIntent();
+        String kapottneptunkod = mainactivitybolseged.getStringExtra("neptunkod");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String nev;
-                String neptunkod = kapottneptunkod;
                 String telefonszam;
                 nev = snapshot.child("nev").getValue().toString();
                 telefonszam = snapshot.child("telefonszam").getValue().toString();
-                StorageReference storageReference = reference.child("Aláírások").child(nev + " " + neptunkod);
+                StorageReference storageReference = reference.child("Aláírások").child(nev + " " + kapottneptunkod);
                 storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -124,15 +122,15 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 String keplink = uri.toString();
-                                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, telefonszam, keplink);
+                                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, kapottneptunkod, telefonszam, keplink);
                                 adatbazis = FirebaseDatabase.getInstance();
                                 databaseReference1 = adatbazis.getReference("Felhasznalokepekkel");
-                                databaseReference1.child(neptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                databaseReference1.child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
-                                        Intent intent13 = new Intent(alairasmegvaltoztatasa.this, MainActivity.class);
-                                        startActivity(intent13);
+                                        Intent mainactivityhez = new Intent(alairasmegvaltoztatasa.this, MainActivity.class);
+                                        startActivity(mainactivityhez);
                                     }
                                 });
                             }

@@ -34,7 +34,6 @@ public class alairas extends AppCompatActivity {
     SignaturePad signaturePad;
     FirebaseDatabase adatbazis;
     ImageView imageView1;
-    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance("gs://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app/");
     StorageReference reference = FirebaseStorage.getInstance().getReference();
     Uri imageUri;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -51,10 +50,9 @@ public class alairas extends AppCompatActivity {
         Button button = findViewById(R.id.alairasfeltoltess);
         signaturePad = findViewById(R.id.alairashelye);
         imageView1 = findViewById(R.id.imageView);
-        Intent intent = getIntent();
-        String kapottnev = intent.getStringExtra("kapottnev1");
-        String kapottneptunkod = intent.getStringExtra("kapottneptunkod1");
-        String kapottelefonszam = intent.getStringExtra("kapotttelefonszam");
+        Intent alairashozseged = getIntent();
+        String kapottnev = alairashozseged.getStringExtra("kapottnev1");
+        String kapottneptunkod = alairashozseged.getStringExtra("kapottneptunkod1");
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,18 +87,17 @@ public class alairas extends AppCompatActivity {
     }
     private void SelectImage()
     {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        intent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        Intent kepkivalasztasaalairasban = new Intent(Intent.ACTION_PICK);
+        kepkivalasztasaalairasban.setType("image/*");
+        kepkivalasztasaalairasban.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
+        startActivityForResult(kepkivalasztasaalairasban, PICK_IMAGE_REQUEST);
     }
 
     private void kepfeltoltes(){
-        Intent intent = getIntent();
-        String kapottnev = intent.getStringExtra("kapottnev1");
-        String kapottneptunkod = intent.getStringExtra("kapottneptunkod1");
-        String kapottelefonszam = intent.getStringExtra("kapotttelefonszam");
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference("Felhasznalokepekkel").child(kapottneptunkod);
+        Intent alairashozseged2 = getIntent();
+        String kapottnev = alairashozseged2.getStringExtra("kapottnev1");
+        String kapottneptunkod = alairashozseged2.getStringExtra("kapottneptunkod1");
+        String kapottelefonszam = alairashozseged2.getStringExtra("kapotttelefonszam");
         StorageReference storageReference = reference.child("Aláírások").child(kapottnev + " " + kapottneptunkod);
         storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -116,8 +113,8 @@ public class alairas extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
-                                Intent intent1 = new Intent(alairas.this, MainActivity.class);
-                                startActivity(intent1);
+                                Intent visszamainactivity = new Intent(alairas.this, MainActivity.class);
+                                startActivity(visszamainactivity);
                             }
                         });
                     }
