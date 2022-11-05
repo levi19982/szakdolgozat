@@ -186,7 +186,8 @@ public class sajatalairasok extends AppCompatActivity {
                             if (!tanc.getText().toString().equals("")) {
                                 osszesalairas += Integer.parseInt(tanc.getText().toString());
                             }
-                            alairasok.setText("Összes aláírásainak száma: " + osszesalairas);
+                            String segedstring = "Összes aláírásainak száma: " + osszesalairas;
+                            alairasok.setText(segedstring);
                             osszesalairasseged.setText(String.valueOf(osszesalairas));
                         }
                     }, 500);
@@ -198,10 +199,10 @@ public class sajatalairasok extends AppCompatActivity {
         if (!nev.getText().toString().isEmpty()) {
             if (!alairasok.getText().toString().isEmpty()) {
                 builder = new AlertDialog.Builder(this);
-                View view2 = getLayoutInflater().inflate(R.layout.emailmegadasa, null);
-                emailmegadasa = view2.findViewById(R.id.emailkuldeseidegomb);
-                kuldesgomb = view2.findViewById(R.id.button);
-                builder.setView(view2);
+                View emailmegadasaview = getLayoutInflater().inflate(R.layout.emailmegadasa, null);
+                emailmegadasa = emailmegadasaview.findViewById(R.id.emailkuldeseidegomb);
+                kuldesgomb = emailmegadasaview.findViewById(R.id.button);
+                builder.setView(emailmegadasaview);
                 alertDialog = builder.create();
                 alertDialog.show();
                 kuldesgomb.setOnClickListener(new View.OnClickListener() {

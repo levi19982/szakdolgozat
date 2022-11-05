@@ -421,7 +421,7 @@ public void felugroablak2(){
                 String alairasvaltoztatsstring = neptunkod + " szeretné megváltoztatni az aláírását!";
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
                 valtoztatass valtoztatass = new valtoztatass(alairasvaltoztatsstring);
-                databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
@@ -483,7 +483,7 @@ public void felugroablak3(){
                     String valtoztatas = neptunkod + " szeretné megváltoztatni a Neptun kódját a következőre: " + seged.getText().toString();
                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
                 valtoztatass valtoztatass = new valtoztatass(valtoztatas);
-                databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
@@ -495,7 +495,7 @@ public void felugroablak3(){
                     String valtoztatas = neptunkod + " szeretné megváltoztatni a nevét a következőre: " + seged.getText().toString();
                     databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
                     valtoztatass valtoztatass = new valtoztatass(valtoztatas);
-                    databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
@@ -507,7 +507,7 @@ public void felugroablak3(){
                     String valtoztatas = neptunkod + " szeretné megváltoztatni a telefonszámát a következőre: " + seged.getText().toString();
                     databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
                     valtoztatass valtoztatass = new valtoztatass(valtoztatas);
-                    databaseReference.child(neptunkod + " " + maidatum).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();

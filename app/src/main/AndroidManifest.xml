@@ -24,31 +24,10 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".alairasokmegtekintese"
-            android:exported="false" />
-        <activity
-            android:name=".jelentkezetteklista"
-            android:exported="false" />
-        <activity
             android:name=".alairas"
             android:exported="false" />
         <activity
             android:name=".sajatalairasok"
-            android:exported="false" />
-        <activity
-            android:name=".atfogostatisztika"
-            android:exported="false" />
-        <activity
-            android:name=".sportagstatisztika"
-            android:exported="false" />
-        <activity
-            android:name=".statisztika"
-            android:exported="false" />
-        <activity
-            android:name=".esemenyletrehozasa"
-            android:exported="false" />
-        <activity
-            android:name=".adminmenu"
             android:exported="false" />
         <activity
             android:name=".marvantelefonszam"
