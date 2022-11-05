@@ -87,7 +87,6 @@ public class sajatalairasok extends AppCompatActivity {
             }
         });
 
-
         alairasokszam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +105,7 @@ public class sajatalairasok extends AppCompatActivity {
                                     String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
                                         String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                        if (valami1.equals(nev.getText().toString())) {
+                                        if ((valami1.equals(nev.getText().toString())) && (dataSnapshot1.hasChild("kijelentkezesidopontja"))) {
                                             elofordulasok++;
                                         }
                                     }
@@ -132,7 +131,7 @@ public class sajatalairasok extends AppCompatActivity {
                                     String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
                                         String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                        if (valami1.equals(nev.getText().toString())) {
+                                        if ((valami1.equals(nev.getText().toString())) && (dataSnapshot1.hasChild("kijelentkezesidopontja"))) {
                                             elofordulasok2++;
                                         }
                                     }
@@ -158,7 +157,7 @@ public class sajatalairasok extends AppCompatActivity {
                                     String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
                                         String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                        if (valami1.equals(nev.getText().toString())) {
+                                        if ((valami1.equals(nev.getText().toString())) && (dataSnapshot1.hasChild("kijelentkezesidopontja"))) {
                                             elofordulasok3++;
                                         }
                                     }
@@ -237,7 +236,7 @@ public class sajatalairasok extends AppCompatActivity {
                             String valami = dataSnapshot5.getKey();
                             if (!valami.equals("datum")) {
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())) {
+                                if ((valami1.equals(nev.getText().toString())) && (dataSnapshot5.hasChild("kijelentkezesidopontja"))) {
                                     String ijaszatidopont = dataSnapshot.getKey();
                                     String ijaszatidoponthozzaadasa = ijaszatidopont + ", ";
                                     stringBuilder.append(ijaszatidoponthozzaadasa);
@@ -251,7 +250,7 @@ public class sajatalairasok extends AppCompatActivity {
                             String valami = dataSnapshot5.getKey();
                             if (!valami.equals("datum")) {
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())) {
+                                if ((valami1.equals(nev.getText().toString())) && (dataSnapshot5.hasChild("kijelentkezesidopontja"))) {
                                     String kondiidopont = dataSnapshot.getKey();
                                     String kondiidoponthozzaadasa = kondiidopont + ", ";
                                     stringBuilder.append(kondiidoponthozzaadasa);
@@ -265,7 +264,7 @@ public class sajatalairasok extends AppCompatActivity {
                             String valami = dataSnapshot5.getKey();
                             if (!valami.equals("datum")) {
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())) {
+                                if ((valami1.equals(nev.getText().toString())) && (dataSnapshot5.hasChild("kijelentkezesidopontja"))) {
                                     String tancidopont = dataSnapshot.getKey();
                                     String tancidoponthozzaadasa = tancidopont + ", ";
                                     stringBuilder.append(tancidoponthozzaadasa);

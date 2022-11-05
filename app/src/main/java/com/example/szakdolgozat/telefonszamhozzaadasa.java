@@ -26,6 +26,7 @@ public class telefonszamhozzaadasa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_telefonszamhozzaadasa);
+
         Intent telefonszamhozzaadasaseged = getIntent();
         String kapottnev = telefonszamhozzaadasaseged.getStringExtra("nev");
         String kapottneptunkod = telefonszamhozzaadasaseged.getStringExtra("neptunkod");
@@ -37,11 +38,9 @@ public class telefonszamhozzaadasa extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, telefonszam.getText().toString(), null);
-                adatbazis = FirebaseDatabase.getInstance();
-                databaseReference = adatbazis.getReference("Felhasznalokepekkel");
                 int hossz = telefonszam.length();
                 if (hossz == 16) {
-                    databaseReference.child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    databaseReference.child("Felhasznalokepekkel").child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(telefonszamhozzaadasa.this, "Telefonszám sikeresen hozzáadva!", Toast.LENGTH_SHORT).show();

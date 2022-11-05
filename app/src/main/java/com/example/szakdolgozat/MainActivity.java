@@ -335,6 +335,8 @@ public class MainActivity extends AppCompatActivity {
         binding.fenykephozzaadasa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String telefonszam = null;
+                String keplink = null;
                 nev = binding.nevmezo.getText().toString();
                 neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
                 if ((!nevszoveg.getText().toString().isEmpty()) && (!neptunkodszoveg.getText().toString().isEmpty())) {
@@ -343,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (!snapshot.hasChild(neptunkod)) {
-                                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, null, null);
+                                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, telefonszam, keplink);
                                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
                                 adatbazis = FirebaseDatabase.getInstance();
                                 databaseReference = adatbazis.getReference("Felhasznalokepekkel");

@@ -31,14 +31,12 @@ import java.io.File;
 
 public class alairas extends AppCompatActivity {
 
-    SignaturePad signaturePad;
-    FirebaseDatabase adatbazis;
-    ImageView imageView1;
+    SignaturePad signaturePadazalairasban;
+    ImageView alairaskepazalairasban;
     StorageReference reference = FirebaseStorage.getInstance().getReference();
     Uri imageUri;
     private final int PICK_IMAGE_REQUEST = 22;
     DatabaseReference databaseReference1 = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +44,8 @@ public class alairas extends AppCompatActivity {
 
         setContentView(R.layout.activity_alairas);
         Button button = findViewById(R.id.alairasfeltoltess);
-        signaturePad = findViewById(R.id.alairashelye);
-        imageView1 = findViewById(R.id.imageView);
+        signaturePadazalairasban = findViewById(R.id.alairashelye);
+        alairaskepazalairasban = findViewById(R.id.imageView);
         Intent alairashozseged = getIntent();
         String kapottnev = alairashozseged.getStringExtra("kapottnev1");
         String kapottneptunkod = alairashozseged.getStringExtra("kapottneptunkod1");
@@ -61,17 +59,17 @@ public class alairas extends AppCompatActivity {
                 alairasmegerosites.setButton(AlertDialog.BUTTON_POSITIVE, "Igen!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Bitmap bitmap = signaturePad.getSignatureBitmap();
-                        signaturePad.clear();
+                        Bitmap bitmap = signaturePadazalairasban.getSignatureBitmap();
+                        signaturePadazalairasban.clear();
                         MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
-                        SelectImage();
+                        kepkivalasztasaalairasban();
                     }
                 });
                 alairasmegerosites.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         alairasmegerosites.dismiss();
-                        signaturePad.clear();
+                        signaturePadazalairasban.clear();
                     }
                 });
                 alairasmegerosites.show();
@@ -85,7 +83,7 @@ public class alairas extends AppCompatActivity {
         oldInstanceState.clear();
     }
 
-    private void SelectImage() {
+    private void kepkivalasztasaalairasban() {
         Intent kepkivalasztasaalairasban = new Intent(Intent.ACTION_PICK);
         kepkivalasztasaalairasban.setType("image/*");
         kepkivalasztasaalairasban.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
@@ -106,9 +104,7 @@ public class alairas extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String keplink = uri.toString();
                         Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(kapottnev, kapottneptunkod, kapottelefonszam, keplink);
-                        adatbazis = FirebaseDatabase.getInstance();
-                        databaseReference1 = adatbazis.getReference("Felhasznalokepekkel");
-                        databaseReference1.child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        databaseReference1.child("Felhasznalokepekkel").child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
@@ -127,7 +123,7 @@ public class alairas extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data) {
             imageUri = data.getData();
-            imageView1.setImageURI(imageUri);
+            alairaskepazalairasban.setImageURI(imageUri);
             kepfeltoltes();
         }
     }

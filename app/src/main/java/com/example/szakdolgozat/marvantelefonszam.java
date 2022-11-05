@@ -52,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 
 public class marvantelefonszam extends AppCompatActivity {
 
-    TextView nev, neptunkod, sport;
+    TextView nev, neptunkod, sport, editText;
     StorageReference storageReference;
     Button jelentkezes, verify, kepfeltoltes;
     private Spinner spinner;
@@ -60,7 +60,6 @@ public class marvantelefonszam extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     FirebaseAuth firebaseAuth;
     EditText editText2;
-    TextView editText;
     String verificationId;
     SignaturePad signaturePad;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -74,6 +73,7 @@ public class marvantelefonszam extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marvantelefonszam);
+
         Intent marvantelefonszamhozseged = getIntent();
         String kapottnev = marvantelefonszamhozseged.getStringExtra("nev");
         String kapottneptunkod = marvantelefonszamhozseged.getStringExtra("neptunkod");
@@ -87,8 +87,7 @@ public class marvantelefonszam extends AppCompatActivity {
         alairas = findViewById(R.id.imageView);
         kepfeltoltes.setEnabled(false);
 
-        databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Felhasznalokepekkel").child(kapottneptunkod).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String phone = snapshot.child("telefonszam").getValue().toString();
@@ -101,6 +100,7 @@ public class marvantelefonszam extends AppCompatActivity {
 
             }
         });
+
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,9 +112,7 @@ public class marvantelefonszam extends AppCompatActivity {
             }
         });
 
-
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-
         nev = findViewById(R.id.nevszoveg);
         jelentkezes = findViewById(R.id.jelentkezesgomb);
         jelentkezes.setEnabled(false);
@@ -160,7 +158,7 @@ public class marvantelefonszam extends AppCompatActivity {
                         Bitmap bitmap = signaturePad.getSignatureBitmap();
                         signaturePad.clear();
                         MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
-                        SelectImage();
+                        kepkivalasztasmarvantelefonszamban();
                     }
                 });
                 alairasmegerosites.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
@@ -216,7 +214,7 @@ public class marvantelefonszam extends AppCompatActivity {
 
     }
 
-    private void SelectImage() {
+    private void kepkivalasztasmarvantelefonszamban() {
         Intent kepkivalasztasamarvantelefonszamban = new Intent(Intent.ACTION_PICK);
         kepkivalasztasamarvantelefonszamban.setType("image/*");
         kepkivalasztasamarvantelefonszamban.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");

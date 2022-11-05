@@ -35,7 +35,6 @@ import java.io.File;
 public class alairasmegvaltoztatasa extends AppCompatActivity {
 
     SignaturePad signaturePad;
-    FirebaseDatabase adatbazis;
     ImageView imageView1;
     StorageReference reference = FirebaseStorage.getInstance().getReference();
     Uri imageUri;
@@ -77,7 +76,7 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
                         Bitmap bitmap = signaturePad.getSignatureBitmap();
                         signaturePad.clear();
                         MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
-                        SelectImage();
+                        kepkivalasztasalairasmegvaltoztatasban();
                     }
                 });
                 alairasmegerosites.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
@@ -98,7 +97,7 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
         oldInstanceState.clear();
     }
 
-    private void SelectImage() {
+    private void kepkivalasztasalairasmegvaltoztatasban() {
         Intent kepkivalasztasa = new Intent(Intent.ACTION_PICK);
         kepkivalasztasa.setType("image/*");
         kepkivalasztasa.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
@@ -125,9 +124,7 @@ public class alairasmegvaltoztatasa extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
                                 String keplink = uri.toString();
                                 Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, kapottneptunkod, telefonszam, keplink);
-                                adatbazis = FirebaseDatabase.getInstance();
-                                databaseReference1 = adatbazis.getReference("Felhasznalokepekkel");
-                                databaseReference1.child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                databaseReference1.child("Felhasznalokepekkel").child(kapottneptunkod).setValue(felhasznalotelefonszamokkal).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         Toast.makeText(getApplicationContext(), "Sikerült feltölteni", Toast.LENGTH_SHORT).show();
