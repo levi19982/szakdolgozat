@@ -1,13 +1,8 @@
 package com.example.szakdolgozat;
 
-import android.net.Uri;
-
 public class Felhasznalotelefonszamokkal {
 
-    String nev, neptunkod,  telefonszam, keplink;
-
-    public Felhasznalotelefonszamokkal() {
-    }
+    String nev, neptunkod, telefonszam, keplink;
 
     public Felhasznalotelefonszamokkal(String nev, String neptunkod, String telefonszam, String keplink) {
         this.nev = nev;
@@ -15,32 +10,4 @@ public class Felhasznalotelefonszamokkal {
         this.telefonszam = telefonszam;
         this.keplink = keplink;
     }
-
-    public String getNev() {
-        return nev;
-    }
-
-    public void setNev(String nev) {
-        this.nev = nev;
-    }
-
-    public String getNeptunkod() {
-        return neptunkod;
-    }
-
-    public void setNeptunkod(String neptunkod) {
-        this.neptunkod = neptunkod;
-    }
-
-    public String getTelefonszam() {
-        return telefonszam;
-    }
-
-    public void setTelefonszam(String telefonszam) {
-        this.telefonszam = telefonszam;
-    }
-
-    public String getKeplink() {return keplink;}
-
-    public void setKeplink(String keplink) {this.keplink = keplink;}
 }

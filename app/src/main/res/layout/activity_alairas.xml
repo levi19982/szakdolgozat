@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".alairas"
     android:background="@drawable/hatter">
-    >
 
     <com.github.gcacace.signaturepad.views.SignaturePad
         android:id="@+id/alairashelye"

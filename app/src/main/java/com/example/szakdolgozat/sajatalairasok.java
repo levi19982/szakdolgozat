@@ -36,7 +36,7 @@ public class sajatalairasok extends AppCompatActivity {
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
     DatabaseReference databaseReference1, databaseReference2, databaseReference3;
-    TextView alairasok,ijaszat, konditerem, tanc, osszesalairasseged;
+    TextView alairasok, ijaszat, konditerem, tanc, osszesalairasseged;
     EditText emailmegadasa;
     Button alairasokszam, alairasokletoltese, kuldesgomb;
     ArrayList<String> nevek = new ArrayList<>();
@@ -67,7 +67,7 @@ public class sajatalairasok extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<String> proba = new ArrayList<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String nevproba = dataSnapshot.child("neptunkod").getValue().toString();
                     proba.add(nevproba);
                 }
@@ -101,15 +101,15 @@ public class sajatalairasok extends AppCompatActivity {
                             int elofordulasok = 0;
                             ijaszat.setText("");
                             nevek.clear();
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                                        String valami = dataSnapshot1.getKey();
-                                        if (!valami.equals("datum")) {
-                                            String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                            if (valami1.equals(nev.getText().toString())){
-                                                elofordulasok++;
-                                            }
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                    String valami = dataSnapshot1.getKey();
+                                    if (!valami.equals("datum")) {
+                                        String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
+                                        if (valami1.equals(nev.getText().toString())) {
+                                            elofordulasok++;
                                         }
+                                    }
                                 }
                             }
                             ijaszat.setText(Integer.toString(elofordulasok));
@@ -127,12 +127,12 @@ public class sajatalairasok extends AppCompatActivity {
                             int elofordulasok2 = 0;
                             konditerem.setText("");
                             nevek2.clear();
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                     String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
                                         String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                        if (valami1.equals(nev.getText().toString())){
+                                        if (valami1.equals(nev.getText().toString())) {
                                             elofordulasok2++;
                                         }
                                     }
@@ -153,12 +153,12 @@ public class sajatalairasok extends AppCompatActivity {
                             int elofordulasok3 = 0;
                             tanc.setText("");
                             nevek3.clear();
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                                     String valami = dataSnapshot1.getKey();
                                     if (!valami.equals("datum")) {
-                                            String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
-                                        if (valami1.equals(nev.getText().toString())){
+                                        String valami1 = dataSnapshot1.child("neptunkod").getValue().toString();
+                                        if (valami1.equals(nev.getText().toString())) {
                                             elofordulasok3++;
                                         }
                                     }
@@ -195,7 +195,8 @@ public class sajatalairasok extends AppCompatActivity {
             }
         });
     }
-    public void emailkuldese(){
+
+    public void emailkuldese() {
         if (!nev.getText().toString().isEmpty()) {
             if (!alairasok.getText().toString().isEmpty()) {
                 builder = new AlertDialog.Builder(this);
@@ -211,15 +212,15 @@ public class sajatalairasok extends AppCompatActivity {
                         emailkuldesemasik();
                     }
                 });
-            }
-            else {
+            } else {
                 Toast.makeText(sajatalairasok.this, "Kérjük először futtassa le az Aláírások számát!", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(sajatalairasok.this, "Kérjük írja be a nevét!", Toast.LENGTH_SHORT).show();
         }
     }
-    public void emailkuldesemasik(){
+
+    public void emailkuldesemasik() {
         File file = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         StringBuilder stringBuilder = new StringBuilder();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Sportok");
@@ -227,64 +228,69 @@ public class sajatalairasok extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int seged = Integer.parseInt(osszesalairasseged.getText().toString());
-                if (seged < 1){
+                if (seged < 1) {
                     Toast.makeText(sajatalairasok.this, "Nincs egy aláírása sem!", Toast.LENGTH_SHORT).show();
                 } else {
                     stringBuilder.append("Ijaszat idopontjai" + "\n");
-                    for (DataSnapshot dataSnapshot : snapshot.child("Íjászat").getChildren()){
-                        for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()){
+                    for (DataSnapshot dataSnapshot : snapshot.child("Íjászat").getChildren()) {
+                        for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()) {
                             String valami = dataSnapshot5.getKey();
-                            if (!valami.equals("datum")){
+                            if (!valami.equals("datum")) {
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())){
+                                if (valami1.equals(nev.getText().toString())) {
                                     String ijaszatidopont = dataSnapshot.getKey();
-                                    stringBuilder.append(ijaszatidopont + ", ");
+                                    String ijaszatidoponthozzaadasa = ijaszatidopont + ", ";
+                                    stringBuilder.append(ijaszatidoponthozzaadasa);
                                 }
                             }
                         }
                     }
                     stringBuilder.append("\n" + "Konditerem idopontjai" + "\n");
-                    for (DataSnapshot dataSnapshot : snapshot.child("Konditerem").getChildren()){
-                        for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()){
+                    for (DataSnapshot dataSnapshot : snapshot.child("Konditerem").getChildren()) {
+                        for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()) {
                             String valami = dataSnapshot5.getKey();
-                            if (!valami.equals("datum")){
+                            if (!valami.equals("datum")) {
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())){
+                                if (valami1.equals(nev.getText().toString())) {
                                     String kondiidopont = dataSnapshot.getKey();
-                                    stringBuilder.append(kondiidopont + ", ");
+                                    String kondiidoponthozzaadasa = kondiidopont + ", ";
+                                    stringBuilder.append(kondiidoponthozzaadasa);
                                 }
                             }
                         }
                     }
                     stringBuilder.append("\n" + "Tanc idopontjai" + "\n");
-                    for (DataSnapshot dataSnapshot : snapshot.child("Tánc").getChildren()){
-                        for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()){
+                    for (DataSnapshot dataSnapshot : snapshot.child("Tánc").getChildren()) {
+                        for (DataSnapshot dataSnapshot5 : dataSnapshot.getChildren()) {
                             String valami = dataSnapshot5.getKey();
-                            if (!valami.equals("datum")){
+                            if (!valami.equals("datum")) {
                                 String valami1 = dataSnapshot5.child("neptunkod").getValue().toString();
-                                if (valami1.equals(nev.getText().toString())){
+                                if (valami1.equals(nev.getText().toString())) {
                                     String tancidopont = dataSnapshot.getKey();
-                                    stringBuilder.append(tancidopont + ", ");
+                                    String tancidoponthozzaadasa = tancidopont + ", ";
+                                    stringBuilder.append(tancidoponthozzaadasa);
                                 }
                             }
                         }
                     }
                     String fajlnev = nev.getText().toString() + ".csv";
                     File textfajl = new File(file, fajlnev);
-                    try{
+                    try {
                         OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(textfajl), StandardCharsets.UTF_8);
                         fileWriter.append(stringBuilder);
                         fileWriter.flush();
                         fileWriter.close();
-                    } catch (Exception e){}
-                    Uri uri = FileProvider.getUriForFile(sajatalairasok.this, getPackageName()+ ".provider", textfajl);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Uri uri = FileProvider.getUriForFile(sajatalairasok.this, getPackageName() + ".provider", textfajl);
                     Intent emailkuldeshez = new Intent(Intent.ACTION_SEND);
                     emailkuldeshez.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     emailkuldeshez.setType("vnd.android.cursor.dir/email");
                     emailkuldeshez.putExtra(Intent.EXTRA_EMAIL, new String[]{emailmegadasa.getText().toString()});
                     emailkuldeshez.putExtra(Intent.EXTRA_STREAM, uri);
                     emailkuldeshez.putExtra(Intent.EXTRA_SUBJECT, nev.getText().toString() + " aláírásai");
-                    startActivity(Intent.createChooser(emailkuldeshez , "Send email..."));
+                    startActivity(Intent.createChooser(emailkuldeshez, "Send email..."));
                 }
             }
 

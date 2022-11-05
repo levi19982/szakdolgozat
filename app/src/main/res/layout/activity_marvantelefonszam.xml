@@ -47,7 +47,6 @@
         android:id="@+id/idBtnVerify"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/idEdtOtp"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
         android:backgroundTint="#FF5722"
@@ -77,7 +76,6 @@
         android:id="@+id/alairasfeltoltes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="#FF5722"
         android:text="Aláírás feltöltése"
@@ -96,8 +94,6 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/alairasfeltoltes"
-        android:layout_centerInParent="true"
         android:visibility="gone"
         tools:srcCompat="@tools:sample/avatars" />
 

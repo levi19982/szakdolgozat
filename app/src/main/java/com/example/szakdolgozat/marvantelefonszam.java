@@ -54,7 +54,7 @@ public class marvantelefonszam extends AppCompatActivity {
 
     TextView nev, neptunkod, sport;
     StorageReference storageReference;
-    Button  jelentkezes, verify, kepfeltoltes;
+    Button jelentkezes, verify, kepfeltoltes;
     private Spinner spinner;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
@@ -87,17 +87,17 @@ public class marvantelefonszam extends AppCompatActivity {
         alairas = findViewById(R.id.imageView);
         kepfeltoltes.setEnabled(false);
 
-                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod);
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String phone = snapshot.child("telefonszam").getValue().toString();
-                        editText.setText(phone);
-                        sendVerificationCode(phone);
-                    }
+        databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel").child(kapottneptunkod);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String phone = snapshot.child("telefonszam").getValue().toString();
+                editText.setText(phone);
+                sendVerificationCode(phone);
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
@@ -157,10 +157,10 @@ public class marvantelefonszam extends AppCompatActivity {
                 alairasmegerosites.setButton(AlertDialog.BUTTON_POSITIVE, "Igen!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                Bitmap bitmap = signaturePad.getSignatureBitmap();
-                signaturePad.clear();
-                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
-                SelectImage();
+                        Bitmap bitmap = signaturePad.getSignatureBitmap();
+                        signaturePad.clear();
+                        MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, kapottnev + " " + kapottneptunkod, "");
+                        SelectImage();
                     }
                 });
                 alairasmegerosites.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
@@ -216,8 +216,7 @@ public class marvantelefonszam extends AppCompatActivity {
 
     }
 
-    private void SelectImage()
-    {
+    private void SelectImage() {
         Intent kepkivalasztasamarvantelefonszamban = new Intent(Intent.ACTION_PICK);
         kepkivalasztasamarvantelefonszamban.setType("image/*");
         kepkivalasztasamarvantelefonszamban.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + File.separator + "Screenshots"), "image/*");
@@ -233,7 +232,7 @@ public class marvantelefonszam extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data){
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && null != data) {
             imageUri = data.getData();
             alairas.setImageURI(imageUri);
             jelentkezes.setEnabled(true);
@@ -254,6 +253,7 @@ public class marvantelefonszam extends AppCompatActivity {
                     }
                 });
     }
+
     private void sendVerificationCode(String number) {
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(firebaseAuth)
@@ -292,10 +292,10 @@ public class marvantelefonszam extends AppCompatActivity {
         }
     };
 
-        private void verifyCode(String code) {
+    private void verifyCode(String code) {
 
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
 
-            signInWithCredential(credential);
-        }
+        signInWithCredential(credential);
     }
+}

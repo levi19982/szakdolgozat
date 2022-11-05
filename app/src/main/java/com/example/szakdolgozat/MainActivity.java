@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     String nev, neptunkod;
     Button kijelentkezes, sajatalairasok, adatvaltoztatas, alairasvaltoztatas, neptunkodvaltoztatas, nevvaltoztatas, telefonszamvaltoztatas, megerositesgomb;
-    TextView  nevszoveg, udvozles;
+    TextView nevszoveg, udvozles;
     AutoCompleteTextView neptunkodszoveg;
     FirebaseDatabase adatbazis;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
-    float v=0;
+    float v = 0;
     AlertDialog.Builder builder, builder2;
     AlertDialog alertDialog, alertDialog2;
     EditText seged;
@@ -62,12 +62,11 @@ public class MainActivity extends AppCompatActivity {
         udvozles = findViewById(R.id.udvozloszoveg);
         adatvaltoztatas = findViewById(R.id.adatokvaltoztatasagomb);
 
-
         databaseReference.child("Felhasznalokepekkel").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<String> proba = new ArrayList<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String nevproba = dataSnapshot.child("neptunkod").getValue().toString();
                     proba.add(nevproba);
                 }
@@ -79,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                         databaseReference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                    if (neptunkodszoveg.getText().toString().equals(dataSnapshot.getKey())){
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    if (neptunkodszoveg.getText().toString().equals(dataSnapshot.getKey())) {
                                         String beilleszto = dataSnapshot.child("nev").getValue().toString();
                                         nevszoveg.setText(beilleszto);
                                     }
@@ -130,10 +129,9 @@ public class MainActivity extends AppCompatActivity {
         adatvaltoztatas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ((nevszoveg.getText().toString().isEmpty()) || (neptunkodszoveg.getText().toString().isEmpty())){
+                if ((nevszoveg.getText().toString().isEmpty()) || (neptunkodszoveg.getText().toString().isEmpty())) {
                     Toast.makeText(MainActivity.this, "Kérjük töltse ki mind a két mezőt!", Toast.LENGTH_SHORT).show();
-                }
-                else if (!(nevszoveg.getText().toString().isEmpty()) && !(neptunkodszoveg.getText().toString().isEmpty())){
+                } else if (!(nevszoveg.getText().toString().isEmpty()) && !(neptunkodszoveg.getText().toString().isEmpty())) {
                     felugroablak2();
                 }
             }
@@ -162,163 +160,162 @@ public class MainActivity extends AppCompatActivity {
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if ((snapshot.child("Íjászat").child(felhasznaloidopont).hasChild(neptunkod)) && (!snapshot.child("Íjászat").child(felhasznaloidopont).child(neptunkod).hasChild("kijelentkezesidopontja"))) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                                    alertDialog.setTitle("Kijelentkezés");
-                                    alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
-                                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            databaseReference.child("Íjászat").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
-                                                    String keplink = snapshot.child("keplink").getValue().toString();
-                                                    String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
-                                                    try {
-                                                        Date date = simpleDateFormat.parse(idopont);
-                                                        Date masikdate = simpleDateFormat.parse(kijelentkezesiidopont);
-                                                        long percek = masikdate.getTime() - date.getTime();
-                                                        long masodperc = percek / 1000;
-                                                        long perckulonbseg = masodperc / 60;
-                                                        long hatravan = 30 - perckulonbseg;
-                                                        String hatravanido = Long.toString(hatravan);
-                                                            if (perckulonbseg >= 30) {
-                                                            String eltottiido = (perckulonbseg) + " " + "perc";
-                                                            jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
-                                                            databaseReference.child("Íjászat").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                        } else {
-                                                            Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    } catch (ParseException e) {
-                                                        e.printStackTrace();
+                            if ((snapshot.child("Íjászat").child(felhasznaloidopont).hasChild(neptunkod)) && (!snapshot.child("Íjászat").child(felhasznaloidopont).child(neptunkod).hasChild("kijelentkezesidopontja"))) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                alertDialog.setTitle("Kijelentkezés");
+                                alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
+                                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        databaseReference.child("Íjászat").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
+                                                String keplink = snapshot.child("keplink").getValue().toString();
+                                                String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
+                                                try {
+                                                    Date date = simpleDateFormat.parse(idopont);
+                                                    Date masikdate = simpleDateFormat.parse(kijelentkezesiidopont);
+                                                    long percek = masikdate.getTime() - date.getTime();
+                                                    long masodperc = percek / 1000;
+                                                    long perckulonbseg = masodperc / 60;
+                                                    long hatravan = 30 - perckulonbseg;
+                                                    String hatravanido = Long.toString(hatravan);
+                                                    if (perckulonbseg >= 30) {
+                                                        String eltottiido = (perckulonbseg) + " " + "perc";
+                                                        jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
+                                                        databaseReference.child("Íjászat").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
                                                     }
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                                }
-                                            });
-                                        }
-                                    });
-                                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(MainActivity.this, "Nem jelentkezett ki!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    alertDialog.show();
-                                } else if ((snapshot.child("Konditerem").child(felhasznaloidopont).hasChild(neptunkod)) && (!snapshot.child("Konditerem").child(felhasznaloidopont).child(neptunkod).hasChild("kijelentkezesidopontja"))) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                                    alertDialog.setTitle("Kijelentkezés");
-                                    alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
-                                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            databaseReference.child("Konditerem").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
-                                                    String keplink = snapshot.child("keplink").getValue().toString();
-                                                    String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
-                                                    try {
-                                                        Date date = simpleDateFormat.parse(idopont);
-                                                        Date masikdate = simpleDateFormat.parse(kijelentkezesiidopont);
-                                                        long percek = masikdate.getTime() - date.getTime();
-                                                        long masodperc = percek / 1000;
-                                                        long perckulonbseg = masodperc / 60;
-                                                        long hatravan = 30 - perckulonbseg;
-                                                        String hatravanido = Long.toString(hatravan);
-                                                            if (perckulonbseg >= 30) {
-                                                            String eltottiido = (perckulonbseg) + " " + "perc";
-                                                            jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
-                                                            databaseReference.child("Konditerem").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                        } else {
-                                                            Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    } catch (ParseException e) {
-                                                        e.printStackTrace();
+                                            }
+                                        });
+                                    }
+                                });
+                                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(MainActivity.this, "Nem jelentkezett ki!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                alertDialog.show();
+                            } else if ((snapshot.child("Konditerem").child(felhasznaloidopont).hasChild(neptunkod)) && (!snapshot.child("Konditerem").child(felhasznaloidopont).child(neptunkod).hasChild("kijelentkezesidopontja"))) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                alertDialog.setTitle("Kijelentkezés");
+                                alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
+                                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        databaseReference.child("Konditerem").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
+                                                String keplink = snapshot.child("keplink").getValue().toString();
+                                                String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
+                                                try {
+                                                    Date date = simpleDateFormat.parse(idopont);
+                                                    Date masikdate = simpleDateFormat.parse(kijelentkezesiidopont);
+                                                    long percek = masikdate.getTime() - date.getTime();
+                                                    long masodperc = percek / 1000;
+                                                    long perckulonbseg = masodperc / 60;
+                                                    long hatravan = 30 - perckulonbseg;
+                                                    String hatravanido = Long.toString(hatravan);
+                                                    if (perckulonbseg >= 30) {
+                                                        String eltottiido = (perckulonbseg) + " " + "perc";
+                                                        jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
+                                                        databaseReference.child("Konditerem").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
                                                     }
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                                }
-                                            });
-                                        }
-                                    });
-                                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(MainActivity.this, "Nem jelentkezett ki!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    alertDialog.show();
+                                            }
+                                        });
+                                    }
+                                });
+                                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(MainActivity.this, "Nem jelentkezett ki!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                alertDialog.show();
                             } else if ((snapshot.child("Tánc").child(felhasznaloidopont).hasChild(neptunkod)) && (!snapshot.child("Tánc").child(felhasznaloidopont).child(neptunkod).hasChild("kijelentkezesidopontja"))) {
-                                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-                                    alertDialog.setTitle("Kijelentkezés");
-                                    alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
-                                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            databaseReference.child("Tánc").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
-                                                    String keplink = snapshot.child("keplink").getValue().toString();
-                                                    String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
-                                                    try {
-                                                        Date date = simpleDateFormat.parse(idopont);
-                                                        Date masikdate = simpleDateFormat.parse(kijelentkezesiidopont);
-                                                        long percek = masikdate.getTime() - date.getTime();
-                                                        long masodperc = percek / 1000;
-                                                        long perckulonbseg = masodperc / 60;
-                                                        long hatravan = 30 - perckulonbseg;
-                                                        String hatravanido = Long.toString(hatravan);
-                                                        if (masodperc > 0) {
-                                                            //if (perckulonbseg >= 30) {
-                                                            String eltottiido = (perckulonbseg) + " " + "perc";
-                                                            jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
-                                                            databaseReference.child("Sportok").child("Tánc").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                        } else {
-                                                            Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    } catch (ParseException e) {
-                                                        e.printStackTrace();
+                                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                alertDialog.setTitle("Kijelentkezés");
+                                alertDialog.setMessage("Biztos ki szeretnél jelentkezni?");
+                                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Igen", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        databaseReference.child("Tánc").child(felhasznaloidopont).child(neptunkod).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String idopont = snapshot.child("bejelentkezesidopontja").getValue().toString();
+                                                String keplink = snapshot.child("keplink").getValue().toString();
+                                                String kijelentkezesiidopont = simpleDateFormat.format(calendar.getTime());
+                                                try {
+                                                    Date date = simpleDateFormat.parse(idopont);
+                                                    Date masikdate = simpleDateFormat.parse(kijelentkezesiidopont);
+                                                    long percek = masikdate.getTime() - date.getTime();
+                                                    long masodperc = percek / 1000;
+                                                    long perckulonbseg = masodperc / 60;
+                                                    long hatravan = 30 - perckulonbseg;
+                                                    String hatravanido = Long.toString(hatravan);
+                                                    if (perckulonbseg >= 30) {
+                                                        String eltottiido = (perckulonbseg) + " " + "perc";
+                                                        jelentkezettek jelentkezettek = new jelentkezettek(nev, neptunkod, idopont, kijelentkezesiidopont, eltottiido, keplink);
+                                                        databaseReference.child("Sportok").child("Tánc").child(felhasznaloidopont).child(neptunkod).setValue(jelentkezettek).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Toast.makeText(MainActivity.this, "Már csak " + hatravanido + " perc van hátra!", Toast.LENGTH_SHORT).show();
                                                     }
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
-                                                }
-                                            });
-                                        }
-                                    });
-                                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(MainActivity.this, "Nem jelentkezett ki!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                    alertDialog.show();
+                                            }
+                                        });
+                                    }
+                                });
+                                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Nem", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(MainActivity.this, "Nem jelentkezett ki!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                alertDialog.show();
                             } else {
                                 Toast.makeText(MainActivity.this, "Nincs ilyen név!", Toast.LENGTH_SHORT).show();
                             }
@@ -329,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-                }else {
+                } else {
                     Toast.makeText(MainActivity.this, "Kérjük írja be a nevét és/vagy Neptun kódját!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -340,15 +337,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 nev = binding.nevmezo.getText().toString();
                 neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
-                String atmenetitelefonszam = null;
-                String atmenetikeplink = null;
                 if ((!nevszoveg.getText().toString().isEmpty()) && (!neptunkodszoveg.getText().toString().isEmpty())) {
                     databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Felhasznalokepekkel");
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (!snapshot.hasChild(neptunkod)) {
-                                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, atmenetitelefonszam, atmenetikeplink);
+                                Felhasznalotelefonszamokkal felhasznalotelefonszamokkal = new Felhasznalotelefonszamokkal(nev, neptunkod, null, null);
                                 databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference();
                                 adatbazis = FirebaseDatabase.getInstance();
                                 databaseReference = adatbazis.getReference("Felhasznalokepekkel");
@@ -361,15 +356,13 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(telefonszamhozzaadasahoz);
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 if (snapshot.child(neptunkod).child("keplink").getValue().toString().equals("Megváltoztatni")) {
                                     Intent alairasmegvaltoztatasahoz = new Intent(MainActivity.this, alairasmegvaltoztatasa.class);
                                     alairasmegvaltoztatasahoz.putExtra("nev", nev);
                                     alairasmegvaltoztatasahoz.putExtra("neptunkod", neptunkod);
                                     startActivity(alairasmegvaltoztatasahoz);
-                                }
-                                else {
+                                } else {
                                     Intent marvantelefonszamhoz = new Intent(MainActivity.this, marvantelefonszam.class);
                                     marvantelefonszamhoz.putExtra("nev", nev);
                                     marvantelefonszamhoz.putExtra("neptunkod", neptunkod);
@@ -383,20 +376,18 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                     });
-                }
-                else if ((nevszoveg.getText().toString().isEmpty()) && (neptunkodszoveg.getText().toString().isEmpty())){
+                } else if ((nevszoveg.getText().toString().isEmpty()) && (neptunkodszoveg.getText().toString().isEmpty())) {
                     Toast.makeText(MainActivity.this, "Kérjük írja be nevét és Neptun kódját!", Toast.LENGTH_SHORT).show();
-                }
-                else if (neptunkodszoveg.getText().toString().isEmpty()){
+                } else if (neptunkodszoveg.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Kérjük írja be Neptun kódját!", Toast.LENGTH_SHORT).show();
-                }
-                else if (nevszoveg.getText().toString().isEmpty()){
+                } else if (nevszoveg.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Kérjük írja be a nevét!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-}
-public void felugroablak2(){
+    }
+
+    public void felugroablak2() {
         builder = new AlertDialog.Builder(MainActivity.this);
         View view5 = getLayoutInflater().inflate(R.layout.valtoztatas, null);
         alairasvaltoztatas = view5.findViewById(R.id.alairasvaltoztatasagomb);
@@ -438,86 +429,102 @@ public void felugroablak2(){
             }
         });
 
-    nevvaltoztatas.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            segedvaltozo = 2;
-            felugroablak3();
-        }
-    });
-
-    telefonszamvaltoztatas.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            segedvaltozo = 3;
-            felugroablak3();
-        }
-    });
-}
-public void felugroablak3(){
-    builder2 = new AlertDialog.Builder(MainActivity.this);
-    View view6 = getLayoutInflater().inflate(R.layout.valtoztatasseged, null);
-    seged = view6.findViewById(R.id.valtoztatassegedgomb);
-    megerositesgomb = view6.findViewById(R.id.megerosites);
-
-    builder2.setView(view6);
-    alertDialog2 = builder2.create();
-    alertDialog2.show();
-
-    String minta = "yyyy-MM-dd";
-    DateFormat dateFormat = new SimpleDateFormat(minta);
-    Date mainap = Calendar.getInstance().getTime();
-    String maidatum = dateFormat.format(mainap);
-    nev = binding.nevmezo.getText().toString();
-    neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
-
-    megerositesgomb.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (seged.getText().toString().isEmpty()){
-                Toast.makeText(MainActivity.this, "Nem írt be semmit!", Toast.LENGTH_SHORT).show();
-                alertDialog2.dismiss();
+        nevvaltoztatas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                segedvaltozo = 2;
+                felugroablak3();
             }
-            else {
-                if (segedvaltozo == 1){
-                    String valtoztatas = neptunkod + " szeretné megváltoztatni a Neptun kódját a következőre: " + seged.getText().toString();
-                databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
-                valtoztatass valtoztatass = new valtoztatass(valtoztatas);
-                databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                        alertDialog2.dismiss();
-                    }
-                });
+        });
+
+        telefonszamvaltoztatas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                segedvaltozo = 3;
+                felugroablak3();
             }
-                if (segedvaltozo == 2){
-                    String valtoztatas = neptunkod + " szeretné megváltoztatni a nevét a következőre: " + seged.getText().toString();
+        });
+    }
+
+    public void felugroablak3() {
+        builder2 = new AlertDialog.Builder(MainActivity.this);
+        View view6 = getLayoutInflater().inflate(R.layout.valtoztatasseged, null);
+        seged = view6.findViewById(R.id.valtoztatassegedgomb);
+        megerositesgomb = view6.findViewById(R.id.megerosites);
+
+        builder2.setView(view6);
+        alertDialog2 = builder2.create();
+        alertDialog2.show();
+
+        String minta = "yyyy-MM-dd";
+        DateFormat dateFormat = new SimpleDateFormat(minta);
+        Date mainap = Calendar.getInstance().getTime();
+        String maidatum = dateFormat.format(mainap);
+        nev = binding.nevmezo.getText().toString();
+        neptunkod = binding.neptunkodmezo.getText().toString().toUpperCase();
+        String maidatumesneptunkod = maidatum + " " + neptunkod;
+
+        megerositesgomb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (seged.getText().toString().isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Nem írt be semmit!", Toast.LENGTH_SHORT).show();
+                    alertDialog2.dismiss();
+                } else {
                     databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
-                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
-                    databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                            alertDialog2.dismiss();
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.hasChild((maidatumesneptunkod))) {
+                                Toast.makeText(MainActivity.this, "A mai napra már adott le változtatási kérelmet!", Toast.LENGTH_SHORT).show();
+                                alertDialog2.dismiss();
+                            } else {
+                                if (segedvaltozo == 1) {
+                                    String valtoztatas = neptunkod + " szeretné megváltoztatni a Neptun kódját a következőre: " + seged.getText().toString();
+                                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
+                                    databaseReference.child(maidatumesneptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(MainActivity.this, "Sikeresen kérelmezte Neptun kódjának megváltoztatását!", Toast.LENGTH_SHORT).show();
+                                            alertDialog2.dismiss();
+                                        }
+                                    });
+                                }
+                                if (segedvaltozo == 2) {
+                                    String valtoztatas = neptunkod + " szeretné megváltoztatni a nevét a következőre: " + seged.getText().toString();
+                                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
+                                    databaseReference.child(maidatumesneptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(MainActivity.this, "Sikeresen kérelmezte nevének megváltoztatását!", Toast.LENGTH_SHORT).show();
+                                            alertDialog2.dismiss();
+                                        }
+                                    });
+                                }
+                                if (segedvaltozo == 3) {
+                                    String valtoztatas = neptunkod + " szeretné megváltoztatni a telefonszámát a következőre: " + seged.getText().toString();
+                                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
+                                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
+                                    databaseReference.child(maidatumesneptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(MainActivity.this, "Sikeresen kérelmezte telefonszámának megváltoztatását!", Toast.LENGTH_SHORT).show();
+                                            alertDialog2.dismiss();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
                     });
                 }
-                if (segedvaltozo == 3){
-                    String valtoztatas = neptunkod + " szeretné megváltoztatni a telefonszámát a következőre: " + seged.getText().toString();
-                    databaseReference = FirebaseDatabase.getInstance("https://szakdolgozat-9d551-default-rtdb.europe-west1.firebasedatabase.app").getReference().child("Változtatásikérelmek");
-                    valtoztatass valtoztatass = new valtoztatass(valtoztatas);
-                    databaseReference.child(maidatum + " " + neptunkod).setValue(valtoztatass).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Toast.makeText(MainActivity.this, "Sikeres!", Toast.LENGTH_SHORT).show();
-                            alertDialog2.dismiss();
-                        }
-                    });
-                }
             }
-        }
-    });
-
-}
+        });
+    }
 }
