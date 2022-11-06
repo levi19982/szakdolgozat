@@ -8,4 +8,11 @@ public class valtoztatass {
         this.valtoztatasszoveg = valtoztatasszoveg;
     }
 
+    public String getValtoztatasszoveg() {
+        return valtoztatasszoveg;
+    }
+
+    public void setValtoztatasszoveg(String valtoztatasszoveg) {
+        this.valtoztatasszoveg = valtoztatasszoveg;
+    }
 }
